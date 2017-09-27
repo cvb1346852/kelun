@@ -1,3 +1,0 @@
-<?php
-//000000086400s:96:"/attachments/exportfile/20170921/shipment-200V8V-2017-09-21-2EEB30C7AA0C2F7F81B8221B31A2C7BD.xls";
-?>

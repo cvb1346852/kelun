@@ -1,4 +1,0 @@
-2017-09-20 10:43:37|127.0.0.1|/rest/service.php?method=kelun.carrier.save|ERROR|.|Code : 42S02Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'kl_project.truck_source' doesn't exist####
-2017-09-20 10:44:08|127.0.0.1|/rest/service.php?method=kelun.carrier.save|ERROR|.|Code : 42S02Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'kl_project.truck_source' doesn't exist####
-2017-09-20 10:59:49|127.0.0.1|/rest/service.php?method=kelun.carrier.save|ERROR|.|Code : 42S02Exception: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'kl_project.wechat_connect' doesn't exist####
-2017-09-20 11:30:39|127.0.0.1|/rest/service.php?method=kelun.carrier.save|ERROR|.|Code : 2Exception: 社会信用代码必填且唯一####

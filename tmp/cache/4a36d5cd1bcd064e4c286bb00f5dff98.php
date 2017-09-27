@@ -1,3 +1,0 @@
-<?php
-//000000000060s:130:"["ucenter_181c80233cd5fef629d60128a34b1363","ucenter_ac2e57f9bbf083c4f86e49330fd8a3e2","ucenter_90d583223397bb5dbf6bb7f99130cff7"]";
-?>

@@ -1,3 +1,0 @@
-<?php
-//000000086400s:95:"/attachments/exportfile/20170921/carrier-200V8V-2017-09-21-C293097F52F8003C1149596928AC5214.xls";
-?>

@@ -1,3 +1,0 @@
-<?php
-//000000086400s:94:"/attachments/exportfile/20170921/tender-200V8V-2017-09-21-88D29C31C4B9BA7E817C3A0643CB0AF2.xls";
-?>
