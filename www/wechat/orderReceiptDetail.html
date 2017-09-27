@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订单签收</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dialog.css">
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/js/jquery.star-rating-svg.min.js"></script>
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+</head>
+
+<body ontouchstart>
+<div class="container order-sign">
+
+</div>
+<script type="text/template" id="orders-tmpl">
+    <div class="title-box">
+        <p>订单号:<span><%= jdata.order_code %></span></p>
+    </div>
+
+    <div class="detail-box">
+        <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text">
+                <!--<h4 class="weui-media-box__title"> 标题一 </h4>-->
+                <div class="item-box"><span class="key">要货件数:</span><span class="value"><%= jdata.order_detail.quality%>件</span></div>
+                <div class="item-box"><span class="key">货品重量:</span><span class="value"><%= jdata.order_detail.weight%>t</span></div>
+                <div class="item-box"><span class="key">货品体积:</span><span class="value"><%= jdata.order_detail.volume%>m³</span></div>
+                <a class="weui-btn weui-btn_primary btn-detail" id="order_detail_info">详情</a>
+            </div>
+            <div class="weui-media-box weui-media-box_text">
+                <div class="changeui-list-inner-item">
+
+                    <span class="text-right text-right-item">运输服务质量：</span>
+
+                            <span class="star-area">
+                       <% for(var i = 0 ;i < parseInt(jdata.grade.driver_taidu) ; i++ ){ %>
+                                 <i class="c-iconfont"></i>
+                       <% };%>
+                       <% for(var i = 0 ;i < 5 - parseInt(jdata.grade.driver_taidu) ; i++ ){ %>
+                                 <i class="c-iconfont gray-star"></i>
+                       <% };%>
+                            </span>
+                </div>
+                <div class="changeui-list-inner-item">
+
+                    <span class="text-right text-right-item">基地服务质量：</span>
+
+                        <span class="star-area">
+                       <% for(var i = 0 ;i < parseInt(jdata.grade.jidigoutong) ; i++ ){ %>
+                                 <i class="c-iconfont"></i>
+                       <% };%>
+                       <% for(var i = 0 ;i < 5 - parseInt(jdata.grade.jidigoutong) ; i++ ){ %>
+                                 <i class="c-iconfont gray-star"></i>
+                       <% };%>
+                            </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="title-box">
+        <p>上传照片</p>
+    </div>
+    <div class="detail-box">
+        <div class="weui-media-box weui-media-box_text">
+            <div class="weui-uploader">
+                <div class="weui-uploader__bd">
+                    <ul class="weui-uploader__files" id="uploaderFiles">
+        <div class="weui-panel__bd">
+        <% _.each(jdata.images,function(item){ %>
+                        <li class="weui_uploader_file" style='background-image:url("<%= item %>")'>
+        <% }); %>
+        </ul>
+    </div>
+    </div>
+    </div>
+
+    </div>
+    </div>
+
+    <div class="weui-panel__ft link-box">
+        <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link bt-none">
+            <div class="weui-cell__bd bds"> 签收异常上报 </div>
+            <span class="weui-cell__ft arrow-up" id="arrow"></span>
+        </a>
+    </div>
+
+    <div class="detail-box" id="taggle">
+        <div class="weui-panel__bd">
+
+               <!-- <%
+                if(jdata.product_abnormal){
+                _.each(jdata.product_abnormal,function(_value,_key){
+                %>
+            <div class="weui-media-box weui-media-box_text clearfix">
+                <div class="changui-checkbox-container checkbox-wrap fl-l">
+                            <span class="checkbox-item">
+                                <label>
+                                    <input id="product_abnormal_data_loss" name="product_abnormal[<%= _key %>]" value="1" checked="nochecked">
+                                    <div class="checkbox">
+                                        <img src="img/checkbox-unchecked.png" class="checked">
+                                        <img src="img/checkbox-checked.png" class="nochecked">
+                                    </div>
+                                    <span><%= _value %></span>
+                                </label>
+                            </span>
+                </div>
+            </div>
+                <% })}; %>-->
+            <div class="weui-media-box weui-media-box_text clearfix" id="option_consign" style="padding:15px 0 15px 18px;">
+            <%
+            var _types = {'data_loss':'资料遗失','more':'多装','less':'少装','error':'错装','error_receiver':'送错收货人','error_qrcode':'码不能识别','error_missmatch':'物码不一致'};
+            _.each(_types,function(_value,_key){
+            %>
+            <div class="changui-checkbox-container checkbox-wrap fl-l">
+                            <span class="checkbox-item">
+                                <label>
+                                    <input type="checkbox" id="<%= _key %>" name="<%= _key %>" value="1" checked disabled="disabled">
+                                    <div class="checkbox">
+                                        <img src='img/checkbox-unchecked.png' class= "checked"/>
+                                        <img src='img/checkbox-checked.png' class= "nochecked"/>
+                                    </div>
+                                    <span style="font-size:14px;"><%= _value %></span>
+                                </label>
+                            </span>
+            </div>
+            <% }); %>
+                </div>
+
+
+            <div class="weui-media-box weui-media-box_text clearfix">
+                <div class="form-input-item form-adj fl-l">
+                    <label><span class="vl-m input-before-font vm-l-large">产品破损数量</span><input type="text"  class="changeui-input input-l-sm"   value="<%= jdata.quality_abnormal.product_damage_number ? jdata.quality_abnormal.product_damage_number : '未填写'  %>"/></label>
+                </div>
+                <div class="form-input-item form-adj fl-l">
+                    <label><span class="vl-m input-before-font vm-l-large">金额</span><input type="text"  class="changeui-input input-l-sm"  value="<%= jdata.quality_abnormal.product_damage_amount ? jdata.quality_abnormal.product_damage_amount : '未填写'%>"/></label>
+                </div>
+                <div class="form-input-item form-adj fl-l">
+                    <label><span class="vl-m input-before-font vm-l-large">外包破损数量</span><input type="text"  class="changeui-input input-l-sm"   value="<%= jdata.quality_abnormal.package_damage_number ? jdata.quality_abnormal.package_damage_number : '未填写'%>"/></label>
+                </div>
+                <div class="form-input-item form-adj fl-l">
+                    <label><span class="vl-m input-before-font vm-l-large">金额</span><input type="text"  class="changeui-input input-l-sm" value="<%= jdata.quality_abnormal.package_damage_amount ? jdata.quality_abnormal.package_damage_amount : '未填写'%>"/></label>
+                </div>
+            </div>
+
+            <div class="weui-media-box weui-media-box_text clearfix">
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">主观评价500字：</span>
+                </div>
+
+                <textarea class="weui-textarea border-textarea" placeholder="" rows="4" readonly><%= jdata.remark ? jdata.remark :'未填写' %> </textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="js_dialog" id="androidDialog2" style="display:none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd dia-verify-detail">
+                <strong class="weui-dialog__title">商品详情</strong><br/>
+                <div class="weui-flex content">
+                    <span id="order_detail"><%= jdata.order_detail_info%></span>
+                </div>
+
+            </div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="closeDiv()">知道了</a>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+<script>
+    $(document).on('click', '.weui-cell_link', function(e){
+        if ( $('#taggle').css("display") == "block" ) {
+            $('#arrow').addClass('arrow-down').removeClass('arrow-up');
+            $('#taggle').hide();
+            $('.sub-btn-box').addClass('area-fold');
+        }
+        else {
+            $('#arrow').addClass('arrow-up').removeClass('arrow-down')
+            $('#taggle').show();
+            $('.sub-btn-box').removeClass('area-fold');
+        }
+    })
+</script>
+</body>
+<script type="text/javascript" src="./js/orderReceiptDetail.js"></script>
+</html>
+

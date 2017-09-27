@@ -1,0 +1,1486 @@
+
+html {
+    font-size: 20px;
+}
+
+@media only screen and (min-width: 400px) {
+    html {
+        font-size: 21.33333333px !important;
+    }
+}
+
+@media only screen and (min-width: 414px) {
+    html {
+        font-size: 22.08px !important;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    html {
+        font-size: 25.6px !important;
+    }
+}
+
+body {
+    background: #f6f6f6;
+    font-size: 14px;
+}
+
+/*清除浮动*/
+.clearfix {
+    zoom: 1;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    visibility:hidden;
+    clear: both;
+}
+
+.container {
+    margin-bottom: 0;
+}
+
+.bg_white {
+    background: #fff;
+}
+
+/*我的账户*/
+.my-acc-list {
+    font-size: 0;
+    background: #fff;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.my-acc-list .item {
+    width: 25%;
+    display: inline-block;
+    text-align: center;
+    list-style: none;
+    margin-bottom: 1rem;
+}
+
+.my-acc-list .ci-main-ico {
+    display: inline-block;
+    width: 2.4rem;
+    margin-bottom: .3rem;
+}
+
+.my-acc-list .item a {
+    display: block;
+}
+
+.my-acc-list .item .font {
+    font-size: .7rem;
+    color: #888;
+    display: block;
+}
+
+.my-acc-main {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.my-acc-item {
+    display: inline-block;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: url(../img/my-acc-icos/avatar-default@2x.png) 0 0 no-repeat;
+    background-size: 3.5rem 3.5rem;
+    margin: .6rem 1rem 1rem;
+    overflow: hidden;
+}
+
+.my-acc-item img {
+    display: block;
+    width: 100%;
+}
+
+.acc-msg-area .acc-name {
+    font-size: 1rem;
+}
+
+.acc-sign-days {
+    background: #FF9234;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    border-radius: 3px;
+    display: inline-block;
+    width: auto;
+    padding: 4px 12px;
+    color: #fff;
+    font-size: 12px;
+}
+
+.normal-title {
+    padding: .3rem .8rem;
+}
+
+.weui-btn{font-size: 16px; box-sizing: border-box; height: 40px;}
+.weui-btn:after{border: 0 none;}
+.weui-btn_primary {
+    background-color: #125DC7;
+    border: 1px solid #125DC7;
+}
+
+.weui-btn_primary:not(.weui-btn_disabled):visited {
+    color: #FFFFFF;
+}
+
+.weui-btn_primary:not(.weui-btn_disabled):active {
+    color: rgba(255, 255, 255, 0.6);
+    background-color: #216edc;
+}
+
+.weui-btn_disabled.weui-btn_primary {
+    background-color: #4b96ff;
+    border: 1px solid #4b96ff;
+}
+
+.weui-btn_plain-default {
+    color: #353535;
+    border: 1px solid #bbb;
+    background: #fafafa;
+}
+
+.weui-btn_plain-default:not(.weui-btn_plain-disabled):active {
+    color: rgba(53, 53, 53, 0.6);
+    border-color: #eee;
+}
+
+.weui-btn_plain-default:after {
+    border-width: 0;
+}
+
+.fl-l {
+    float: left;
+}
+
+.fl-r {
+    float: right;
+}
+
+/*.weui-navbar{position: static;}*/
+
+.weui-navbar__item {
+    padding: 10px 0 8px;
+    text-align: center;
+    line-height: 1.4;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+.weui-navbar__item.weui-bar__item_on {
+    background-color: #fff;
+    color: #125dc7;
+    border-bottom: 3px solid #125dc7;
+    padding-bottom: 10px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.changeui-weui-panel {
+    margin: 10px 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ececec;
+    background: #fff;
+    padding: .8rem 0;
+    position: relative;
+}
+
+.changeui-list-inner-item {
+    font-size: 14px;
+}
+
+.changeui-list-inner-item .text-right-item {
+    color: #888;
+}
+
+.changui-checkbox-container {
+    position: relative;
+}
+
+.changeui-signle-line {
+    height: 1px;
+    border-top: 1px solid #ececec;
+    margin: 6px 0;
+    overflow: hidden;
+}
+
+.changeui-list-title {
+    font-size: 16px;
+    padding-left: 16px;
+    margin-bottom: 4px;
+}
+
+/*没有边界的块块*/
+.no-pad-weui-panel {
+    margin: 10px 0 0;
+    border-left: 0 none;
+    border-right: 0 none;
+    border-radius: 0;
+}
+
+.big-font-area .changeui-list-inner-item {
+    font-size: 16px;
+}
+
+/*文字标记*/
+.list-item-mark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #125DC7;
+    font-size: 14px;
+}
+
+/*文字标记*/
+.list-item-mark-gray {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #eee8d5;
+    font-size: 14px;
+}
+
+/*文字标记*/
+.list-item-mark-Coral {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #FF7F50;
+    font-size: 14px;
+}
+
+/*固定在底部的容器*/
+.changeui-fixed-bottom {
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #dedede;
+    box-sizing: border-box;
+}
+
+/*派字体图标*/
+.ci-font-ico {
+    display: inline-block;
+    margin-left: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: #1ABDA5;
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    vertical-align: 2px;
+}
+
+.vl-m {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.map-ico {
+    color: #1ABDA5;
+    font-size: 20px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.phone-ico {
+    font-size: 22px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 客户评分 */
+.star-area .c-iconfont {
+    color: #ff7e00;
+    margin-right: 3px;
+    display: inline-block;
+}
+
+.star-area .gray-star {
+    color: #eee;
+}
+
+.half-star {
+    position: relative;
+    width: 16px;
+    height: 25px;
+    display: inline-block;
+}
+
+.half-star .c-iconfont {
+    margin: 0;
+    color: #eee;
+}
+
+.half-star .half-mark {
+    width: 8px;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.half-star .half-mark .c-iconfont {
+    color: #ff7e00;
+}
+
+/* 搜索区域整改 */
+.weui-icon-search{height: 28px;
+    line-height: 28px;}
+.weui-search-bar__label span {
+    display: inline-block;
+    font-size: 14px;
+     vertical-align: top;
+    height: 28px;
+    line-height: 28px;}
+.weui-search-bar__label {
+    text-align: left;
+    padding-left: 10px;
+    border-radius: 4px;
+    background: #f6f6f6;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 1px solid #dedede;
+}
+
+.weui-search-bar__box {
+    background: #f6f6f6;
+    border-radius: 4px;
+    border: 1px solid #dedede;
+}
+
+.weui-search-bar__cancel-btn {
+    font-size: 14px;
+    color: #125dc7;
+}
+
+.weui-search-bar__form {
+    background: none;
+}
+
+/* 添加车辆页面发起的表单组件整理  input区域和select */
+.changeui-input {
+    width: 100%;
+    outline: 0;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    display: inline-block;
+    background: #FFFFFF;
+    border: 1px solid #96A1A7;
+    font-size: 14px;
+    border-radius: 5px;
+    height: 2rem;
+    padding: .4rem;
+    line-height: 1.2rem;
+    vertical-align: middle;
+    color: #202020;
+}
+
+.form-input-item {
+    font-size: 0;
+    margin: .8rem 0;
+}
+
+/*will 专用*/
+.form-input-item-showSize {
+    margin: .8rem 0;
+}
+
+
+.form-input-item .changeui-input {
+    width: 50%;
+}
+
+.form-input-item .input-before-font {
+    display: inline-block;
+    width: 30%;
+    text-align: right;
+    padding-right: 8px;
+    color: #202020;
+    font-size: 14px;
+}
+
+.form-input-item .input-employer {
+    margin-left: 8px;
+    color: #888;
+    font-size: 14px;
+}
+
+.form-input-item .weui-btn {
+    margin: 0;
+}
+
+.weui-select {
+    -webkit-appearance: none;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
+    font-size: inherit;
+    height: 2rem;
+    line-height: 2rem;
+    position: relative;
+    margin-top: -.5rem;
+    z-index: 1;
+    padding-left: 0;
+}
+
+.has-select {
+    position: relative;
+}
+
+.has-select.weui-cell_access .weui-cell__ft {
+    position: absolute;
+    top: .9rem;
+    right: .6rem;
+}
+
+.has-select.weui-cell_access .weui-cell__ft:after {
+    transform: rotate(135deg);
+    /*transform: rotate(135deg); 下  /*transform: rotate(-45deg); 上*/
+}
+
+.double-select-area{font-size: 0; margin: 1rem 0;}
+
+.double-select-area :first-child.has-select{border-radius: 5px 0 0 5px; border-right: 0;}
+.double-select-area :last-child.has-select{border-radius: 0 5px 5px 0; border-left: 1px solid #888;}
+
+.normal-tip{color: #888;}
+
+.checkbox-item{display: block;}
+.checkbox-item input{display: none;}
+.checkbox-item img{display: inline-block; width: 18px;}
+.checkbox-item .checkbox{display: inline-block; margin-top: 4px; margin-left: 10px;}
+.checkbox-item .checked{display: none;}
+
+.checkbox-item input[type="checkbox"]:checked + .checkbox .checked{display:inline-block;}
+.checkbox-item input[type="checkbox"]:checked + .checkbox .nochecked{display: none;}
+
+
+.open-dia-mark{display: inline-block; padding:2px 4px; background: #eee; border-radius: 4px;
+vertical-align: middle;}
+
+/*进度圆圈*/
+.circleProgress_wrapper {
+    width: 4.6rem;
+    height: 4.6rem;
+    position: relative;
+    margin: 1rem auto .7rem;
+    /*border:1px solid #ddd;*/
+}
+
+.wrapper {
+    width: 2.3rem;
+    height: 4.6rem;
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+}
+
+.right {
+    right: 0;
+}
+
+.left {
+    left: 0;
+}
+
+.circleProgress {
+    width: 3.4rem;
+    height: 3.4rem;
+    border: .6rem solid #ddd;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    /*-webkit-transform: rotate(45deg);*/
+}
+
+.rightcircle {
+    border-top: .6rem solid #125dc7;
+    border-right: .6rem solid #125dc7;
+    right: 0;
+    /*rotate(-135deg);*/
+    transform: rotate(15deg);
+    /*-webkit-animation: circleProgressLoad_right 5s linear infinite;*/
+}
+
+.leftcircle {
+    border-bottom: .6rem solid #125dc7;
+    border-left: .6rem solid #125dc7;
+    left: 0;
+    transform: rotate(-135deg);
+
+    /*-webkit-animation: circleProgressLoad_left 5s linear infinite;*/
+}
+
+/* 登录页面 */
+.login-area {
+    background: #fff;
+    height: 100%;
+    overflow: auto;
+}
+
+.logo-img {
+    display: block;
+    width: 8.4rem;
+    margin: 3.5rem auto 3rem;
+}
+
+.login-area .enter-item {
+    margin-bottom: 1.5rem;
+    padding: 0 1.5rem;
+    position: relative;
+}
+
+.login-area .enter-item.has-checkcode .changeui-input {
+    width: 70%;
+    border-radius: 5px 0 0 5px;
+}
+
+.login-area .enter-item.has-checkcode .weui-btn {
+    display: inline-block;
+    min-width: 30%;
+    position: absolute;
+    top: 0;
+    right: 1.5rem;
+    border-radius: 0 5px 5px 0;
+    box-sizing: border-box;
+    height: 2rem;
+}
+
+/* 表单修改提示 */
+.edit-form-tip {
+    font-size: 14px;
+    color: #ff7e00;
+    text-align: center;
+}
+
+/* 添加车辆 */
+.add-car-area {
+    background: #fff;
+    height: 100%;
+    overflow: auto;
+}
+
+/* 更改车辆信息 */
+.edit-car-area .form-input-item .input-before-font {
+    width: 20%;
+}
+
+.edit-car-area .form-input-item .changeui-input {
+    width: 65%;
+}
+
+.edit-car-area .edit-form-tip {
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+    width: 100%;
+    background: #fff;
+}
+
+/*我的投标*/
+.mybid-list-panel {
+    padding: 0.8rem;
+}
+
+.mybid-list-panel .changeui-list-title {
+    padding: 0;
+}
+
+.mybid-progress {
+    margin: 0 1rem 1rem;
+}
+
+.mybid-progress .intro-num {
+    color: #125dc7;
+    font-size: .8rem;
+}
+
+.CProgress {
+    position: absolute;
+    top: 1.2rem;
+    width: 100%;
+    text-align: center;
+    color: #888;
+    font-size: .6rem
+}
+
+.CProgress .num {
+    font-size: .9rem;
+    color: #125dc7;
+}
+
+/*签收申请*/
+.changeui-single-style {
+    overflow: hidden;
+}
+
+.changeui-single-style .changui-checkbox-container {
+    width: 10%;
+    float: left;
+}
+
+.changeui-single-style .changeui-list-item {
+    width: 90%;
+    float: left;
+}
+
+.changeui-single-style .changeui-list-inner-item span {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.changeui-single-style .changeui-list-inner-item .text-item {
+    width: 70%;
+}
+
+.changeui-single-style .changeui-list-inner-item .text-right-item {
+    display: inline-block;
+    width: 20%
+}
+
+.changeui-sign_apply {
+    text-align: right;
+    padding: 0;
+    overflow: hidden;
+}
+
+.changeui-sign_apply .changeui-weui-btn_primary {
+    border-radius: 0;
+    float: right;
+}
+
+.changeui-sign_apply{ overflow: visible; height: 41px;}
+.changeui-sign_apply .changeui-weui-btn_primary{position: relative; top: -1px; height: 42px;}
+
+.cfb-check-area{padding-left: 11px; padding-top: 6px; }
+
+.sign-apply-list{height:100%; padding-bottom:60px; box-sizing:border-box; overflow:auto;}
+.sign-apply-list .changeui-list-inner-item{font-size: 16px;}
+.sign-apply-list .changeui-list-inner-item .text-right-item{width: 22%;}
+.sign-apply-list .map-ico{margin-top: -3px;}
+
+
+/* 我的运单容器 */
+.my-waybill-list-container {
+    padding-top: 2.1rem;
+    padding-bottom: 20px;
+}
+
+/* 我的车辆 */
+.my-car-area .weui-search-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    z-index: 10;
+}
+
+.my-car-list-container {
+    padding-top: 50px;
+    padding-bottom: 76px;
+}
+
+.my-car-list-container .changeui-weui-panel {
+    padding: .6rem 0 0
+}
+
+/*货源详情*/
+.sourcing-detail-container .changeui-list-inner-item .text-right-item {
+    width: 30%;
+}
+
+.sourcing-detail-container .changeui-list-inner-item .text-item {
+    width: 65%;
+}
+
+.sourcing-detail-container .ci-font-ico {
+    background: #125dc7;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 6px;
+    margin-left: 0;
+}
+
+.shippers-status-mark-img {
+    width: 2.2rem;
+    height: 2.2rem;
+    position: absolute;
+    top: .5rem;
+    right: 1rem;
+}
+
+/* 承运商详情 */
+.shippers-detail-container .changeui-list-inner-item {
+    margin: .2rem 0;
+}
+
+.shippers-detail-container .no-pad-weui-panel {
+    margin-top: 0;
+    border-top: 0 none;
+    padding-bottom: 4px;
+}
+
+.shippers-detail-container .changeui-list-item {
+    float: none;
+    width: 100%;
+}
+
+.shippers-detail-container .changeui-list-inner-item .phone-ico {
+    font-size: 20px;
+}
+
+.shippers-detail-container .changeui-list-inner-item .map-ico {
+    font-size: 16px;
+}
+
+/* 中标定车 */
+.bid-car-detail-container {
+    background: #fff;
+    height: 100%;
+    overflow: auto;
+}
+
+.bid-car-detail-container .no-pad-weui-panel {
+    margin-top: 0;
+    border: 0 none;
+}
+
+.bid-car-detail-container .single {
+    font-size: 0;
+}
+
+.bid-car-detail-container .single .item {
+    font-size: 14px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.bid-car-detail-container .single .text-right-item {
+    width: 28%;
+    display: inline-block;
+}
+.bid-car-detail-container .single .text-right-item-3 {
+    width: 32%;
+    display: inline-block;
+    color: #888;
+}
+.single-right-item {
+    width: 70%;
+}
+.single-right-item-4 {
+    width: 60%;
+}
+.bid-car-detail-container .changeui-list-inner-item {
+    margin: .2rem 0;
+}
+
+.bid-car-detail-container .ci-font-ico {
+    background: #125dc7;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 6px;
+    margin-left: 0;
+}
+
+.bid-car-detail-container .form-input-item .input-before-font {
+    width: 22%;
+}
+
+/* 订单签收 */
+.express-delivery-list {
+    padding-top: 2.1rem;
+    padding-bottom: 20px;
+    overflow: auto;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.express-delivery-list .left-item {
+    width: 22%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.express-delivery-list .right-item {
+    width: 73%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: -4px;
+}
+
+.express-delivery-item {
+    width: 2.8rem;
+    height: 2.8rem;
+    background: #1ABDA5;
+    color: #fff;
+    border-radius: 50%;
+    padding-top: .5rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.express-delivery-item span {
+    display: block;
+    font-size: .6rem;
+}
+
+.express-delivery-list .title {
+    font-size: .8rem;
+    margin-bottom: .1rem;
+}
+
+.express-delivery-list .little-font {
+    font-size: .6rem;
+    color: #888;
+    margin-bottom: .3rem;
+}
+
+.express-delivery-list .text-right-item,
+.express-delivery-list .text-item {
+    color: #888;
+    font-size: .7rem;
+    display: inline-block;
+}
+
+.express-delivery-list .text-right-item {
+    width: 2.8rem;
+    float: left;
+}
+
+.express-delivery-list .text-item {
+    float: left;
+    width: 75%;
+}
+
+.express-delivery-list .changeui-list-item {
+    padding-bottom: .5rem;
+}
+
+.express-delivery-list .changeui-weui-panel{padding-bottom: .2rem;}
+
+/* 签收 -已签收 */
+.express-delivery-list .shippers-status-mark-img{
+        width: 4.6rem;
+    height: 4.6rem;
+    position: absolute;
+    bottom: .5rem;
+    right: 1rem;
+    top: auto;
+    z-index: 3;
+}
+
+.edl-font-item{color:#888; padding-left:22%; margin-top:-.5rem; padding-bottom:.5rem;}
+
+.express-delivery-list .text-item{width: 77%;}
+
+@media only screen and (max-width: 320px) {
+    .express-delivery-list .text-item{width: 74%;}
+}
+
+/*跟踪 详情图标*/
+.track-ico,
+.check-code-ico,
+.detail-ico{display: inline-block; vertical-align: middle; color: #125dc7; font-size: 1rem;}
+
+/* 订单未授权 */
+.express-delivery-list .weui-cell__ft {
+    position: absolute;
+    top: 1.4rem;
+    right: 1rem;
+}
+
+.express-delivery-list .weui-cell_access .weui-cell__ft:after {
+    border-color: #888;
+}
+
+/* 事件上报 */
+.wo_report .weui-cells__title {
+    margin: 0;
+    padding: .3rem 0.75rem;
+    background: #f6f6f6;
+}
+
+.wo_text_color_ {
+    color: #125dc7 !important;
+}
+
+.wo_report_btn_gr .weui-grid {
+    width: 50%;
+    height: 3rem;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: #212121;
+    opacity: 0.6;
+}
+
+.wo_report .weui-cells:after {
+    border: 0
+}
+
+.wo_report .weui-cells:before {
+    border: 0
+}
+
+.wo_report_btn_gr .weui-grid:after {
+    border: 0
+}
+
+.wo_report_btn_gr .weui-grid:before {
+    border: 0
+}
+
+.wo_report_btn_gr .active {
+    background-color: #ECECEC;
+    opacity: 1;
+}
+.weui-grid:active{
+    background-color: #ECECEC;
+    opacity: 1;
+}
+.wo_report .weui-textarea {
+    background: #FFFFFF;
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    padding: .5rem;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #B2B2B2;
+}
+
+.wo_report .weui-cells {
+    margin-top: 0;
+}
+
+.wo_report .weui-btn-area {
+    margin: 1rem 0.75rem;
+}
+
+/* 报价 */
+#echartBox{
+    width: 100%;
+    height: 12.8rem;
+}
+.wo_quote .wo_quote_header {
+    background: #FFFFFF;
+    box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.06);
+    padding: 0;
+}
+
+.wo_quote .wo_quote_header_top {
+    width: 100%;
+    height: 2.5rem;
+    border-bottom: 1px solid #f6f6f6;
+    padding: 0.5rem 0;
+    display: flex;
+}
+
+.wo_quote_header_bottom {
+    width: 100%;
+    /*height: 3rem;*/
+    border-bottom: 1px solid #f6f6f6;
+    padding: 0;
+}
+.wo_quote_header_top > div {
+    flex: 1;
+    padding: 0 0.8rem;
+    text-align: center;
+}
+
+.wo_quote_header_top > div > div:nth-child(1) {
+    font-size: 14px;
+    color: #888888;
+}
+
+.wo_quote_header_top > div > div:nth-child(2) {
+    font-size: 24px;
+    color: #202020;
+    letter-spacing: 0px;
+}
+
+.wo_quote .wo_quote_l {
+    border-right: 1px solid #DEDEDE;
+}
+
+.wo_quote .wo_quote_r {
+    border-left: 1px solid #DEDEDE;
+}
+.wo_text_color_1{
+    font-size: 16px!important;
+    color: #202020!important;
+    text-align: center!important;
+}
+
+/* 历史任务 */
+.changeui-list-title{position: relative;}
+
+.history-mission-list .changeui-weui-panel{padding:.4rem 0;}
+
+.history-mission-item-time{position: absolute; top:2px; right: 10px; font-size: .7rem; color: #888;}
+.history-mission-list.bid-car-detail-container .changeui-list-inner-item{margin: 0;}
+
+.history-mission-list.bid-car-detail-container{overflow: visible; height: auto; padding-bottom: 20px;}
+
+/* 投标列表 */
+.mybidlist-list-panel{padding: .4rem .8rem;}
+.mybidlist-list-panel .changeui-list-title{padding-left: 0;}
+.mybidlist-container{padding-bottom: 20px;}
+
+/*价格审批详情*/
+.price-check-container{padding-bottom: 1rem;}
+.price-check-container .bid-car-detail-container{height: auto; overflow: visible; margin-bottom: 1.5rem;}
+
+/* 运单详情 */
+.waybill-detail-container.bid-car-detail-container {height: auto; overflow: visible;}
+.waybill-detail-container.bid-car-detail-container .no-pad-weui-panel{border-bottom: 1px solid #ececec; padding-bottom: .2rem;}
+
+
+
+/* 加入承运商 */
+.join-list-container .shippers-status-mark-img{bottom: .5rem; top: auto; right: .5rem;}
+.join-top-area{background: #fff; padding: 1rem;}
+
+/* 价格审批列表 */
+.put-on-record-container{overflow: auto; height: 100%; box-sizing: border-box; padding-top: 2.1rem; padding-bottom: 20px;}
+.put-on-record-container .weui-cell__ft {
+    position: absolute;
+    top: 1.4rem;
+    right: 1rem;
+}
+.put-on-record-container.history-mission-list .changeui-list-inner-item{margin: .2rem 0;}
+
+.put-on-record-container .shippers-status-mark-img {
+    width: 4.6rem;
+    height: 4.6rem;
+    position: absolute;
+    bottom: .5rem;
+    right: 1rem;
+    top: auto;
+    z-index: 3;
+}
+
+/* 常跑线路 */
+.line-point-ico{display: inline-block; width: 1.6rem; height: 1.6rem; box-sizing: border-box;
+border-radius: 50%; border: 4px solid #125dc7; text-align: center; line-height: 1.8;}
+
+.line-container{position: relative; padding-left: 2rem; background: #fff;}
+.line-ico-container{position: absolute; left: 1rem; top:.3rem;}
+.line-ico-container .line-point-ico{display: block; margin: 1rem 0;}
+/*.line-container .join-top-area{padding-top: 0;}*/
+.line-container .join-top-area .double-select-area{margin-top: 0;}
+
+.line-container + .my-car-list-container{padding: 0; padding-bottom: 20px;}
+
+/* 计算运距 */
+.calc-miles-wrap {
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+}
+.calc-miles-wrap .text-box {
+    background-color: #fff;
+}
+.calc-miles-wrap .text-box p:first-child {
+    font-size: 16px;
+    color: #202020;
+    text-align: center;
+    line-height: 1em;
+    padding: 38px 0 7px;
+}
+.calc-miles-wrap .text-box p:last-child {
+    font-size: 40px;
+    color: #125DC7;
+    text-align: center;
+    line-height: 1em;
+    padding: 0 0 32px;
+}
+
+.calc-miles-wrap .form-box {
+    padding: 0 21px 0 64px;
+    box-sizing: border-box;
+    position: relative;
+}
+.calc-miles-wrap .form-box:before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 5px;
+    left: 21px;
+    width: 33px;
+    height: 92px;
+    margin-right: 10px;
+    background: url(../img/startEnd.png) no-repeat;
+}
+.calc-miles-wrap .select-input-box {
+    width: 100%;
+    height: 103px;
+    position: relative;
+    /*border: 1px solid #96A1A7;*/
+    /*border-radius: 5px;*/
+}
+.calc-miles-wrap .select-input-box .select-input {
+    width: 100%;
+    height: 44px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    border: 1px solid #96A1A7;
+    border-radius: 5px;
+}
+.calc-miles-wrap .select-input .mid-sel {
+    width: 34%;
+    padding-left: 17px;
+    border-right: 1px solid #DEDEDE !important;
+    border-radius: 0 !important;
+    height: 36px;
+    margin-top: 2px;
+}
+.calc-miles-wrap .select-input .mid-input {
+    width: 54%;
+}
+.calc-miles-wrap .select-input .none-border {
+    border:0;
+    background:transparent;
+}
+
+.calc-miles-wrap .button-box {
+    margin-top: 18px;
+    padding: 0 21px 0 64px;
+}
+
+/* 另外一个运单页面 */
+.my-bid-new-list{padding-top: 42px; padding-bottom: 20px; overflow: auto; height: 100%;
+box-sizing: border-box;}
+
+.my-bid-new-list .bid-car-detail-container{height: auto; overflow: visible;}
+.my-bid-new-list .weui-cell__ft {
+    position: absolute;
+    top: 2rem;
+    right: 1rem;
+}
+
+.my-bid-new-list .times{border-bottom: 1px solid #eee;border-top: 1px solid #eee; overflow: hidden;}
+
+.my-bid-new-list .times .weui-cell__ft{top: 50%;}
+
+.my-bid-new-list-detail{height: auto; overflow: visible;}
+/* 我的线路 */
+.line-item{height: 30px; position: relative; padding: 0 1rem; border-bottom: 1px solid #eee; padding-bottom: .6rem; background: #fff; padding-top: .8rem;}
+
+.line-point-item{font-size: .8rem;}
+.line-point-item em{width: .5rem; height: .5rem; border-radius: 50%; background: #125dc7; margin-right: 4px; display: inline-block;}
+.line-point-item em.other{
+background: #FF9234;
+}
+.line-line-item{width: 70px; height: 10px; border-bottom: 2px solid #ddd; display: inline-block; position: relative; margin: 0 20px; margin-top: -5px;}
+
+.line-line-item em{width: 10px; height: 10px; border-top: 2px solid #ddd; position: absolute; right: 1px;
+    top: 6px; transform: rotate(45deg);}
+
+.line-item .del-btn{position: absolute; right: 1rem; top: .8rem; padding: 0 13px;
+    line-height: 1.6;
+    font-size: 14px; background: #FFFFFF;
+border: 1px solid #E95471; text-align: center;
+border-radius: 5px; color: #E95471;}
+
+.now-line-tip{padding: .4rem 1rem; border-top: 1px solid #eee; border-bottom: 1px solid #eee;}
+
+/* 订单授权 */
+.authority-container{padding-top: 0; height: auto; overflow: visible; padding-bottom: 0;}
+.authority-container .special-tip{color: #333;}
+.authority-container .tips-item{margin-bottom: .7rem;}
+.authority-container .changeui-input{margin: 1rem 0; display: block;}
+
+/* 订单跟踪 */
+.times {
+    display:block;
+    margin:10px 0;
+    background-color: #fff;
+}
+.times ul {
+    margin-left: 15px;
+    border-left: 1px solid #ddd;
+    position: relative;
+}
+.times ul .head-mask {
+    position: absolute;
+    left: -1px;
+    top: 0;
+    height: 18px;
+    width: 1px;
+    background-color: #fff;
+}
+.times ul .tail-mask {
+    position: absolute;
+    left: -1px;
+    bottom: 0;
+    height: 43px;
+    width: 1px;
+    background-color: #fff;
+}
+.times ul li {
+    width:100%;
+    line-height:20px;
+    font-weight:normal;
+    list-style: none;
+    border-bottom: 1px solid #DEDEDE;
+    position: relative;
+    padding: 12px 0;
+}
+.times .none-border {
+    border-bottom: none;
+}
+.times ul li b {
+    width:9px;
+    height:9px;
+    background: #ccc;
+    margin:5px;
+    border-radius:6px;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px;
+    overflow:hidden;
+    display:inline-block;
+    float:left;
+
+    position: relative;
+    top: 0;
+    right: 10px;
+}
+.times ul li b.act {
+    background: #125DC7;
+    border: 2px solid #7AB1FE;
+    margin-left: 3px
+}
+.times .title {
+    padding-left:8px;
+    font-size:14px;
+    line-height:20px;
+    color:#000;
+}
+.times .title.act {
+    padding-left: 5px;
+}
+.times ul li p {
+    padding-left:26px;
+    font-size:12px;
+    line-height:24px;
+}
+.times ul li p.act {
+    color: #125DC7;
+}
+.times ul li i {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 2px;
+    width: 27px;
+    background-color: #fff;
+}
+
+/* 订单签收 */
+.order-sign {
+    height: 100%;
+}
+.order-sign .title-box {
+    padding-left: 14px;
+    max-height: 32px;
+}
+.order-sign .link-box {
+    max-height: 32px;
+}
+.order-sign .link-box .bds {
+    position: relative;
+    bottom: 5px;
+    color: #888;
+}
+.order-sign .arrow-up:after {
+    border-width: 2px 0 0 2px !important;
+    margin-top: -9px !important;
+}
+.order-sign .arrow-down:after {
+    border-width: 0 2px 2px 0 !important;
+    margin-top: -9px !important;
+}
+.order-sign .bt-none:before {
+    border-top: none !important;
+}
+
+.order-sign .title-box p {
+    font-size: 14px;
+    color: #888;
+    height: 32px;
+    line-height: 32px;
+}
+.order-sign .title-box span {
+    color: #000;
+    margin-left: 8px;
+}
+.order-sign .detail-box {
+    background-color: #fff;
+    position: relative;
+}
+.order-sign .detail-box:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #E5E5E5;
+    color: #E5E5E5;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
+.order-sign .detail-box:after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #E5E5E5;
+    color: #E5E5E5;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
+.order-sign .item-box {
+    font-size: 14px;
+}
+.order-sign .item-box .key {
+    margin-right: 8px;
+}
+.order-sign .item-box .value {
+    color: #888;
+}
+.order-sign .btn-detail {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 56px;
+    height: 24px;
+    font-size: 12px;
+    line-height: 24px;
+}
+
+.order-sign .checkbox-wrap {
+    width: 33.3%;
+    margin-bottom: 6px;
+}
+.order-sign .form-adj {
+    width: 50%;
+    max-height: 40px;
+    margin-top: 0;
+}
+.order-sign .border-textarea {
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    margin-top: 4px;
+}
+.order-sign .sub-btn-box {
+    padding: 30px 20px 20px;
+}
+.order-sign .area-fold {
+    background-color: #fff;
+    position: relative;
+}
+.order-sign .area-fold:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #E5E5E5;
+    color: #E5E5E5;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
+.order-sign .vm-l-large {
+    width: 49% !important;
+}
+.order-sign .input-l-sm {
+    width: 46% !important;
+}
+.order-sign .checkbox-item .checkbox{margin-left: 0;}
+
+@media only screen and (max-width: 320px) {
+    .order-sign .form-adj{width: 40%;}
+    .order-sign .form-adj:nth-child(2n+1){
+        width: 60%;
+    }
+
+    .order-sign .form-adj:nth-child(2n) .vm-l-large{
+        width: 29% !important;
+    }
+    .order-sign .form-adj:nth-child(2n) .input-l-sm{
+        width: 64% !important;
+    }
+}
+
+/* 要货计划 */
+.have-the-goods-container{padding-bottom: 20px;}
+.have-the-goods-container .history-mission-item-time{margin-right:1rem; }
+.have-the-goods-container .weui-cell__ft {
+    position: absolute;
+    top: 1.5rem;
+    right: .6rem;
+}
+.have-the-goods-container .g-line-item{margin: .5rem;}
+
+.have-the-goods-container .times {
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+    overflow: hidden;
+}
+
+/* 找货源 */
+.find-goods-line-container{padding-bottom: 20px;}
+.find-goods-line-container .changeui-weui-panel{padding: .6rem 0;}
+.find-goods-line-container .ci-font-ico{background: #ff7e00;}
+
+.find-goods-line-container .changeui-input{
+height: 1.4rem;
+    padding: 0 .4rem; margin: 10px 10px 0; border: 1px solid #ddd; width: auto; padding-right: 34px;}
+.find-goods-line-container .weui-select{
+height: 100%;
+    margin-top: 0;
+    line-height: 1.4rem;}
+.find-goods-line-container .has-select.weui-cell_access .weui-cell__ft{top: .6rem;}
+
+.find-goods-line-container .address-font-item{margin: 10px 12px;}

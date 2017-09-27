@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  	<head>
+    	<title>账号绑定</title>
+    	<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+		<link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+		<link rel="stylesheet" href="./css/wechat.css">
+    	<script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    	<script src="/wechat/js/wechat.js"></script>
+		<script src="../js/underscore-min.js"></script>
+  	</head>
+    <body ontouchstart bg_white>
+	<div class="page__bd wo_report">
+
+		<div class="weui-cells__title">基地ERP账号</div>
+		<div class="changeui-weui-panel changeui-single-style no-pad-weui-panel" id="base" style="margin-top:0;padding-top:2rem">
+
+		</div>
+
+		<div class="weui-cells__title">片区ERP账号</div>
+		<div class="changeui-weui-panel changeui-single-style no-pad-weui-panel" id="area" style="margin-top:0">
+
+		</div>
+
+
+		<div class="weui-cells__title">绑定ERP升级账号，您可以授权他人进行签收</div>
+	</div>
+	<script type="text/html" id="unbind_tmp">
+		<div class="weui-col-100 text-center">
+			<div class="weui-cell">
+				<div class="weui-cell__bd"><%= erpTypeName %>ERP账号：</div>
+			<div class="weui-cell__bd text-left"><%= userName %></div>
+				<div class="weui-cell__bd">
+				<a href="javascript:;" onclick="unbinderp('<%= erpType %>')" class="weui-btn weui-btn_primary changeui-weui-btn_primary">解绑</a>
+				</div>
+			</div>
+		</div>
+	</script>
+	<script type="text/html" id="bind_tmp">
+		<div class="login-area">
+			<div class="enter-item">
+				<input type="text" class="changeui-input" id="username_<%= erpType%>" value="" placeholder="请输入账号">
+			</div>
+			<div class="enter-item has-checkcode">
+				<input type="text" class="changeui-input" id="password_<%= erpType%>" value="" placeholder="请输入密码">
+				<a href="javascript:;"
+				   class="weui-btn weui-btn_primary changeui-weui-btn_primary" onclick="bind('<%= erpType %>')">绑定</a>
+			</div>
+		</div>
+	</script>
+
+
+	<!--<div class="page__bd wo_report">
+		<div class="weui-row weui-no-gutter bind-warehouse">
+    		<div class="weui-col-100 bind-title">
+    			<h3>绑定基地ERP账号</h3>
+    		</div>
+    		<div class="weui-col-100 erp-account">
+    			<div class="weui_cell_bd weui_cell_primary radius-input erp-account-input">
+    				<input class="weui_input werpacc" type="text" placeholder=" 请输入账号">
+    			</div>
+    		</div>
+    		<div class="weui-col-60 erp-password">
+    			<div class="weui_cell_bd weui_cell_primary radius-input erp-password-input">
+    				<input class="weui_input werppwd" type="password" placeholder=" 请输入密码">
+    			</div>
+    		</div>
+    		<div class="weui-col-30 erp-submit has-checkcode">
+    			<a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default bind-button" id="w">绑定</a>
+    		</div>
+    		<div class="weui-col-100 erp-unbind">
+    			<label class="binded-erp-account">kelun002</label>
+    			<a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default unbind-button" id="w">解绑</a>
+    		</div>
+    	</div>
+    	<div class="weui-row weui-no-gutter bind-area">
+    		<div class="weui-col-100 bind-title">
+    			<h3>绑定片区ERP账号</h3>
+    		</div>
+    		<div class="weui-col-100 erp-account">
+    			<div class="weui_cell_bd weui_cell_primary radius-input erp-account-input">
+    				<input class="weui_input aerpacc" type="text" placeholder=" 请输入账号">
+    			</div>
+    		</div>
+    		<div class="weui-col-60 erp-password">
+    			<div class="weui_cell_bd weui_cell_primary radius-input erp-password-input">
+    				<input class="weui_input aerppwd" type="password" placeholder=" 请输入密码">
+    			</div>
+    		</div>
+    		<div class="weui-col-30 erp-submit">
+    			<a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default bind-button" id="a">绑定</a>
+    		</div>
+    		<div class="weui-col-100 erp-unbind">
+    			<label class="binded-erp-account">kelun002</label>
+    			<a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default unbind-button" id="a">解绑</a>
+    		</div>
+    	</div>
+	</div>-->
+	<script type="text/javascript" src="./js/erpbind.js"></script>
+	</body>
+</html>

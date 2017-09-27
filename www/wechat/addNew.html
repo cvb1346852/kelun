@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新加入审核</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dialog.css">
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+    <div class="my-car-area">
+        <div class="my-car-list-container" id="tblMain" style="margin-top:-50px;">
+        </div>
+    </div>
+
+</div>
+<div class="js_dialog" id="androidDialog2" style="display:none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <!-- <div class="weui-dialog__hd"></div> -->
+        <div class="weui-dialog__bd dia-verify-detail">
+            <strong class="weui-dialog__title"><span id="carnum"></span></strong><br/><br/>
+            	是否加入该车辆？
+            <div class="weui-flex content" style="display: none;">
+                <div class="weui-flex__item">
+                    <span class="num">200</span>
+                    <span class="font">运输积分</span>
+                </div>
+                <div class="weui-flex__item">
+                    <span class="num">200</span>
+                    <span class="font">运输质量</span>
+                </div>
+                <div class="weui-flex__item">
+                    <span class="num">0</span>
+                    <span class="font">被投诉量</span>
+                </div>
+            </div>
+        </div>
+        <form>
+            <table style="margin:0 auto;height:100px;width:90%;text-align:center;display:none;" id="frmSearch"  role="form" class="smart-form">
+                <tr><td width="30%"> 司机 </td> <td><span class="weui_input"  name="driver_name" id="driver_name" ></span></td> </tr>
+                <tr><td> 联系方式 </td> <td><span class="weui_input" name="driver_phone" id="driver_phone"></span></td></tr>
+                <tr><td> 位置 </td> <td> <span class="weui_input" id="city" name="city"></span></td></tr>
+            </table>
+        </form>
+
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default"  onclick="NopushCarrier();">拒绝</a>
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="pushCarrier();">同意加入</a>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript" src="./js/addNew.js"></script>
+</html>
+
+
+

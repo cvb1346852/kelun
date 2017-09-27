@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="car_plant">
+    <select id="warehouse_selectPage">
+        SELECT   b.*,a.carrier_id,d.name AS car_type
+        FROM  `truck_source` b
+        LEFT JOIN `truck_source_carrier` a ON   a.truck_source_id = b.id
+        LEFT JOIN `truck_source_type` d ON   d.id = b.carriage_type
+        WHERE b.`deleted`=0
+
+        <include refid="selectPage_where"/>
+        <dynamic>
+            GROUP BY  b.id 
+            <isNotEmpty property="sortColumns">
+
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <select id="warehouse_selectPage_count">
+        SELECT  count(DISTINCT(b.id))   FROM  `truck_source` b
+        LEFT JOIN `truck_source_carrier` a ON   a.truck_source_id = b.id
+        LEFT JOIN `truck_source_type` d ON   d.id = b.carriage_type
+        WHERE b.`deleted`=0
+        <include refid="selectPage_where"/>
+
+    </select>
+
+    <sql id="selectPage_where">
+        <isNotEmpty prepend=" AND" property="carnum">
+            b.`carnum` LIKE '%$carnum$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_name">
+            b.`driver_name`  LIKE '%$driver_name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_phone">
+            b.`driver_phone`  LIKE '%$driver_phone$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carriage_type">
+            b.`carriage_type` = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carrier_id">
+            a.`carrier_id` = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="ddlProvince">
+            c.`address`  LIKE '%$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="ddlCity">
+            c.`address`  LIKE '%$ddlCity$%'
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="truck_source_id" open=" b.id IN (" close=")" conjunction=",">
+            #truck_source_id[]#
+        </iterate>
+    </sql>
+    
+    <select id="lastPoint">
+    	SELECT * from history_point where id in (
+			SELECT
+				max(id)
+			FROM
+				history_point
+			WHERE 1=1
+			<iterate prepend=" AND " property="phones" open=" phone IN (" close=")" conjunction=",">
+	           #phones[]#
+	        </iterate>
+			GROUP BY phone
+		)
+    </select>
+
+
+    <!-- 添加红白名单记录-->
+    <insert id="saveblack_list">
+        INSERT   INTO `black_list` (truck_source_id, type, remark,warehouse_id, create_time) VALUES
+        (#truck_source_id#, #type#, #remark#, #warehouse_id#, NOW())
+    </insert>
+
+    <!-- 修改司机红白名单-->
+    <update id="updatetruck">
+        UPDATE truck_source SET
+        `red_black` = #red_black#
+        WHERE `id`=#id#;
+    </update>
+
+    <!-- 查询车辆详情-->
+    <select id="truck_source_info">
+        SELECT a.*,d.name AS car_type FROM  `truck_source` a
+        LEFT JOIN `truck_source_type` d ON   d.id = a.carriage_type
+        WHERE a.`deleted`=0 AND a.`id`=#truck_source_id#
+
+    </select>
+
+    <!-- 查询车辆挂靠关系-->
+    <select id="truck_source_relation">
+        SELECT a.*,b.carrier_name FROM  `truck_source_carrier` AS a
+        LEFT JOIN `carrier` AS b ON b.id = a.carrier_id
+        WHERE a.`deleted`=0 AND a.`truck_source_id`=#truck_source_id# AND a.status = 3 GROUP BY a.carrier_id
+    </select>
+
+
+    <!-- 查询车辆定位历史-->
+    <select id="lbs_history">
+        SELECT create_time AS lastLbs    FROM  `lbs_history` WHERE 1
+        <isNotEmpty prepend=" AND" property="truck_source_id">
+            `truck_source_id` = #truck_source_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="shipment_id">
+            `shipment_id` = #shipment_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="type">
+            `type` = #type#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="orgcode">
+            `orgcode` = #orgcode#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="today">
+            `create_time` <![CDATA[ > #today# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="tomorrow">
+            `create_time` <![CDATA[ <= #tomorrow# ]]>
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY create_time DESC
+        </dynamic>
+    </select>
+
+    <select id="lbs_history_count">
+        SELECT   count(DISTINCT(truck_source_id)) AS truck_source_count, count(*) AS shipment_count  FROM  `lbs_history` WHERE 1
+        <isNotEmpty prepend=" AND" property="truck_source_id">
+            `truck_source_id` = #truck_source_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="shipment_id">
+            `shipment_id` = #shipment_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="type">
+            `type` = #type#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="orgcode">
+            `orgcode` = #orgcode#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="today">
+            `create_time` <![CDATA[ > #today# ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="tomorrow">
+            `create_time` <![CDATA[ <= #tomorrow# ]]>
+        </isNotEmpty>
+
+    </select>
+
+    <!-- 添加红白名单记录-->
+    <insert id="save_lbs_history">
+        INSERT   INTO `lbs_history` (truck_source_id, type, user_type,orgcode, shipment_id, address,create_time) VALUES
+        (#truck_source_id#, #type#, #user_type#, #orgcode#, #shipment_id#, #address#, NOW())
+    </insert>
+
+    <!-- 查询车辆信息-->
+    <select id="getTruckSourceById">
+        SELECT  b.*,a.*  FROM `truck_source_carrier` a LEFT JOIN  `truck_source` b ON a.truck_source_id = b.id WHERE  b.`id` = #id# LIMIT 1
+    </select>
+
+    <!-- 修改司机信息-->
+    <update id="change_driver">
+        UPDATE `truck_source`   SET
+        `driver_name` = #driver_name#,
+        `id_card` = #id_card#,
+        `carnum` = #carnum#,
+        `car_length` = #car_length#,
+        `carriage_type` = #carriage_type#,
+        `rated_load` = #rated_load#
+        WHERE `id`=#truck_source_id#
+    </update>
+    
+    <select id="getDriveShpGroup">
+    	SELECT shp.fromlocation,shp.tolocation,count(1) as count from shipment shp where shp.driver_phone = #driver_phone# and shp.deleted = '0' GROUP BY shp.fromlocation,shp.tolocation order by count desc
+    </select>
+
+</sqlMap>

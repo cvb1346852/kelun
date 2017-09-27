@@ -1,0 +1,368 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+</head>
+<body style="overflow: auto">
+
+<div class="row"><br /></div>
+
+<div class="well no-padding well-light">
+    <form action="" class="smart-form" novalidate="novalidate" id="frmInfo" method="post">
+        <div id="inbox-content" class="inbox-body">
+            <header>
+                <span>基本资料</span>
+                <icon class="fieldset-tag glyphicon pull-right" ></icon>
+            </header>
+            <fieldset>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">公司名称</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="carrier_name" name="carrier_name" placeholder=""  readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red">公司简称</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="carrier_name_s" name="carrier_name_s" placeholder=""  readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">所在省/市</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="province" name="province" placeholder=""  readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">所在市/区</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="city" name="city" placeholder=""  readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">社会信用代码</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="societycode" name="societycode" placeholder=""   readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">组织机构代码</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="organizing_code" name="organizing_code"  readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">法人代表</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="representative" name="representative"   readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right  ">注册资金</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="capital" name="capital" placeholder=""  readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12" style="margin-left: 5px;">
+                    <div class="row">
+                        <label class="label col col-2 text-align-right txt-color-red">运输类型</label>
+                        <section class="col col-4">
+                            <label class="input">
+                                <input type="text" id="trans_type" name="trans_type" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+                <!--<div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red">代开票</label>
+                        <section class="col col-8">
+                            <label class="select">
+                                <input type="text" id="is_invoice" name="is_invoice" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>-->
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red">代开票</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" class="input-sm" name="is_invoice" id="is_invoice" placeholder=""  readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red">票点数</label>
+                        <section class="col col-4">
+                            <label class="input">
+                                <input type="text" class="input-sm" style="width:90%;height:auto!important;" name="invoice_rate" id="invoice_rate" placeholder=""  readonly>
+                            </label>
+                        </section>
+                        <label>%</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="col col-4 text-align-right ">道路运输许可证</label>
+                        <label class="col col-4"  >
+                            <a href="javascript:void(0);" class="btn btn-sm extiat"><span id="idcardattachurl">查看</span></a>
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right">开票点数</label>
+                        <section class="col col-4">
+                            <label class="input">
+                                <input type="text" class="input-sm" style="width:90%;height:auto!important;" name="real_invoice_rate" id="real_invoice_rate" placeholder="" readonly>
+                            </label>
+                        </section>
+                        <label>%</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="col col-4 text-align-right " id="idcardattach_label2" name="idcardattach_label2" >银行开户证明</label>
+                        <label class="col col-4" id="idcardattach_tip2">
+                            <a href="javascript:void(0);" class="btn btn-sm extiat" ><span id="bankpicture">查看</span></a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="col col-4 text-align-right " id="idcardattach_label3" name="idcardattach_label3" >税务登记证</label>
+                        <label class="col col-4"  id="idcardattach_tip3">
+                            <a href="javascript:void(0);" class="btn btn-sm extiat"><span  id="taxpicture">查看</span></a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="col col-4 text-align-right " id="idcardattach_label4" name="idcardattach_label4" >组织机构代码证明</label>
+                        <label class="col col-4"  id="idcardattach_tip4">
+                            <a href="javascript:void(0);" class="btn btn-sm extiat" ><span id="orgcodeprove">查看</span></a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">公司介绍</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="carrier_introduce" name="carrier_introduce"   readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">公司成立日期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="carrier_date" name="carrier_date" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">保险情况</label>
+                        <section class="col col-8">
+                            <label class="input ">
+                                <input type="text" class="input-sm" style="width:100%;height:auto!important;"  name="safe" placeholder="" value=""  id="safe" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right  ">可供运输服务</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" class="input-sm" style="width:100%;height:auto!important;"  id="travelService" name="travelService" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">其它增值服务</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" class="input-sm" style="width:100%;height:auto!important;"  id="otherService" name="otherService" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right">公司性质</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" class="input-sm"   id="property" name="property" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+            </fieldset>
+            <header>
+                <span>联系人</span>
+                <icon class="fieldset-tag glyphicon pull-right" ></icon>
+            </header>
+            <fieldset style="height:100px;">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red">联系人</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="relation_person" name="relation_person" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red">联系人手机号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="relation_phone" name="relation_phone" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">邮箱</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="relation_email" name="relation_email" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">传真</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="relation_fax" name="relation_fax" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">地址</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="relation_address" name="relation_address" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right ">邮编</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="relation_post" name="relation_post" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+            </fieldset>
+            <header>
+                <span>其他</span>
+                <icon class="fieldset-tag glyphicon pull-right" ></icon>
+            </header>
+            <fieldset style="height:50px;">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">审核基地</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="warehouse_name" name="warehouse_name" placeholder="" readonly>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <footer>
+            <button type="button" class="btn btn-default" onclick="$ips.locatesubsystem('project/carrier/index.html',false);">取消</button>
+            <button type="button" class="btn btn-primary" onclick="change(false)">
+                <span><i class="fa fa-fw fa-save"></i></span>不通过
+            </button>
+            <button type="button" class="btn btn-primary" onclick="change(true)">
+                <span><i class="fa fa-fw fa-save"></i></span>通过
+            </button>
+        </footer>
+    </form>
+</div>
+
+</body>
+</html>
+<script type="text/javascript" src="../js/ips.public.js"></script>
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+
+    // G7初始化页面
+    $ips.startup();
+</script>

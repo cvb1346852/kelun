@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="truck_source">
+
+	<insert id="insert">
+		INSERT INTO `truck_source` (`id`, `carnum`,  `car_length`, `carriage_type`, `rated_load`, `rated_volume`, `type`, `gpsno`, `weight`, `history`, `driver_name`, `driver_phone`, `id_card`,  `drive_license`, `last_update`,`create_time`,`update_time`)
+		 VALUES (#id#, #carnum#,  #car_length#, #carriage_type#, #rated_load#, #rated_volume#, #type#, #gpsno#, #weight#, #history#, #driver_name#, #driver_phone#, #id_card#,  #drive_license#, #last_update#, NOW(),NOW() )
+	</insert>
+    
+    <insert id="confirmcarrier">
+        INSERT INTO `truck_source_carrier` ( `carrier_id`, `province`, `truck_source_id`, `from`, `status`, `create_time`)
+             VALUES (#carrier_id#, #province#,#truck_source_id# , #from#, #status#,#create_time# )
+    </insert>
+    <!--查找相同省份下的承运商-->
+    <select id="getSameProvincelist">
+        select c.province,c.id
+        from  `truck_source_carrier` AS tsc
+        left join `carrier` AS c on tsc.carrier_id = c.id
+        where tsc.truck_source_id = #truck_source_id#
+    </select>
+
+    <!--获取司机车辆id-->
+    <select id="getTruckidByopenid">
+        select ts.id,ts.driver_name
+        from truck_source AS ts
+        LEFT join `wechat_connect` AS wc on ts.driver_phone = wc.phone
+        where wc.openid = #openid#
+    </select>
+
+    <select id="getById_city">
+        select city
+        from  `history_point`
+        where  carnum = #carnum# order by time desc
+    </select>
+    <select id="getCarrierinfo">
+        select *
+        from  `carrier`
+        where 1
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="g7s_orgcode">
+            g7s_orgcode  = #g7s_orgcode#
+        </isNotEmpty>
+    </select>
+
+    <select id="getCarnumByCarrierid">
+        select ts.carnum,ts.id,ts.driver_phone,ts.driver_name,ts.id_card
+        from  `truck_source` as ts
+        left join `truck_source_carrier` AS tsc on ts.id = tsc.truck_source_id
+        where  tsc.carrier_id = #carrier_id#
+        <isNotEmpty prepend=" AND" property="carnum">
+            ts.`carnum`   like  '%$carnum$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_phone">
+            ts.`driver_phone`   like  '%$driver_phone$%'
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY ts.driver_phone
+        </dynamic>
+    </select>
+
+
+    <select id="getHistorytruck">
+        select s.*,ts.*
+        from  `shipment`  AS s
+        LEFT  join truck_source AS ts on  s.driver_phone = ts.driver_phone
+        where   ts.deleted = 0
+        <isNotEmpty prepend=" AND" property="fromlocation">
+            s.fromlocation LIKE '$fromlocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="tolocation">
+             s.tolocation LIKE '$tolocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlProvince">
+            s.from_province LIKE '$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlCity">
+            s.from_city LIKE '$ddlCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloProvince">
+            s.to_province LIKE '$toloProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloCity">
+            s.to_city LIKE '$toloCity$%'
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY s.driver_phone
+        </dynamic>
+    </select>
+    <select id="getHistorytruck_count">
+        select   COUNT(DISTINCT s.driver_phone)
+        from  `shipment`  AS s
+        LEFT  join truck_source AS ts on  s.driver_phone = ts.driver_phone
+        where   ts.deleted = 0
+        <isNotEmpty prepend=" AND" property="fromlocation">
+            s.fromlocation LIKE '$fromlocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="tolocation">
+            s.tolocation LIKE '$tolocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlProvince">
+            s.from_province LIKE '$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlCity">
+            s.from_city LIKE '$ddlCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloProvince">
+            s.to_province LIKE '$toloProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloCity">
+            s.to_city LIKE '$toloCity$%'
+        </isNotEmpty>
+    </select>
+
+    <insert id="insert_s">
+        INSERT INTO `truck_source_carrier` (`carrier_id`,`motorcade_id`,`motorcade_name`, `province`, `status`, `from`, `truck_source_id`, `create_time`, `update_time` )
+                                    VALUES (#carrier_id#, #motorcade_id#, #motorcade_name#, #province#, #status#, #from#, #truck_source_id#,  NOW(),  NOW())
+    </insert>
+
+	<update id="update">
+		UPDATE truck_source SET
+        `update_time` = NOW(),`active_time` = NOW()
+        <isNotEmpty prepend=","  property="carnum">
+            `carnum` = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="car_length">
+            `car_length` = #car_length#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="carriage_type">
+            `carriage_type` = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="rated_load">
+            `rated_load` = #rated_load#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="rated_volume">
+            `rated_volume` = #rated_volume#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="type">
+            `type` = #type#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="gpsno">
+            `gpsno` = #gpsno#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="weight">
+            `weight` = #weight#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="history">
+            `history` = #history#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="driver_name">
+            `driver_name` = #driver_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="driver_phone">
+            `driver_phone` = #driver_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="id_card">
+            `id_card` = #id_card#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="drive_license">
+            `drive_license` = #drive_license#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="last_update">
+            `last_update` = #last_update#
+        </isNotEmpty>
+
+        <isNotEmpty prepend=","  property="sign_num">
+            `sign_num` = #sign_num#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="sign_time">
+            `sign_time` = #sign_time#
+        </isNotEmpty>
+
+        <dynamic>
+            WHERE `id`=#id#
+        </dynamic>
+	</update>
+
+    <update id="pushCarrier">
+        update `truck_source_carrier` set update_time = NOW()
+        <isNotEmpty  prepend="," property="status">
+            status = #status#
+        </isNotEmpty>
+        <isNotEmpty prepend=","  property="deleted">
+            deleted = 0
+        </isNotEmpty>
+        <dynamic>
+           where  truck_source_id = #truck_source_id#  AND  carrier_id = #carrier_id#
+        </dynamic>
+
+    </update>
+
+	<select id="selectPage">
+		SELECT   a.`motorcade_id`,a.`motorcade_name`,a.`from`,a.`status`,b.*,c.g7s_orgcode,c.app_key,c.app_secret
+        FROM `truck_source_carrier` a
+        LEFT JOIN  `truck_source` b ON a.truck_source_id = b.id
+        LEFT JOIN  `carrier` c ON a.carrier_id = c.id
+        WHERE a.`deleted`=0
+        <include refid="selectPage_where"/>
+        <isNotEmpty property="sortColumns">
+            ORDER BY b.$sortColumns$
+        </isNotEmpty>
+	</select>
+
+    <select id="selectPage_count">
+        SELECT  count(*)  FROM `truck_source_carrier` a LEFT JOIN  `truck_source` b ON a.truck_source_id = b.id WHERE a.`deleted`=0
+        <include refid="selectPage_where"/>
+    </select>
+
+    <select id="getAllTruckSource">
+        select b.`id`,b.`carnum`,b.`car_length`,t.`name` as carriage_type,b.`rated_load`,b.`driver_name`,b.`driver_phone`
+        from `truck_source` as b
+        left join `truck_source_type` as t on t.id = b.carriage_type
+        WHERE b.`deleted`=0
+        <include refid="getAllTruckSource_where"/>
+        <isNotEmpty property="sortColumns">
+            ORDER BY b.$sortColumns$
+        </isNotEmpty>
+    </select>
+
+    <select id="getAllTruckSource_count">
+        select count(`id`) as count
+        from `truck_source` as b
+        WHERE b.`deleted`=0
+        <include refid="getAllTruckSource_where"/>
+    </select>
+
+    <sql id="getAllTruckSource_where">
+        <isNotEmpty prepend=" AND" property="carnum">
+            b.`carnum` like '%$carnum$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_name">
+            b.`driver_name` like '%$driver_name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_phone">
+            b.`driver_phone` like '%$driver_phone$%'
+        </isNotEmpty>
+    </sql>
+    <select id="getBycarriageType">
+        SELECT name FROM `truck_source_type` where id = #carriage_type#
+    </select>
+
+    <select id="warehouse_selectPage">
+        SELECT   a.`motorcade_id`,a.`motorcade_name`,a.`from`,a.`status`,b.*
+        FROM `truck_source_carrier` a LEFT JOIN  `truck_source` b ON a.truck_source_id = b.id WHERE a.`deleted`=0
+        <include refid="selectPage_where"/>
+        <isNotEmpty property="sortColumns">
+            ORDER BY b.$sortColumns$
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY b.driver_phone
+        </dynamic>
+    </select>
+
+    <select id="selectPage_wechat">
+    SELECT  a.`motorcade_id`,a.`motorcade_name`,a.`from`,a.`status`,b.*,c.g7s_orgcode,t.name as carriage_type
+    FROM `truck_source_carrier` a
+    LEFT JOIN  `truck_source` b ON a.truck_source_id = b.id
+    LEFT JOIN  `carrier` c ON a.carrier_id = c.id
+    left join `truck_source_type` as t on t.id = b.carriage_type
+    WHERE a.`deleted`=0 AND a.carrier_id = #carrier_id# AND a.`status` = #status#
+    </select>
+
+    <select id="selectPage_wechat_count">
+        SELECT   count(*)
+        FROM `truck_source_carrier` a
+        LEFT JOIN  `truck_source` b ON a.truck_source_id = b.id
+        LEFT JOIN  `carrier` c ON a.carrier_id = c.id
+        WHERE a.`deleted`=0 AND a.carrier_id = #carrier_id# AND a.`status` = #status#
+    </select>
+
+    <select id="warehouse_selectPage_count">
+        SELECT  count(DISTINCT b.driver_phone)  FROM `truck_source_carrier` a LEFT JOIN  `truck_source` b ON a.truck_source_id = b.id WHERE a.`deleted`=0
+        <include refid="selectPage_where"/>
+    </select>
+
+    <sql id="selectPage_where">
+        <isNotEmpty prepend=" AND" property="carnum">
+            b.`carnum` = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_name">
+            b.`driver_name` = #driver_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_phone">
+            b.`driver_phone` = #driver_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_phone_like">
+            b.`driver_phone` LIKE '%$driver_phone_like$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="weight">
+            b.`weight` = #weight#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carriage_type">
+            b.`carriage_type` = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="from">
+            a.`from` = #from#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carrier_id">
+            a.`carrier_id` = #carrier_id#
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="carrier_idIN" open=" a.carrier_id IN (" close=")" conjunction=",">
+            #carrier_idIN[]#
+        </iterate>
+        <isNotEmpty prepend=" AND" property="status">
+            a.`status` = #status#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="motorcade_name">
+            a.`motorcade_name` = #motorcade_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carriage_type">
+            b.`carriage_type` = #carriage_type#
+        </isNotEmpty>
+    </sql>
+
+    <select id="selectCity">
+        SELECT  `city`,`carnum`   FROM  history_point  WHERE `time` > #time#
+        <iterate prepend="   AND  " property="carnum" open=" carnum IN (" close=")" conjunction=",">
+            #carnum[]#
+        </iterate>
+        <isNotEmpty prepend="  " property="order">
+            ORDER BY `time` ASC
+        </isNotEmpty>
+    </select>
+      <select id="search_carrier_driver">
+        SELECT  a.`province`,a.`status`,b.*,a.carrier_id AS carrier_id
+        FROM  truck_source_carrier a 
+        left join carrier b on (a.carrier_id = b.id)
+        WHERE a.`truck_source_id`=#truck_id# AND a.deleted = 0 order by  a.create_time
+    </select>
+    <select id="search_carrier_driver_count">
+        SELECT  count(*)
+        FROM  truck_source_carrier a
+        left join carrier b on (a.carrier_id = b.id)
+        WHERE a.`truck_source_id`=#truck_id#
+    </select>
+    <select id="getTruckidByPhone" >
+        SELECT id,history,carnum,car_length,carriage_type,rated_load,sign_time,sign_num
+        FROM `truck_source`
+        WHERE driver_phone = #phone# AND deleted = 0
+    </select>
+   <!-- 查询省份列表 -->
+   <select id="getprovincelist">
+        SELECT   c.`province`
+        FROM  carrier AS c
+        WHERE deleted = 0 AND c.is_invoice = 1 group by  `province`
+
+   </select>
+
+    <!--查看省份下的承运商-->
+
+    <select id="getCarrierId">
+        SELECT   c.id
+        FROM  carrier AS c
+        WHERE c.deleted = 0
+        <isNotEmpty property="province" prepend="AND">
+            `province` LIKE #province#
+        </isNotEmpty>
+        <isNotEmpty property="carriername" prepend="AND">
+            `carrier_name` LIKE #carriername#
+        </isNotEmpty>
+
+    </select>
+    <!-- 查询省份对应的id-->
+    <select id="getByCity_s">
+        SELECT   c.id , wc.openid
+        FROM  carrier AS c
+        LEFT JOIN wechat_connect AS  wc ON c.relation_phone = wc.phone
+        WHERE c.deleted = 0 AND user_type = 4
+        <isNotEmpty property="province" prepend="AND">
+            `province` LIKE #province#
+        </isNotEmpty>
+        <isNotEmpty property="carriername" prepend="AND">
+            `carrier_name` LIKE #carriername#
+        </isNotEmpty>
+
+    </select>
+
+    <!-- 查询每个省份下承运商列表 -->
+    <select id="getcarierlist">
+        SELECT   `carrier_name` 
+        FROM  carrier AS c
+        LEFT JOIN carrier_warehouse cw ON c.id = cw.carrier_id
+        where c.province = #province#  AND c.deleted = 0 AND c.is_invoice = 1
+              AND c.check_status = 1 GROUP BY c.`carrier_name`
+    </select>
+     
+     <select id="getByOpenId">
+        SELECT  wc.*,c.g7s_orgcode,c.id
+        FROM  wechat_connect AS wc
+        LEFT JOIN carrier c on (wc.phone = c.relation_phone)
+        WHERE wc.`openid` = #openid# AND c.deleted = 0 AND wc.deleted = 0
+    </select>
+
+    <delete id="quitCarrier">
+        DELETE from  `truck_source_carrier`
+        WHERE carrier_id = #carrier_id# AND truck_source_id = #truck_id#
+    </delete>
+
+      <select id="getByOpenId_wechat">
+          SELECT  wc.*,c.g7s_orgcode,c.id  FROM  wechat_connect AS wc
+          LEFT JOIN carrier c on (wc.phone = c.relation_phone)
+          WHERE wc.`openid` = #openid# AND c.deleted = 0 AND wc.deleted = 0 limit 1
+     </select>
+
+    <select id="selectCarrier">
+        SELECT  `id`,`carrier_name` as name,`app_key`,`app_secret`
+        FROM `carrier`
+        WHERE `g7s_orgcode` = #g7s_orgcode# AND deleted = 0;
+    </select>
+
+    <select id="selectCarriers">
+        SELECT  cw.`carrier_id` as  id,  c.carrier_name as name
+        FROM `carrier_warehouse` AS cw LEFT JOIN `carrier` AS c ON cw.carrier_id = c.id
+        WHERE cw.`warehouse_id` = (SELECT `id` FROM `warehouse` WHERE `orgcode` = #orgcode# AND deleted = 0 LIMIT 1) AND cw.`deleted` = 0
+        <isNotEmpty property="carrier_name" prepend="AND">
+            c.`carrier_name` LIKE '%$carrier_name$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getById">
+        SELECT  b.*,a.*  FROM `truck_source_carrier` a LEFT JOIN  `truck_source` b ON a.truck_source_id = b.id WHERE a.`deleted`=0 AND b.`id` = #id# LIMIT 1
+    </select>
+
+    <select id="selectById">
+        SELECT  $field$  FROM  truck_source  WHERE `id` = #id#;
+    </select>
+
+    <select id="driverInfo">
+        SELECT  $field$
+        FROM  wechat_connect
+        WHERE `openid` = #openid#;
+    </select>
+
+     <!--<select id="getById_s">
+        SELECT   * from carrier where relation_phone = (select phone from wechat_connect where openid = #openid#)
+        LIMIT 1
+    </select>-->
+    <select id="getById_s">
+        SELECT  c.id,c.carrier_name
+        from carrier AS c
+        LEFT JOIN `wechat_connect` AS wc ON c.relation_phone = wc.phone
+        where wc.openid = #openid#
+    </select>
+
+    <select id="getCarriageType">
+        SELECT  *  FROM  truck_source_type  WHERE 1 = 1
+        <isNotEmpty prepend=" AND" property="name">
+            `name`  like '%$name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="id">
+            `id`  = #id#
+        </isNotEmpty>
+        <dynamic>
+            order by create_time asc
+        </dynamic>
+    </select>
+
+    <insert id="insertCarriageType">
+        INSERT INTO `truck_source_type` (`id`, `name`,`create_time`)  VALUES (#id#, #name#, NOW())
+    </insert>
+
+    <update id="del">
+        UPDATE truck_source_carrier SET
+        `deleted` = 1,
+        `update_time` = NOW(),
+        `last_update` = #last_update#
+        WHERE `truck_source_id`=#id# AND `carrier_id` = #carrier_id# ;
+    </update>
+
+
+    <update id="updateAgree">
+        UPDATE truck_source_carrier SET
+        `status` = #status#,
+        `last_update` = #last_update#,
+        `update_time` = NOW()
+        WHERE `truck_source_id`=#id#  AND  `status` = 1 LIMIT 1;
+    </update>
+
+    <select id="sourceCheck">
+        SELECT tsc.id FROM `truck_source` AS ts
+        LEFT JOIN `truck_source_carrier` as tsc ON ts.id = tsc.truck_source_id
+        WHERE ts.driver_phone = #driver_phone# AND tsc.carrier_id = #carrier_id# AND tsc.deleted = 0
+        limit 0, 1
+    </select>
+
+    <select id="getApp_key_secret">
+        SELECT c.app_key,c.app_secret
+        FROM `carrier` AS c
+        LEFT JOIN `truck_source_carrier` as tsc ON c.id = tsc.carrier_id
+        LEFT JOIN `truck_source` as ts ON  tsc.truck_source_id = ts.id
+        WHERE ts.driver_phone = #driver_phone# AND tsc.`from` = 1 AND tsc.deleted = 0
+    </select>
+
+
+    <select id="searchTruckcarrier">
+        SELECT  id,status,deleted
+        FROM `truck_source_carrier`  
+        WHERE truck_source_id = #truck_source_id# AND  carrier_id = #carrier_id#
+        limit 0, 1
+    </select>
+
+    <select id="truckCheckByphone">
+        SELECT id ,carnum,type
+        FROM `truck_source`
+        WHERE  `deleted` = 0
+        <isNotEmpty prepend=" AND" property="driver_phone">
+            `driver_phone` = #driver_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carnum">
+            `carnum` = #carnum#
+        </isNotEmpty>
+    </select>
+
+    <select id="getSearchCondition">
+        SELECT DISTINCT `$name$`
+        FROM `truck_source_carrier` a LEFT JOIN  `truck_source` b ON a.truck_source_id = b.id
+        WHERE a.`deleted`=0 
+            AND `$name$`  like '%$value$%'
+            <isNotEmpty prepend=" AND" property="carrier_id">
+                a.`carrier_id` = #carrier_id#
+            </isNotEmpty>
+            <iterate prepend="   AND  " property="carrier_idIN" open=" a.carrier_id IN (" close=")" conjunction=",">
+                #carrier_idIN[]#
+            </iterate>
+    </select>
+    <!-- 获取平台线路车源 -->
+    <select id="getDriverRoute">
+        SELECT ts.`id` AS ts_id, ts.`carnum`,ts.`car_length`,ts.`carriage_type`,ts.`rated_load`,ts.`driver_name`,ts.`driver_phone`,ts.`type`
+        FROM `truck_source` AS ts
+        LEFT JOIN `truck_source_route` AS tsr
+        ON tsr.truck_source_id=ts.id
+        LEFT JOIN `route` AS r
+        ON r.id=tsr.route_id
+        WHERE ts.deleted=0
+        <isNotEmpty prepend=" AND" property="ddlProvince">
+            r.`from_province` like '%$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="toloProvince">
+            r.`to_province` like '%$toloProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="ddlCity">
+            r.`from_city` like '%$ddlCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="toloCity">
+                r.`to_city` like '%$toloCity$%'
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY  ts.`driver_phone`
+        </dynamic>
+    </select>
+    <select id="getDriverRoute_count">
+        SELECT count(*)
+        FROM `truck_source` AS ts
+        LEFT JOIN `truck_source_route` AS tsr
+        ON tsr.truck_source_id=ts.id
+        LEFT JOIN `route` AS r
+        ON r.id=tsr.route_id
+        WHERE ts.deleted=0
+        <isNotEmpty prepend=" AND" property="ddlProvince">
+            r.`from_province` like '%$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="toloProvince">
+            r.`to_province` like '%$toloProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="ddlCity">
+            r.`from_city` like '%$ddlCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="toloCity">
+            r.`to_city` like '%$toloCity$%'
+        </isNotEmpty>
+    </select>
+    <!-- 获取箱型 -->
+    <select id="getCarType">
+       SELECT name FROM `truck_source_type` WHERE id=#id#
+    </select>
+    <select id="getHistory">
+       SELECT history FROM `truck_source` WHERE id=#id#
+    </select>
+    <select id="isSelfTruck">
+        SELECT tsc.id 
+        FROM truck_source AS ts
+        LEFT JOIN truck_source_carrier AS tsc ON ts.id = tsc.truck_source_id
+        WHERE ts.carnum = #carnum# AND tsc.from = 1 AND tsc.deleted = 0
+    </select>
+    <select id="getLbsMsg">
+       SELECT address FROM `history_point` WHERE truck_source_id=#id# ORDER BY `time` DESC 
+    </select>
+    <select id="getMotorcade">
+        SELECT   `id` , `name`   FROM   `motorcade_warehouse`  WHERE `warehouse_id` = #warehouse_id# AND `deleted` = 0
+        <isNotEmpty prepend=" AND" property="name">
+            `name`   like '%$name$%'
+        </isNotEmpty>
+        <dynamic>
+           group  by  `name`
+        </dynamic> 
+    </select>
+    <select id="getDrivers">
+       SELECT ts.id,ts.driver_phone,wc.openid FROM wechat_connect AS wc 
+       LEFT JOIN truck_source AS ts ON ts.driver_phone=wc.phone 
+       WHERE ts.active_time BETWEEN #start# AND #end# 
+       ORDER BY ts.active_time 
+    </select>
+    <select id="getDrivers_count">
+       SELECT count(*) FROM wechat_connect AS wc 
+       LEFT JOIN truck_source AS ts ON ts.driver_phone=wc.phone 
+       WHERE ts.active_time BETWEEN #start# AND #end#
+    </select>
+    
+    <!-- 获取车源详情 -->
+    <select id="getDriver">
+        SELECT ts.`id` AS ts_id, ts.`carnum`,ts.`car_length`,ts.`carriage_type`,ts.`rated_load`,ts.`driver_name`,ts.`driver_phone`,ts.`type`,tsr.name as carriagetype
+        FROM `truck_source` AS ts
+        LEFT JOIN `truck_source_route` AS tsr ON tsr.truck_source_id=ts.id
+        
+        WHERE ts.deleted=0
+        <isNotEmpty prepend=" AND" property="id">
+            ts.`id`   = #id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_phone">
+            ts.`driver_phone`   = #driver_phone#
+        </isNotEmpty>
+        
+    </select>
+</sqlMap>

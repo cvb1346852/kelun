@@ -1,0 +1,42 @@
+
+<div class="row"><br /></div>
+<style>
+    #show{ width:426px;height:293px;z-index: 200; position: absolute;top: 40px;left: 300px;}
+    #info{position: absolute;top:380px;left:10px;margin-left: 28px;padding: 5px;width:416px;height: 45px;}
+    #photo{ position: absolute;top:35px;left:35px;cursor: pointer;}
+</style>
+<div class="well no-padding well-light">
+        <div id="inbox-content" class="inbox-body">
+                <header>
+                    <span>运单查看</span>
+                    <icon class="fieldset-tag glyphicon pull-right" ></icon>
+                </header>
+                <fieldset>
+                    <div style="padding-top: 20px;" id="tender-detail">
+
+                    </div>
+                    <div id="shipment_report"></div>
+                    <div id="shipment_history_point"></div>
+                </fieldset>
+        </div>
+        <div id="show" style="display: none;">
+            <div id="photo" style="height: 320px;">
+                <img style="height: 320px"/>
+            </div>
+            <div id="info"></div>
+        </div>
+        <footer id="save_type">
+
+        </footer>
+</div>
+
+
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+
+    // G7初始化页面
+    $ips.startup();
+</script>
+
+

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>弹框样式</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dialog.css">
+
+    <!-- <script src="../jquery_weui/lib/zepto.js"></script> -->
+    <!-- 这里的zepto不对换一下 -->
+    <script type="text/javascript" src="https://weui.io/zepto.min.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+
+
+<a href="javascript:;" class="weui-btn weui-btn_default" id="showIOSDialog1">iOS Dialog样式一</a>
+
+
+</div>
+
+
+
+
+
+        <!--BEGIN dialog1-->
+        <div class="js_dialog" id="iosDialog1" style="display:none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd">
+                    <div class="dia-font-area"><span class="c-iconfont font-item tip-font-ico">&#xe608;</span></div>
+                    <p>您没有任务在该区域<br/>请查证后再扫描</p>
+                </div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">退出</a>
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">重新扫描</a>
+                </div>
+            </div>
+        </div>
+        <!--END dialog1-->
+        <!--BEGIN dialog2-->
+        <div class="js_dialog" id="iosDialog2" style="opacity:1;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+
+                <div class="weui-dialog__bd">
+                    <div class="dia-font-area"><i class="weui-icon-success weui-icon_msg font-item"></i></div>
+                    新都基地欢迎您！<br/>
+                    您前面还有两个车等待出厂。</div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">退出</a>
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">重新扫描</a>
+                </div>
+            </div>
+        </div>
+        <!--END dialog2-->
+        <!--BEGIN dialog3-->
+        <div class="js_dialog" id="androidDialog1" style="display:none; ">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd">
+                    <div class="dia-font-area"><span class="c-iconfont font-item" style="margin-top:-.8rem; margin-bottom:.8rem;">&#xe607;</span></div>
+                    运输任务开始！<br/>
+                    安全驾驶、按时到达！
+                </div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+                </div>
+            </div>
+        </div>
+        <!--END dialog3-->
+        <!--BEGIN dialog4-->
+        <div class="js_dialog" id="androidDialog2" style="">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <!-- <div class="weui-dialog__hd"></div> -->
+                <div class="weui-dialog__bd dia-verify-detail">
+                    <strong class="weui-dialog__title">川AZ8928</strong><br/>
+                    <div class="weui-flex content">
+                        <div class="weui-flex__item">
+                            <span class="num">200</span>
+                            <span class="font">运输积分</span>
+                        </div>
+                        <div class="weui-flex__item">
+                            <span class="num">200</span>
+                            <span class="font">运输质量</span>
+                        </div>
+                        <div class="weui-flex__item">
+                            <span class="num">0</span>
+                            <span class="font">被投诉量</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">拒绝</a>
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">同意加入</a>
+                </div>
+            </div>
+        </div>
+
+    <div class="js_dialog" id="androidDialog2" style="display:none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd dia-verify-detail">
+                <strong class="weui-dialog__title">商品详情</strong><br/>
+                <div class="weui-flex content">
+                    <span>被投诉量被投诉量被投诉量被投诉量被投诉量被投诉量被投诉量被投诉量被投诉量</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+        <div class="js_dialog" id="androidDialog1" style="display:none">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd">
+                    <div class="dia-font-area"><i class="weui-icon-success weui-icon_msg font-item"></i></div>
+                    申请签收成功！
+                </div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="js_dialog" id="androidDialog1" style="display:none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog opacity-dialog">
+                <div class="weui-dialog__bd">
+                    <div class="dia-font-area">
+                        <i class="weui-icon-success weui-icon_msg font-item" style="margin-top:-1rem;"></i>
+                        <em class="font-bg"></em>
+                    </div>
+                    签到成功！<br/>
+                    （您现在共有120积分）<br/>
+                    正在为您跳转成都市货源列表<br/>
+                </div>
+            </div>
+        </div>
+
+
+</body>
+<script type="text/javascript">
+
+    $(function(){
+        var $iosDialog1 = $('#iosDialog1'),
+            $iosDialog2 = $('#iosDialog2'),
+            $androidDialog1 = $('#androidDialog1'),
+            $androidDialog2 = $('#androidDialog2');
+
+        $('#dialogs').on('click', '.weui-dialog__btn', function(){
+            $(this).parents('.js_dialog').fadeOut(200);
+        });
+
+        $('#showIOSDialog1').on('click', function(){
+            $iosDialog2.fadeIn(200);
+        });
+        $('#showIOSDialog2').on('click', function(){
+            $iosDialog2.fadeIn(200);
+        });
+        $('#showAndroidDialog1').on('click', function(){
+            $androidDialog1.fadeIn(200);
+        });
+        $('#showAndroidDialog2').on('click', function(){
+            $androidDialog2.fadeIn(200);
+        });
+    });
+</script>
+
+</html>
+

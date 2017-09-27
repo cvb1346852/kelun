@@ -1,0 +1,115 @@
+
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2> 线路竞价走势图 </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+    
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                    	
+                        <!-- 自定义搜索区 -->
+                        <div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+                            <form id="frmSearch" role="form" class="smart-form">
+                                <div class="global-search-box">
+                                    <section class="pull-left no-padding pull-width280" >
+                                        <label class="">制单时间</label>
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-calendar"></i>
+                                            <input type="text" class="statistic_date input-sm" id="statistic_date" style="width: 280px;" name="statistic_date" placeholder="" readonly="readonly">
+                                        </label>
+                                    </section>
+                                        <section class="pull-left no-padding pull-width280"  id="showWarehouse">
+                                            <label class="">选择基地</label>
+                                            <label class="input">
+                                                <input type="text" class="select2" id="warehouse_name" name="warehouse_id" style="width: 250px;"/>
+                                            </label>
+                                        </section>
+                                         <section class="pull-left no-padding pull-width120">
+                                        <label class="">运输方式</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="shipment_method" name="shipment_method">
+                                                <option value="整车运输" >整车运输</option>
+                                                <option value="零担运输" >零担运输</option>
+                                                <option value="车皮运输" >车皮运输</option>
+                                                <option value="铁路快件" >铁路快件</option>
+                                                <option value="铁路运输" >铁路运输</option>
+                                                <option value="短转运输" >短转运输</option>
+                                                <option value="航空快件" >航空快件</option>
+                                                <option value="集装箱运输" >集装箱运输</option>
+                                                <option value="水路运输" >水路运输</option>
+                                                <option value="海路运输" >海路运输</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="" style="width: 120px; position: absolute; top: 0px; right: 0px;">
+                                    <a id="btnSearch" class="btn btn-primary  btn-sm" type="button" style="margin-top:16px;"><i class="fa fa-search"></i>查询</a>
+                                </div>
+                                <input type="hidden" name="fromlocation" id="fromlocation" />
+                                <input type="hidden" name="tolocation" id="tolocation" />
+                            </form>
+                        </div>
+                        
+					<div class="row padding-10">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="btn-group" id="fromlocation_list">
+                                 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row padding-10">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="btn-group" id="tolocation_list">
+                                 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="echarts" style="margin: 0 auto;">
+                       <div id="echarts_main" style="width: 80%;height:450px; margin: 0 auto;"></div>
+                    </div>
+    
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                </div>
+                <!-- end widget div -->
+    
+            </div>
+            <!-- end widget -->
+    
+    
+        </article>
+        <!-- WIDGET END -->
+    
+    </div>
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<script type="text/javascript" src="/js/echarts.min.js"></script>
+<!-- Modal REMARK -->
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+    
+    // G7初始化页面 
+    $ips.startup();
+</script>

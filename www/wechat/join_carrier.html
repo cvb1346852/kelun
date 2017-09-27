@@ -1,0 +1,129 @@
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <title>加入承运商</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
+    <link rel="stylesheet" href="./css/wechat.css">
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+</head>
+<body ontouchstart style="background-color:#f0f0f2">
+<div class="weui-row weui-no-gutter who-i-am">
+    <div class = "weui-col-100 character">
+        <h2>加入承运商</h2>
+    </div>
+</div>
+<div class="weui_tab_bd order-list">
+    <div class="weui-col-100 bind-title">
+        <h3>挂靠关系</h3>
+    </div>
+    <div class="tab">
+    </div>
+    <div class="weui-col-100 bind-title">
+        <h3>加入新承运商</h3>
+    </div>
+    <form id="frmSearch" role="form" class="smart-form">
+        <div class="weui_cells weui_cells_form">
+            <input type="text"  id="home-city"  class="weui_input" onclick="searchcarrier();" name="city_carrier" placeholder="请点击两次选择承运商">
+        </div>
+        <div style="margin-top:20px;">
+        </div>
+        <a href="javascript:confirmcarrier();" class="weui_btn weui_btn_primary" >提交申请</a>
+    </form>
+    <div class="weui-infinite-scroll">
+        <div class="infinite-preloader"></div>
+        正在加载
+    </div>
+</div>
+<script type="text/javascript" src="./js/join_carrier.js"></script>
+&lt;!&ndash; <script src="./js/city-picker.js"></script> &ndash;&gt;
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>加入承运商</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+
+<div class="container">
+
+
+    <div class="join-top-area">
+        <p class="normal-tip">请选择需要挂靠的承运商</p>
+        <form name="search_form" id="search_form">
+        <div class="double-select-area">
+                <span class="changeui-input has-select weui-cell_access" style="width:30%;">
+                    <select class="weui-select" name="city">
+                        <option value="0">请选择</option>
+
+                    </select>
+                    <script type="text/template" id="select-tmpl"> <% _.each(pdata,function(item){%> <option value="<%= item.province %>"><%= item.province %></option> <% }); %></script>
+                    <span class="weui-cell__ft"></span>
+                </span>
+
+                <span class="changeui-input has-select weui-cell_access" style="width:70%;">
+                    <select class="weui-select" name="carriername">
+                        <option value="0">请选择</option>
+                    </select>
+                    <script type="text/template" id="select2-tmpl"> <option value="0">请选择</option> <% _.each(citydata.carrierlist,function(item){%> <option value="<%= item.carrier_name %>"><%= item.carrier_name %></option> <% }); %></script>
+                    <span class="weui-cell__ft"></span>
+                </span>
+        </div>
+        </form>
+        <button type="button" class="weui-btn weui-btn_primary btn-blue" onclick="confirmcarrier()">申请挂靠</button>
+    </div>
+
+
+    <div class="history-mission-list bid-car-detail-container join-list-container" style="background:none;">
+    </div>
+        <script type="text/template" id="join-tmpl">
+            <% _.each(jdata,function(item){ %>
+        <div class="changeui-weui-panel" onclick="carrierInfo('?openid=<%= openid%>&carrier_id=<%= item.carrier_id%>&status=<%= item.status%>')">
+            <div class="changeui-list-title"><%= item.carrier_name%><span class="history-mission-item-time"><%= item.province%></span></div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">联系人：</span>
+                <span class="single-right-item item"><%= item.relation_person%></span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">联系电话：</span>
+                <span class="single-right-item item"><%= item.relation_phone%></span>
+            </div>
+
+            <img src="img/<% var is = {'st1':'applying@2x.png','st2':'apply_no@2x.png','st3':'apply_ok@2x.png'}; print(is['st'+item.status]); %>" class="shippers-status-mark-img ">
+        </div>
+
+            <% }); %>
+        </script>
+
+</div>
+
+
+
+<script type="text/javascript" src="./js/join_carrier.js"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,141 @@
+	<div class="row">
+	<div class="col col-sm-6 col-xs-12">
+		<a href="#warehouse/index.html" class="btn btn-default"> &lt; 返回</a>
+	</div>
+</div>
+
+<div class="row"><br /></div>
+
+<div class="well no-padding well-light">
+    <form action="" class="smart-form" novalidate="novalidate" id="frmInfo" method="post">
+	<div id="inbox-content" class="inbox-body">
+		<header>基本信息</header>
+		
+		<fieldset>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red ">编号</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="platform_code" name="platform_code" placeholder="">
+                        </label>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red ">基地名称</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="name" name="name" placeholder="">
+                       </label>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red ">省份</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <select class="form-control" name="ddlProvince" id="ddlProvince" onchange="selectMoreCity(this)">
+                                <option value="">请选择</option>
+                            </select>
+                        </label>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red ">市/区</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <select class="form-control" name="ddlCity" id="ddlCity">
+                                <option value="">请选择</option>
+                            </select>
+                        </label>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red">地址</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="address" name="address" placeholder="">
+                        </label>
+                    </section>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red">联系人</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="person" name="person" placeholder="">
+                        </label>
+                    </section>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red">联系电话</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="phone" name="phone" placeholder="">
+                        </label>
+                    </section>
+                </div>
+            </div>
+
+            <!--<div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red ">仓库类型</label>
+                    <section class="col col-8">
+                        <div class="form-group">
+                            <label class="select">
+                                <select class="input-sm" id="type" name="type">
+                                    <option value="1">基地</option>
+                                    <option value="2">片区</option>
+                                </select> <i></i>
+                            </label>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red ">基地/片区机构</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id='orgcode' name="orgcode" placeholder="" class="input-sm">
+                        </label>
+                    </section>
+                </div>
+            </div>-->
+
+            </fieldset>
+    </div>
+        <footer>
+            <button type="button" class="btn btn-default" onclick="$ips.locatesubsystem('project/warehouse/index.html',false);">取消</button>
+            <button id="btnSubmit" type="button" class="btn btn-primary" onclick="save()">
+                <span><i class="fa fa-fw fa-save"></i></span>保存
+            </button>
+        </footer>
+    </form>
+</div>
+    <script src="js/city.js"></script>
+<script type="text/javascript">
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	pageSetUp();
+	
+	// G7初始化页面 
+	$ips.startup();
+</script>
+
+

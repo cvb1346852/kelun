@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="history">
+
+    <insert id="insertLbs">
+        INSERT INTO `history_point`
+        (`carrier_id`, `truck_source_id`, `carnum`, `phone`, `time`, `lng`, `lat`, `address`, `city`, `province`)
+        VALUES
+        (#carrier_id#, #truck_source_id#, #carnum#, #phone#, #time#, #lng#, #lat#, #address#, #city#, #province#)
+    </insert>
+
+    <select id="getLbs">
+        SELECT * FROM `history_point`
+        WHERE carnum = #carnum#
+        <isNotEmpty prepend="AND" property="create_time">
+            time >= #create_time#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="update_time">
+            time <![CDATA[ <= #update_time# ]]>
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY time DESC
+        </dynamic>
+    </select>
+
+    <select id="getAddress">
+        SELECT address FROM `history_point`
+        WHERE phone = #driver_phone# ORDER BY time DESC
+    </select>
+    <select id="getHistoryMsg">
+        SELECT c.`carrier_name`,DATE_FORMAT(h.`time`,'%Y/%m') as month,CONCAT(DATE_FORMAT(h.`time`,'%Y-%m'),',',c.`carrier_name`) AS date_time,count(*) AS count FROM history_point AS h 
+        LEFT JOIN carrier AS c 
+        ON c.id=h.carrier_id 
+        WHERE h.type=1 
+        <isNotEmpty prepend="AND" property="statistic_date">
+            DATE_FORMAT(h.`time`,'%Y-%m')= #statistic_date#
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY  date_time ORDER BY month DESC
+        </dynamic> 
+    </select>
+    <select id="getcount">
+        SELECT c.`carrier_name`,DATE_FORMAT(h.`time`,'%Y-%m') as month,CONCAT(DATE_FORMAT(h.`time`,'%Y-%m'),',',c.`carrier_name`) AS date_time FROM history_point AS h 
+        LEFT JOIN carrier AS c 
+        ON c.id=h.carrier_id 
+        WHERE h.type=1 
+        <isNotEmpty prepend="AND" property="statistic_date">
+            DATE_FORMAT(h.`time`,'%Y-%m')= #statistic_date#
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY  date_time ORDER BY month DESC
+        </dynamic> 
+    </select>
+    <!-- 导出功能 -->
+    <select id="getHistoryList">
+        SELECT c.`carrier_name`,h.`time`,h.carnum,h.phone,h.address FROM history_point AS h 
+        LEFT JOIN carrier AS c 
+        ON c.id=h.carrier_id 
+        WHERE h.type=1 
+        <isNotEmpty prepend="AND" property="statistic_date">
+            DATE_FORMAT(h.`time`,'%Y-%m')= #statistic_date#
+        </isNotEmpty>
+    </select>
+    <select id="getHistoryList_count">
+        SELECT count(*) FROM history_point AS h 
+        LEFT JOIN carrier AS c 
+        ON c.id=h.carrier_id 
+        WHERE h.type=1 
+        <isNotEmpty prepend="AND" property="statistic_date">
+            DATE_FORMAT(h.`time`,'%Y-%m')= #statistic_date#
+        </isNotEmpty>
+    </select>
+
+    <!--获取某段时间内车辆轨迹数据-->
+    <select id="getHistoryPoint">
+        select h.`lng`,h.`lat`,h.`address`,h.`time`
+        from `history_point` as h
+        where h.`time` >= #from_time# and h.`time` &lt;= #to_time# and h.`carnum` = #carnum#
+        order by h.`time` asc
+    </select>
+
+    <select id="getReport">
+        select o.`order_code`,r.`report_type`,r.`report_desc`,r.`lng`,r.`address`,r.`lat`,r.`create_time`
+        from `report` as r
+        left join `order` as o on o.id=r.order_id
+        where r.shipment_id = #shipmentId#
+    </select>
+</sqlMap>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订车页面</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dialog.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/smartadmin-production.css">
+
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="../js/plugin/select2/select2.min.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+    <div class="bid-car-detail-container waybill-detail-container">
+        <div class="changeui-weui-panel no-pad-weui-panel" id="pickUpInfo_id">
+
+            <div class="changeui-signle-line" style="margin-left:10px; margin-right:10px;"></div>
+            
+            <div id="tblMain">
+            <p class="changeui-list-title" style="margin-bottom:10px;">收货地址</p>
+            
+            </div>
+            
+            <div class="changeui-signle-line" style="margin-left:10px; margin-right:10px;"></div>
+
+            <input type="hidden" name="plat_form_code" id="plat_form_code"/>
+
+            <form id="frmSearch_ok_carrier">
+                    <div class="form-input-item-showSize">
+                        <label style="padding-left: 15px"><span class="vl-m input-before-font">司机手机</span>
+                            <input type="text" class="select2" id="driver_phone"  name="driver_phone" style="width: 170px;"/>
+                        </label>
+                    </div>
+                <!-- <div class="form-input-item-showSize">
+                    <label style="padding-left: 15px"><span class="vl-m input-before-font">司机手机</span>
+                    </label>
+                    <label class="input">
+                        <span class="changeui-input has-select weui-cell_access" style="width:170px;">
+                            <select class="weui-select" name="driver_phone"  id="driver_phone" >
+                                <option value="" selected id="first">请选择手机号</option>
+                            </select>
+                            <span class="weui-cell__ft"></span>
+                        </span>
+                    </label>
+                </div> -->
+                <div class="form-input-item-showSize">
+                    <label style="padding-left: 15px"><span class="vl-m input-before-font">司机姓名</span>
+                        <input type="text" class="changeui-input" id="driver_name"  name="driver_name" style="width: 170px;" readonly/>
+                    </label>
+                </div>
+                
+                <div class="form-input-item-showSize">
+                    <label style="padding-left: 15px"><span class="vl-m input-before-font">身份证号</span>
+                        <input type="text" class="changeui-input" id="id_card"  name="id_card" style="width: 170px;" readonly/>
+                    </label>
+                </div>
+                <div class="form-input-item-showSize">
+                    <label style="padding-left: 15px"><span class="vl-m input-before-font">车&nbsp;牌&nbsp;&nbsp;号</span>
+                        <input type="text" class="changeui-input" id="carrier_carnum"  name="carrier_carnum" style="width: 170px;"/>
+                    </label>
+                </div>
+            </form>
+            <div style="margin-left: 30px">
+                <a href="javascript:;"  onclick="confirmOk()" id="confirmOk" class="weui-btn vl-m weui-btn_primary changeui-weui-btn_primary" style="   width:80%; margin-left: 6px; display:inline-block;">派车</a>
+                <a href="javascript:;" id="gotoAddtruck" onclick="gotoAddtruck()" class="weui-btn vl-m weui-btn_default" style="width:80%; margin-left: 6px; display:inline-block;display: none;">添加车辆</a>
+            </div>
+
+            <input type="hidden" value="" id="scanResult">
+            <input type="hidden" value="" id="lng">
+            <input type="hidden" value="" id="lat">
+            <input type="hidden" value="" id="address">
+            <input type="hidden" value="" id="shipment_id">
+            <input type="hidden" value="" id="carnum">
+            <input type="hidden" value="" id="truck_source_id">
+            <input type="hidden" id="scan_type_id" >
+            <input type="hidden" value="" id="openid" >
+        </div>
+    </div>
+</div>
+<div class="js_dialog" id="androidDialog2" style="display:none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd dia-verify-detail">
+            <strong class="weui-dialog__title">商品详情</strong><br/>
+            <div class="weui-flex content">
+                <span id="order_detail"></span>
+            </div>
+
+        </div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="closeDiv()">知道了</a>
+        </div>
+    </div>
+</div>
+<div id="full" class='weui-popup-container'>
+    <div class="weui-popup-modal">
+        <div class="weui_msg">
+            <div class="weui_icon_area"><i class="weui_icon_msg"><img id="result_image" src="../jquery_weui/images/smiling_face.png"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title" id="check_result"></h2>
+                <p class="weui_msg_desc" id="check_result_desc"></p>
+            </div>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary close-popup">关闭</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="./js/holdcar.js"></script>
+</body>
+</html>
+

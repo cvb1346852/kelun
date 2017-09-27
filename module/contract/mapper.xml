@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="contract">
+
+	<!-- QUERIES -->
+	<insert id="insert">
+		INSERT INTO `contract` (`id`, `code`, `type`, `trans_type`, `price_type`, `pay_type`, `rate`, `bill_of_exchange`, `start_time`, `end_time`,`warehouse_id`,`carrier_id`, `file`, `phone`, `create_time`, `update_time`, `last_update`)
+                          VALUES (#id#, #code#, #type#, #trans_type#, #price_type#, #pay_type#, #rate#, #bill_of_exchange#, #start_time#, #end_time#,#warehouse_id#,#carrier_id#   ,#file#, #phone#,   NOW(),   NOW(),    #last_update#)
+	</insert>
+
+
+    <update id="update">
+        UPDATE contract SET
+        `code` = #code#,
+        `type` = #type#,
+        `trans_type` = #trans_type#,
+        `price_type` = #price_type#,
+        `pay_type` = #pay_type#,
+        `rate` = #rate#,
+        `bill_of_exchange` = #bill_of_exchange#,
+        `start_time` = #start_time#,
+        `end_time` = #end_time#,
+        `warehouse_id` = #warehouse_id#,
+        `carrier_id` = #carrier_id#,
+        `file` = #file#,
+        `phone` = #phone#,
+        `deleted` = #deleted#,
+        `last_update` = #last_update#,
+        `update_time` = NOW()
+        WHERE `id`=#id#;
+    </update>
+
+    <update id="del">
+        UPDATE contract SET
+        `deleted` = 1,
+        `last_update` = #last_update#,
+        `update_time` = NOW()
+        WHERE `id`=#id#;
+    </update>
+
+	<select id="selectPage">
+		SELECT  `id`, `code`, `type`, `trans_type`, `price_type`, `pay_type`, `rate`, `bill_of_exchange`, `start_time`, `end_time`,`warehouse_id`,`carrier_id`, `file`, `phone`, `create_time`, `update_time`, `last_update`
+        FROM `contract`  WHERE `deleted` = 0 AND `warehouse_id` = #warehouse_id#
+        <include refid="selectPage_where"/>
+        <isNotEmpty property="sortColumns">
+            ORDER BY  $sortColumns$
+        </isNotEmpty>
+	</select>
+
+    <select id="selectPage_count">
+        SELECT count(*) FROM  `contract`  WHERE `deleted`=0 AND `warehouse_id` = #warehouse_id#
+        <include refid="selectPage_where"/>
+    </select>
+
+    <sql id="selectPage_where">
+        <isNotEmpty prepend=" AND" property="code">
+            `code`   like '%$code$%'
+        </isNotEmpty>
+    </sql>
+
+
+    <select id="getById">
+        SELECT  `id`, `code`, `type`, `trans_type`, `price_type`, `pay_type`, `rate`, `bill_of_exchange`,  `start_time`, `end_time`,`warehouse_id`,`carrier_id`, `file`, `phone`, `create_time`, `update_time`, `last_update`
+        FROM `contract`  WHERE `id` = #id#
+    </select>
+
+
+
+    <select id="selectWarehouse">
+        SELECT  `id` , `name`   FROM  warehouse  WHERE  1 = 1
+        <iterate prepend="   AND  " property="idIN" open=" id  IN (" close=")" conjunction=",">
+            #idIN[]#
+        </iterate>
+    </select>
+
+    <select id="selectCarrier">
+        SELECT  `id` , `carrier_name`   FROM  carrier  WHERE  1 = 1
+        <iterate prepend="   AND  " property="idIN" open=" id  IN (" close=")" conjunction=",">
+            #idIN[]#
+        </iterate>
+    </select>
+
+    <select id="getCarrierByName">
+        SELECT `id`,`carrier_name`  FROM   `carrier`  WHERE `deleted`=0 AND `carrier_name` = #name#  LIMIT 1
+    </select>
+
+    <select id="getByGroup">
+        SELECT  b.`id` , b.`carrier_name` as name   FROM  carrier_warehouse a LEFT JOIN carrier b ON  a.`carrier_id` = b.`id`  WHERE  a.`warehouse_id`   = #warehouse_id# AND b.check_status = 1
+        <isNotEmpty prepend=" AND" property="name">
+            b.`carrier_name`   like '%$name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="limit">
+            limit 10
+        </isNotEmpty>
+    </select>
+
+    <select id="getContractCode">
+        SELECT `code` FROM `contract`
+        WHERE `deleted` = 0 
+            AND `warehouse_id` = #warehouse_id#
+            AND `code` LIKE '%$code$%'
+        GROUP BY `code` 
+    </select>
+
+    <!--获取到期合同列表-->
+    <select id="getContract">
+        select c.`code`,w.`phone`,c.`end_time`
+        from `contract` as c
+        left join `warehouse`  as w on w.`id` = c.`warehouse_id`
+        where c.`deleted` = 0 and c.`end_time` = #date#
+    </select>
+
+</sqlMap>

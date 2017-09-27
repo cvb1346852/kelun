@@ -1,0 +1,287 @@
+<section id="widget-grid">
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2> 运单管理</h2>
+                </header>
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <div class="widget-body no-padding">
+                        <div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+                            <form id="frmSearch" role="form" class="smart-form">
+                                <div class="global-search-box">
+                                    <section class="pull-left no-padding pull-width280" >
+                                        <label class="">创建时间段</label>
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-calendar"></i>
+                                            <input type="text" class="statistic_date input-sm" id="statistic_date" style="width: 280px;" name="statistic_date" placeholder="" readonly="readonly">
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">运单号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="shipment_code" name="shipment_code"/>
+                                        </label>
+                                    </section>
+                                    
+                                    <section class="pull-left no-padding pull-width120">
+                                        <label class="">运输方式</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="shipment_method" name="shipment_method">
+                                                <option value="" selected>-全部-</option>
+                                                <option value="整车运输" >整车运输</option>
+                                                <option value="零担运输" >零担运输</option>
+                                                <option value="车皮运输" >车皮运输</option>
+                                                <option value="铁路快件" >铁路快件</option>
+                                                <option value="铁路运输" >铁路运输</option>
+                                                <option value="短转运输" >短转运输</option>
+                                                <option value="航空快件" >航空快件</option>
+                                                <option value="集装箱运输" >集装箱运输</option>
+                                                <option value="水路运输" >水路运输</option>
+                                                <option value="海路运输" >海路运输</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <!--<section class="pull-left no-padding pull-width190">
+                                    <label class="">出发地</label>
+                                        <label class="input">
+                                            <select class="input-sm" name="ddlProvince"  id="ddlProvince" onchange="selectMoreCity(this)">
+                                                <option value="" selected>-全部-</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width50">
+                                    <label class=""></label>
+                                        <label class="input" >
+                                            <select class="input-sm" name="ddlCity" id="ddlCity">
+                                                <option value="" selected>-全部-</option>
+                                            </select>
+                                        </label> 
+                                    </section>
+                                    <section class="pull-left no-padding pull-width190">
+                                    <label class="">目的地</label>
+                                        <label class="input">
+                                            <select class="input-sm" name="toloProvince"  id="toloProvince" onchange="selectMoreCity1(this)">
+                                                <option value="" selected>-全部-</option>
+                                            </select> 
+                                        </label> 
+                                    </section>
+                                    <section class="pull-left no-padding pull-width50">
+                                    <label class=""></label>
+                                        <label class="input" >
+                                            <select class="input-sm" name="toloCity" id="toloCity">
+                                                <option value="" selected>-全部-</option>
+                                            </select>
+                                        </label> 
+                                    </section>-->
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">出发站</label>
+                                        <label class="input">
+                                            <input type="text"  class="input-sm" name="fromlocation" id="fromlocation"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">目的站</label>
+                                        <label class="input">
+                                            <input type="text"  class="input-sm"   name="tolocation"  id="tolocation"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">司机</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="driver" name="driver"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">车牌号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="carnum" name="carnum"/>
+                                        </label>
+                                    </section>
+                                    <div class="global-search-btn" >
+                                        <a id="btnSearch" class="btn btn-primary  btn-sm" type="button"><i class="fa fa-search"></i> 查询</a>
+                                        <a id="btnMoreSearch" class="btn btn-sm btn-link" type="button" state="open">更多条件</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row margin-top-10 margin-bottom-10 dispatch-field" style="margin:0">
+                            <!-- 左侧按钮 -->
+                            <div class="col-xs-8 col-sm-8 operating-button">
+                                <!-- <div class="btn-group"><a href="javascript:void(0)" id="ordersInfo-button" class="btn btn-default btn-only-one" data-toggle="modal" data-target="#ordersInfo">查看</a></div> -->
+                                <div class="btn-group"><a href="javascript:void(0)" id="dispatch-button" class="btn btn-default btn-only-one" data-toggle="modal"  >订车</a></div>
+                                <!-- <div class="btn-group"><a href="javascript:void(0)" id="playback-button" class="btn btn-default btn-only-one" data-toggle="modal" data-target="#ordersInfo">记账</a></div> -->
+                                <a href="javascript:void(0)" id="lbs-button" class="btn btn-default btn-only-one" data-toggle="modal" >LBS定位</a>
+                                <div class="btn-group"><a href="javascript:void(0);" class="btn btn-default "  data-toggle="modal" id="export">导出</a></div>
+                            </div>
+                        </div>
+                        <table id="shipmentTbl" class="table table-striped table-bordered table-hover">
+                        </table>
+                        <!-- 转包上报 -->
+                        <div class="modal fade" id="reportInfo" role="dialog"
+                       aria-labelledby="reportInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="reportInfoLabel">
+                                           转包上报
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">订单号</h3>
+                                            <span id="orderid" class="label-row-input" style="display:inline-block;text-align:center"></span>
+                                            <input type="hidden" id="soid" />
+                                        </label>
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">时间</h3>
+                                            <label class="input">
+                                                <input type="text" class="statistic_date input-sm" id="reportTime" style="width: 280px;" name="reportTime" placeholder="" readonly="readonly">
+                                            </label>
+                                        </label>
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">类型</h3>
+                                            <label class="input">
+                                                <input type="text" class="statistic_date input-sm" id="type" style="width: 280px;" name="type" placeholder="" readonly="readonly" value="转包">
+                                            </label>
+                                        </label>
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">地点</h3>
+                                            <input id="position" type="text"  class="label-row-input"/>
+                                        </label>
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">车牌号</h3>
+                                            <input id="reportCarnum" type="text"  class="label-row-input"/>
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                        <button type="button" class="btn btn-primary reported">
+                                           上报
+                                        </button>
+                                     </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+                        <!-- 查看订单 -->
+                        <div class="modal fade" id="ordersInfo" tabindex="-1" role="dialog"
+                       aria-labelledby="ordersInfoLabel" aria-hidden="true" style="text-align:center;">
+                            <div class="modal-dialog" style="display: inline-block;width:auto;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="ordersInfoLabel" style="text-align:left;">
+                                           订单详情
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body ordersInfo-table">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                     </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+                        <!-- 订车 -->
+                        <div class="modal fade" id="dispatch_car_table"   role="dialog"
+                             aria-labelledby="ordersInfoLabel" aria-hidden="true" >
+                            <div class="modal-dialog" style="width:500px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title">
+                                            订车
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table  class="table table-striped table-bordered table-hover has-tickbox dataTable"  >
+                                            <tr role="row" >
+                                                <td colspan="2" id="order_detail"> </td>
+                                            </tr>
+                                            <tr role="row">
+                                                <td  tabindex="0" rowspan="1" colspan="1"  style="width: 164px; white-space: nowrap;">备注：</td>
+                                                <td  id="remark"></td>
+                                            </tr>
+                                            <tr role="row">
+                                                <td>司机手机：</td>
+                                                <td><label class="select"><input type="text"  style="width:100%;height:auto!important;"  id="driver_phone" name="driver_phone"/></label>
+                                                    <button id="truck_source" type="button" class="btn btn-primary">
+                                                        <span><i class="fa fa-fw fa-save"  ></i></span>添加
+                                                    </button></td>
+                                            </tr>
+
+                                            <tr role="row">
+                                                <td>司机姓名：</td>
+                                                <td id="driver_name" ></td>
+                                            </tr>
+
+                                            <tr role="row">
+                                                <td>驾驶证：</td>
+                                                <td id="drive_license"></td>
+                                            </tr>
+
+                                            <tr role="row">
+                                                <td>车牌号：</td>
+                                                <td><label class="input"><input type="text"  id="car_num"  value="" ></label></td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" id="shipmentid" value="">
+                                        <input type="hidden" id="truck_source_id" value="">
+                                        <button id="dispatch_car_button" type="button" class="btn btn-primary">
+                                            <span><i class="fa fa-fw fa-save"  ></i></span>确定
+                                        </button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+                        </div> 
+                        <!--                               -->
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+    </div>
+</section>
+
+
+    <script src="js/city.js"></script>
+    <script src="js/city1.js"></script>
+<script src="js/plugin/date/moment.js"></script>
+<script src="js/plugin/date/daterangepicker.js"></script>
+<script src="js/plugin/jquery.PrintArea.js"></script>
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+    // G7初始化页面
+    $ips.startup();
+</script>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>转包上报</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dialog.css">
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<header class='demos-header'>
+    <h1 class="demos-title">&nbsp;</h1>
+</header>
+<div class="weui_cells weui_cells_form">
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label">订单号</label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" name="order_code" id="order_code" type="text" placeholder="请点击右侧扫码按钮">
+        </div>
+        <div class="weui_cell_ft" id="scan_button"><img src="../jquery_weui/images/icon_scan_small.png"></div>
+    </div>
+
+    <!--<div class="weui_cell weui_cell_select weui_select_after">
+        <div class="weui_cell_hd"><label class="weui_label">类型</label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <select class="weui_select" name="type" id="type">
+                <option value="1">转包</option>
+                <option value="2">承包</option>
+            </select>
+        </div>
+    </div>-->
+    <div class="weui_cell">
+        <input name="address" id="address" value="" type="hidden" >
+        <input name="lng" id="lng" value="" type="hidden" >
+        <input name="lat" id="lat" value="" type="hidden" >
+        <input name="time" id="time" value="" type="hidden" >
+    </div>
+    <div class="weui_btn_area">
+        <a class="weui-btn weui-btn_primary changeui-weui-btn_primary" href="javascript:" id="submit">上报</a>
+    </div>
+    <div class="js_dialog" id="notice" style="display:none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd dia-verify-detail">
+                <strong class="weui-dialog__title">提示</strong><br/>
+                <div class="weui-flex content">
+                    <span id="notice_msg"></span>
+                </div>
+
+            </div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="/wechat/js/subcontract.js"></script>

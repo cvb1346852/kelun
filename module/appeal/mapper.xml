@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="appeal">
+	<!-- QUERIES -->
+	<insert id="insert">
+		INSERT INTO `carrier` (`id`, `carrier_name`, `carrier_name_s`, `province`,`city`, `representative`, `property`, `capital`, `carrier_date`, `societycode`, `organizing_code`, `roadpicture`, `bankpicture`, `taxpicture`, `orgcodeprove`, `carrier_introduce`, `safe`, `travelService`, `otherService`, `carpercent`, `carrierarea`, `strengthline`, `selfcar`, `selfcarprove`, `othercar`,`relation_person`,`relation_phone`,`relation_fax`,`relation_email`,`relation_address`,`relation_post`,`create_time`,`update_time`,`last_update`,`is_invoice`,`invoice_rate`,`trans_type`,`cooperate_type`)
+		                    VALUES (#id#, #carrier_name#, #carrier_name_s#, #province#,#city#,#representative#,#property#,#capital#,#carrier_date#, #societycode#,#organizing_code#, #roadpicture#, #bankpicture#, #taxpicture#, #orgcodeprove#, #carrier_introduce#, #safe#,#travelService#, #otherService#, #carpercent#, #carrierarea#, #strengthline#, #selfcar#, #selfcarprove#, #othercar#, #relation_person#,#relation_phone#,#relation_fax#,#relation_email#, #relation_address#,#relation_post#,  NOW(),        NOW(),     #last_update#,#is_invoice#,#invoice_rate#,#trans_type#,#cooperate_type#)
+	</insert>
+
+    <update id="update">
+        UPDATE complain SET update_time = #date#
+        <isNotEmpty prepend="," property="result">
+            result = $result$
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="responsible_type">
+            responsible_type = $responsible_type$
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="responsible_name">
+            responsible_name = #responsible_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="responsible_carnum">
+            responsible_carnum = #responsible_carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="remark">
+            remark = #remark#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="deleted">
+            deleted = $deleted$
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id`= $appeal_id$
+        </dynamic>
+    </update>
+    <update id="deletedAppeal">
+        update `complain` set deleted =1,update_time = #date#
+        <iterate prepend=" where" property="ids" open=" id IN (" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </update>
+	<select id="searchList">
+		SELECT  *
+        FROM `complain` c
+        WHERE c.`deleted`=0
+        <include refid="searchList_where"/>
+        <isNotEmpty property="sortColumns">
+            ORDER BY c.$sortColumns$
+        </isNotEmpty>
+	</select>
+
+    <select id="searchList_count">
+        SELECT count(*)
+        FROM `complain` c
+        WHERE c.`deleted`=0
+        <include refid="searchList_where"/>
+    </select>
+
+    <sql id="searchList_where">
+        <isNotEmpty prepend="AND" property="create_time">
+            unix_timestamp(c.create_time) between unix_timestamp(#fromtime#) and  unix_timestamp(#totime#)
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="result">
+            c.`result`  = #result#
+        </isNotEmpty>
+    </sql>
+    <!-- 获取当前角色投诉列表 -->
+    <select id="getAppeallList">
+        SELECT  *
+        FROM `complain` WHERE connect_phone=#phone# AND deleted=0 ORDER BY create_time DESC
+    </select>
+
+    <select id="getResultName">
+        SELECT $filed$
+        FROM  $chart_name$
+        WHERE `deleted`=0
+        <isNotEmpty prepend="AND" property="type_warehouse">
+            `type`  = 1
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carnum">
+            `carnum` LIKE  '%$carnum$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_name">
+            `carrier_name` LIKE  '%$carrier_name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="name">
+            `name` LIKE  '%$name$%'
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="carrier_status">
+            `check_status` = 1
+        </isNotEmpty>
+
+    </select>
+
+
+    <select id="getAppeallList_count">
+        SELECT  count(*)
+        FROM `complain` WHERE connect_phone=#phone# AND deleted=0
+    </select>
+    <insert id="saveAppeal">
+        INSERT INTO `complain` (`connect_phone`,`user_phone`,`content`,`create_time`) 
+        VALUES (#phone#,#user_phone#,#content#,#create_time#)
+    </insert>
+</sqlMap>

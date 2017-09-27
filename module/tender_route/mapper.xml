@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="tender_route">
+	<!-- 获取评标线路列表 -->
+    <select id="selectPage">
+        SELECT * FROM `tender_route`
+        <include refid="search_where"></include>
+    </select>
+
+    <select id="selectPage_count">
+        SELECT count(*) FROM `tender_route`
+        <include refid="search_where"></include>
+    </select>
+
+    <sql id="search_where">
+        WHERE 1=1
+        <isNotEmpty prepend=" AND" property="from_location">
+            `from_location` like '%$from_location$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="to_location">
+            `to_location` like '%$to_location$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="months">
+            `months` = #months#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="ship_method">
+            `ship_method` = #ship_method#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carriage_type">
+            `carriage_type` = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="density">
+            `density` = #density#
+        </isNotEmpty>
+    </sql>
+
+    <!-- 获取评标线路列表 -->
+    <select id="gettemp">
+        SELECT * FROM `tender_route`
+    </select>
+    <select id="gettemp_count">
+        SELECT count(*) FROM `tender_route`
+    </select>
+    <!-- 通过路线来获取评标线路id以验证数据是否重复 -->
+    <select id="routeCheck">
+        SELECT id FROM `tender_route`
+        <include refid="search_where"></include>
+    </select>
+    <update id="update">
+        UPDATE `tender_route` SET from_location=#from_location#,to_location=#to_location#,price=#price#,over_rate=#over_rate#,create_time=#create_time#
+        <isNotEmpty prepend="," property="months">
+            `months` = #months#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="ship_method">
+            `ship_method` = #ship_method#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="carriage_type">
+            `carriage_type` = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="density">
+            `density` = #density#
+        </isNotEmpty>
+        <dynamic>
+            WHERE id=#id#
+        </dynamic>
+    </update>
+    <insert id="insert">
+        INSERT INTO `tender_route` 
+        (id,from_location,to_location,price,over_rate,create_time,months,ship_method,carriage_type,density)
+        VALUES(#id#,#from_location#,#to_location#,#price#,#over_rate#,#create_time#,#months#,#ship_method#,#carriage_type#,#density#)
+    </insert>
+     <!-- 设置超额标准 -->
+    <update id="setRate">
+        UPDATE `tender_route` SET over_rate=#over_rate# 
+        WHERE id=#id#
+    </update>
+     <!-- 删除线路 -->
+    <delete id="del">
+        DELETE FROM `tender_route` 
+        WHERE id=#id#
+    </delete>
+</sqlMap>

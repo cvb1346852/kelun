@@ -1,0 +1,283 @@
+<style type="text/css">
+    html, body {
+        height: 100%;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .reset-box-sizing,.reset-box-sizing *,.reset-box-sizing *:before,.reset-box-sizing *:after {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+
+    .smart-form section {
+        padding-right: 10px;
+    }
+
+    .split-pane.fixed-left > .split-pane-component {
+        overflow: hidden;
+    }
+
+    .dt-wrapper {
+        max-height: inherit;
+        overflow: auto;
+    }
+
+    div.decoration {
+        position: relative;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        background: white;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+    }
+
+    #dt_basic tbody tr {
+        cursor: crosshair;
+    }
+
+    #mapDiv {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        background: #CEDDF2;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    #rightToggleBtn {
+        position: absolute;
+        top: 0;
+        left: 1px;
+        width: 14px;
+        height: 64px;
+        background: #fff;
+        border: 1px solid #fff;
+        border-right: none;
+        line-height: 64px;
+        z-index: 10
+    }
+
+    .jarviswidget-color-blueLight .nav-tabs li:not(.active) a {
+        color: #fff !important;
+    }
+
+    .jarviswidget-color-blueLight .nav-tabs li:hover a {
+        color: #000 !important;
+    }
+
+    #mapToolDiv {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+    }
+
+    #navigation_result_wrapper {
+        position: absolute;
+        right: 0;
+        top: 50px;
+        padding-left: 15px;
+        min-width: 26px;
+        max-width: 30%;
+        min-height: 64px;
+        max-height: 90%;
+        overflow-y: auto;
+    }
+
+    #navigation_result {
+        width: 100%;
+        height: 100%;
+    }
+
+    #navigation_result .navtrans-view a {
+        display: none;
+    }
+
+    #mapview_searchbtn {
+        margin-bottom: 5px;
+    }
+
+    #infoWndPano .panoInfoBoxTitleBg, #infoWndPano .panoInfoBoxTitleContent{
+        display: none;
+    }
+
+    #data_table_block th {
+        text-align: center;
+    }
+
+    #dt_basic tr td {
+        word-wrap: break-word;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-indent: 0px;
+        line-height: 25px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    #map_wrapper {
+        position: absolute;
+        top: 1px;
+        bottom: 1px;
+        left: 0;
+        right: 0;
+    }
+
+    #dt_basic, #dt_basic tbody {
+        width: 100% !important;
+    }
+
+    #dt_basic, #data_table_wrapper .dataTable{
+        table-layout: fixed;
+    }
+
+    #data_table_wrapper .dt-bottom-row {
+        display: none;
+    }
+
+    #data_table_block {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        /*height: 180px;*/
+        background: #FFF;
+        z-index: 12;
+    }
+
+    #table_opt_wrapper {
+        line-height: 30px;
+        color: #fff;
+    }
+
+    .table-title {
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 14px;
+        font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #data_table_toggle {
+        float: right;
+        display: inline-block;
+        font-size: 16px;
+        padding: 7px;
+        cursor: pointer;
+    }
+
+    #network_count {
+        display: inline-block;
+        border-radius: 10px;
+        background: #db4a67;
+        padding: 0px 6px;
+        line-height: 18px;
+    }
+
+    .dataTables_scrollHead,
+    .dataTables_scrollHeadInner,
+    .dataTables_scrollHeadInner .dataTable,
+    .dataTables_scrollBody,
+    .dataTables_scrollBody .dataTable {
+        width: 100% !important;
+    }
+
+    /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px
+    }
+    /*定义滑块 内阴影+圆角*/
+    ::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+    }
+    /*定义滚动条轨道 内阴影+圆角*/
+    ::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+        border-radius: 5px;
+        background-color: #F5F5F5;
+        border: 1px solid #ccc;
+    }
+
+    #service_form {
+        margin-bottom: -2px;
+        margin-top: 3px;
+    }
+
+    .smart-form .input input, .smart-form .select select, .smart-form .textarea textarea {
+        height: 30px;
+    }
+
+    .awsome-select {
+        display: block;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 30px;
+        line-height: 30px;
+        outline: 0;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 0px;
+        background: #fff;
+        font: 13px/16px 'Microsoft YaHei',微软雅黑,Helvetica,Arial,sans-serif;
+        color: #404040;
+    }
+
+    #search_selection {
+       width: 125px;
+    }
+</style>
+<section id="widget-grid">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueLight no-margin" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2> LBS回放 </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body no-padding" id="mapDataBody" style="height:600px">
+                        <div id="map_wrapper">
+                            <div class="reset-box-sizing" id="mapDiv"></div>
+
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+    </div>
+    <!-- end row -->
+</section>
+<!-- end widget grid -->
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    sendMessageToGateway({adjustIframe:false});
+    pageSetUp();
+    // G7初始化页面
+    $ips.startup();
+</script>
+

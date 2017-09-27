@@ -1,0 +1,211 @@
+<section id="widget-grid" class="">
+	<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2>  评标线路管理 </h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+	
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<!-- 自定义搜索区 -->
+						<div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+							<form id="frmSearch" role="form" class="smart-form">
+								<div style="margin-left:10px">
+                                    <div class="row">
+                                        <section class="pull-left  col pull-width50" >
+                                            <label class="">起始站点</label>
+                                            <label class="input">
+                                                <input type="text" class="input" id="from_location" name="from_location"/>
+                                            </label>
+                                        </section>
+                                        <section class="pull-left  col pull-width50" >
+                                            <label class="">到达站点</label>
+                                            <label class="input">
+                                                <input type="text" class="input" id="to_location" name="to_location"/>
+                                            </label>
+                                        </section>
+                                        <section class="pull-left col pull-width120">
+                                            <label class="">月份</label>
+                                            <label class="select">
+                                                <select class="input-sm" name="months">
+                                                    <option value="" selected>-全部-</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                        <section class="pull-left col pull-width120">
+                                            <label class="">运输类型</label>
+                                            <label class="select">
+                                                <select class="input-sm" name="ship_method">
+                                                    <option value="" selected>-全部-</option>
+                                                    <option value="整车运输">整车运输</option>
+                                                    <option value="零担运输">零担运输</option>
+                                                </select>
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                        <section class="pull-left col pull-width180" >
+                                            <label class="">厢型</label>
+                                            <label class="input">
+                                                <input type="text" class="select2" id="carriage_type" name="carriage_type"/>
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+								<div class="" style="width: 120px; position: absolute; top: 0px; right: 0px;">
+                                    <a id="btnSearch" class="btn btn-primary  btn-sm" type="button" style="margin-top:16px;">搜索</a>
+							    </div>
+							</form>
+						</div>
+						
+					  <div class="row padding-10">
+					  		<!-- 左侧按钮 -->
+							<div class="col-xs-10 col-sm-10">
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)"  id="simport"  class="btn btn-default" data-toggle="modal" data-target="#selftruck_modal">导入</a>
+                                    <a href="javascript:void(0);" class="btn btn-default"  id="export">导出</a>
+                                </div>
+                                
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)"  id="del"  onclick="del()" class="btn btn-default">删除</a>
+                                </div>
+                                <!--<div class="btn-group">
+                                    <a href="javascript:void(0)"  id="exchange" onclick="exChange()" class="btn btn-default" >设置超额标准</a>
+                                </div>-->
+							</div>
+						</div>
+						<table id="tblMain" class="table table-striped table-bordered table-hover has-tickbox">
+						</table>
+	
+					</div>
+					<!-- end widget content -->
+	
+				</div>
+				<!-- end widget div -->
+	
+			</div>
+			<!-- end widget -->
+	
+	
+		</article>
+		<!-- WIDGET END -->
+	
+	</div>
+	<!-- end row -->
+
+</section>
+
+
+<div class="modal fade" id="remarkListModal" role="dialog" aria-labelledby="myModalLabels" aria-hidden="falde">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 300px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabels">设置超额标准</h4>
+            </div>
+            <div class="modal-body terms-body"  id="">
+                    <div class="row">
+                        <div id="set"></div>
+                        <section class="col col-8">
+                                    <label class="col col-3 text-align-left" langlanguage="selftruckattach">价格超额比例</label>
+                        </section>
+                        <section class="" style="width:100%;height:auto!important;">
+                            <label class="input" >
+                                <input type="text" id="over_rate" name="over_rate">%
+                            </label>
+                        </section>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="change()" class="btn btn-default" data-dismiss="modal">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 导入自有车辆 -->
+
+<!-- 导入挂靠车辆 -->
+<div class="modal fade" id="affiliated_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" langlanguage="uploadFile">导入挂靠车辆</h4>
+            </div>
+            <div class="modal-body" style="padding: 20px 40px;">
+                <form class="smart-form" role="form" id="upload" method="post" enctype="multipart/form-data">
+                    <div class="row padding-10">
+                        <div class="col-xs-10 col-sm-10 padding-10">
+                            <div class="btn-group">
+                                <a href="javascript:void(0)" class="export btn btn-default padding-5">下载模板</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col col-3 text-align-right" langlanguage="affiliatedattach">请选择要导入的文件(支持xlsx格式)</label>
+                        <section class="col col-8">
+                            <label for="file" class="input input-file ">
+                                <input type="file" id="affiliatedfile" name="file" />
+                            </label>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <label class="col col-10 text-align-left">重复数据：</label>
+                        <label class="col col-10 text-align-left" style="margin-top:5px;">跳过&emsp;<input type="radio" name="affiliatedinsert" value="jump" checked="checked" style="position:absolute;"></label>
+                        <label class="col col-10 text-align-left" style="margin-top:5px;">覆盖&emsp;<input type="radio" name="affiliatedinsert" value="cover" style="position:absolute;"></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default" data-dismiss="modal" langlanguage="cancel">
+                    取消
+                </button>
+                <button type="submit" class="btn btn-primary btn-sm" id="saveaffiliated" langlanguage="confirm">
+                    <span class="glyphicon glyphicon-floppy-disk"></span> 确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/plugin/date/moment.js"></script>
+<script src="js/plugin/date/daterangepicker.js"></script>
+<script src="js/plugin/jquery.PrintArea.js"></script>
+
+<script type="text/javascript">
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	pageSetUp();
+	
+	// G7初始化页面 
+	$ips.startup();
+</script>

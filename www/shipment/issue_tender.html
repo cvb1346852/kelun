@@ -1,0 +1,279 @@
+
+<div class="row"><br /></div>
+
+<div class="well no-padding well-light">
+    <form action="" class="smart-form" novalidate="novalidate" id="frmInfo" method="post">
+        <div id="inbox-content" class="inbox-body">
+                <header>
+                    <span>发标方式</span>
+                    <icon class="fieldset-tag glyphicon pull-right" ></icon>
+                </header>
+                <fieldset>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-red ">运输方式</label>
+                            <label class="col col-2 " style="margin-top:5px;" id="trans_type" ></label>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-6 col-md-6" id="cooperate_type">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-red ">招标方式</label>
+                            <section class="col col-8" >
+                                    <label class="col-10 text-align-left" style="margin-top:5px;">
+                                        <input type="radio"  name="cooperate_type" value="1" checked="checked" style="position:absolute;margin-top:5px;" >&emsp;竞价&emsp;
+                                    </label>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6" style="display: none;" id="price">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-red ">一口价</label>
+                            <section class="col col-8">
+                                <label class="input">
+                                    <input type="text"  name="price" >
+                                </label>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6" id="price_type">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-red ">报价方式</label>
+                            <section class="col col-8">
+                                <label class="col-10 text-align-left" style="margin-top:5px;"><input type="radio" name="price_type" value="2" checked="checked" style="position:absolute;">&emsp;每吨报价&emsp;<input type="radio" name="price_type" value="1" style="position:absolute;margin-top:5px;">&emsp;整车报价&emsp;</label>
+                            </section>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 ">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-black">车长要求</label>
+                            <section class="col col-3">
+                                <label class="select">
+                                    <select id="car_length" name="car_length"  class="label-row-input">
+                                        <option></option>
+                                        <option>4.2</option>
+                                        <option>4.3</option>
+                                        <option>4.8</option>
+                                        <option>5</option>
+                                        <option>5.2</option>
+                                        <option>5.8</option>
+                                        <option>6</option>
+                                        <option>6.15</option>
+                                        <option>6.2</option>
+                                        <option>6.8</option>
+                                        <option>7</option>
+                                        <option>7.2</option>
+                                        <option>7.6</option>
+                                        <option>7.7</option>
+                                        <option>8</option>
+                                        <option>8.2</option>
+                                        <option>8.6</option>
+                                        <option>8.8</option>
+                                        <option>9.6</option>
+                                        <option>10</option>
+                                        <option>10.5</option>
+                                        <option>10.8</option>
+                                        <option>12</option>
+                                        <option>12.5</option>
+                                        <option>13</option>
+                                        <option>13.5</option>
+                                        <option>14</option>
+                                        <option>14.6</option>
+                                        <option>15</option>
+                                        <option>16</option>
+                                        <option>16.4</option>
+                                        <option>16.5</option>
+                                        <option>17</option>
+                                        <option>17.2</option>
+                                        <option>17.3</option>
+                                        <option>17.4</option>
+                                        <option>17.5</option>
+                                        <option>17.6</option>
+                                        <option>17.8</option>
+                                        <option>18</option>
+                                        <option>18.5</option>
+                                        <option>19</option>
+                                        <option>19.5</option>
+                                        <option>20</option>
+                                        <option>20.5</option>
+                                        <option>21</option>
+                                        <option>21.5</option>
+                                        <option>22</option>
+                                        <option>30</option>
+                                    </select>
+
+                                </label>
+                            </section>
+                            <label class="col">-</label>
+                            <section class="col col-3">
+                                <label class="select">
+                                    <select id="car_length1" name="car_length1"  lass="input-sm">
+                                        <option></option>
+                                        <option>4.2</option>
+                                        <option>4.3</option>
+                                        <option>4.8</option>
+                                        <option>5</option>
+                                        <option>5.2</option>
+                                        <option>5.8</option>
+                                        <option>6</option>
+                                        <option>6.15</option>
+                                        <option>6.2</option>
+                                        <option>6.8</option>
+                                        <option>7</option>
+                                        <option>7.2</option>
+                                        <option>7.6</option>
+                                        <option>7.7</option>
+                                        <option>8</option>
+                                        <option>8.2</option>
+                                        <option>8.6</option>
+                                        <option>8.8</option>
+                                        <option>9.6</option>
+                                        <option>10</option>
+                                        <option>10.5</option>
+                                        <option>10.8</option>
+                                        <option>12</option>
+                                        <option>12.5</option>
+                                        <option>13</option>
+                                        <option>13.5</option>
+                                        <option>14</option>
+                                        <option>14.6</option>
+                                        <option>15</option>
+                                        <option>16</option>
+                                        <option>16.4</option>
+                                        <option>16.5</option>
+                                        <option>17</option>
+                                        <option>17.2</option>
+                                        <option>17.3</option>
+                                        <option>17.4</option>
+                                        <option>17.5</option>
+                                        <option>17.6</option>
+                                        <option>17.8</option>
+                                        <option>18</option>
+                                        <option>18.5</option>
+                                        <option>19</option>
+                                        <option>19.5</option>
+                                        <option>20</option>
+                                        <option>20.5</option>
+                                        <option>21</option>
+                                        <option>21.5</option>
+                                        <option>22</option>
+                                        <option>30</option>
+                                    </select>
+
+                                </label>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 ">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-black">厢型要求</label>
+                            <section class="col col-8">
+                                <label class="select">
+                                    <input style="width:100%;height:auto!important;" type="text" id="carriage_type" name="carriage_type" placeholder="" >
+                                </label>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 self" id="temperature_requirement" style="display: none;">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-red">温度要求</label>
+                            <section class="col col-3">
+                                <label class="input">
+                                    <input type="text" id="temperature_from" name="temperature_from" class="form-control">
+                                </label>
+                            </section>
+                            <label class="col">-</label>
+                            <section class="col col-3">
+                                <label class="input">
+                                    <input type="text" id="temperature_to" name="temperature_to" class="form-control">
+                                </label>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 self">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-red">竞标截止时间</label>
+                            <section class="col col-8">
+                                <label class="input">
+                                    <input type="text" id="tender_limit" name="tender_limit" class="form-control">
+                                    </select> <i></i>
+                                </label>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 self">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-red">要求到场时间</label>
+                            <section class="col col-8">
+                                <label class="input">
+                                    <input type="text" id="package_time" name="package_time" class="form-control">
+                                    </select> <i></i>
+                                </label>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 self">
+                        <div class="row">
+                            <label class="label col col-4 text-align-right txt-color-black">备注</label>
+                            <section class="col col-8">
+                                <label class="input">
+                                    <textarea id="remark" name="remark" class="form-control"></textarea>
+                                    </select> <i></i>
+                                </label>
+                            </section>
+                        </div>
+                    </div>
+
+
+                </fieldset>
+
+                <header class="self">
+                    <span>竞标方</span>
+                    <icon class="fieldset-tag glyphicon pull-right" ></icon>
+                </header>
+                <fieldset class="self" id="push">
+                    <label class="checkbox" style="display: inline;"><input type="checkbox" class="checkbox style-0"  name="tender_push[carrier]" value="1" /> <span style="margin-right: 0px;vertical-align:baseline;"></span>承运商 </label>
+                    <!--<label class="checkbox" style="display: inline;"><input type="checkbox" class="checkbox style-0"  name="tender_push[warehouse]" value="1" /><span style="margin-right: 0px;vertical-align:baseline;"></span>基地直属车辆 </label>-->
+                    <label class="checkbox" style="display: inline;"><input type="checkbox" class="checkbox style-0"  name="tender_push[route]" value="1" /><span style="margin-right: 0px;vertical-align:baseline;"></span>常跑路线 </label>
+                    <label class="checkbox" style="display: inline;"><input type="checkbox" class="checkbox style-0"  name="tender_push[history]" value="1" /><span style="margin-right: 0px;vertical-align:baseline;"></span>历史承运 </label>
+
+
+                </fieldset>
+
+        </div>
+        <footer id="save_type">
+            <input type="hidden" id="shipment_id" name="shipment_id" value="">
+            <input type="hidden"  id="shipment_code" name="shipment_code"  value="">
+            <input type="hidden"  id="trans_type_post" name="trans_type"  value="">
+            <input type="hidden"  id="from_province" name="from_province"  value="">
+            <input type="hidden"  id="from_city" name="from_city"  value="">
+            <input type="hidden"  id="to_province" name="to_province"  value="">
+            <input type="hidden"  id="to_city" name="to_city"  value="">
+            <input type="hidden"  id="tender_act" name="tender_act"  value="">
+            <button type="button" class="btn btn-default" onclick="$ips.locatesubsystem('project/shipment/index.html',false);">取消</button>
+            <button id="btnSubmit" type="button" class="btn btn-primary" onclick="save()">
+                <span><i class="fa fa-fw fa-save"></i></span>保存
+            </button>
+        </footer>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+    // G7初始化页面
+    $ips.startup();
+</script>
+
+

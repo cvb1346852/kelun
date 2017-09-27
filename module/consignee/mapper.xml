@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- Ivan 2016-8-12 获取收货人列表 -->
+<sqlMap namespace="consignee">
+    <select id="selectPage">
+        SELECT user_type,id,phone,update_time,create_time,bind_time,unbind_time,base_erp,area_erp 
+        FROM `wechat_connect` 
+        WHERE (user_type=1 or user_type=2) AND deleted=0
+
+        <isNotEmpty prepend=" AND" property="phone">
+            `phone` = #phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="base_erp">
+            `base_erp`   like '%$base_erp$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="area_erp">
+            `area_erp`   like '%$area_erp$%'
+        </isNotEmpty>
+    </select>
+    <!-- 获取总记录数 -->
+    <select id="selectPage_count">
+        SELECT count(*) FROM  `wechat_connect`  WHERE (user_type=1 or user_type=2) AND deleted=0
+        <isNotEmpty prepend=" AND" property="phone">
+            `phone` = #phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="base_erp">
+            `base_erp`   like '%$base_erp$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="area_erp">
+            `area_erp`   like '%$area_erp$%'
+        </isNotEmpty>
+    </select>
+    <!-- Ivan 2016-9-29 获得最新签收时间 -->
+    <select id="getRecivedTime">
+        SELECT create_time FROM `order_checkout` WHERE user_phone=#user_phone# 
+        ORDER BY create_time 
+        LIMIT 0,1
+    </select>
+    <!-- Ivan 2016-8-12 收货人解除绑定erp -->
+    <update id="unbindbase" parameterClass="array">
+        UPDATE `wechat_connect` SET
+        `base_erp`='',`base_user_code`='',`unbind_time`=#unbind_time#
+        WHERE  id = #id#;
+    </update>
+    <update id="unbindarea" parameterClass="array">
+        UPDATE `wechat_connect` SET
+        `area_erp`='',`area_user_code`='',`unbind_time`=#unbind_time#
+        WHERE  id = #id#;
+    </update> 
+    <update id="unbindboth" parameterClass="array">
+        UPDATE `wechat_connect` SET
+        `base_erp`='',`area_erp`='',`base_user_code`='',`area_user_code`='',`unbind_time`=#unbind_time#
+        WHERE  id = #id#;
+    </update>
+    <update id="updateUserType" parameterClass="array">
+        UPDATE `wechat_connect` SET
+            `user_type`=2
+        WHERE  id = #id#;
+    </update>   
+
+     <!-- Ivan 2016-8-15 获取收货人手机列表 -->
+    <select id="getPhone">
+        SELECT phone
+        FROM `wechat_connect` 
+        WHERE (user_type=1 or user_type=2) AND deleted=0
+        <isNotEmpty prepend="AND" property="postname">
+           phone LIKE '%$postname$%'
+        </isNotEmpty>
+    </select>
+    <!-- Ivan 2016-8-15 获取erp账号 -->
+    <select id="geterp">
+        SELECT base_erp,area_erp FROM `wechat_connect` WHERE id=#id#
+    </select>
+    <!-- Ivan 2016-8-12 删除收货人 deleted置1 -->
+    <update id="del" parameterClass="array">
+        UPDATE `wechat_connect` SET
+        `deleted`=1
+        WHERE  id = #id#;
+    </update>
+</sqlMap>

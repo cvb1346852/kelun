@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订单未授权</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+    <div class="weui-navbar changeui-weui-navbar">
+        <div class="weui-navbar__item weui-bar__item_on">
+            未授权
+        </div>
+        <div class="weui-navbar__item">
+            已授权
+        </div>
+    </div>
+
+    <div class="express-delivery-list">
+        <div class="changeui-weui-panel">
+            <div class="left-item">
+                <div class="express-delivery-item">
+                    <span>顺丰</span>
+                    <span>速运</span>
+                </div>
+            </div>
+            <div class="changeui-list-item right-item">
+                <p class="title">订单号：KL89472823</p>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">出发地：</span>
+                    <span class="text-item">四川省刻个看介个各科四川省刻个看介个各科格洛克公司格洛克公司</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">目的地：</span>
+                    <span class="text-item">哥斯拉给谁看大哥深刻公司</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">签收人：</span>
+                    <span class="text-item">张三 17867887777</span>
+                </div>
+            </div>
+            <div class="weui-cell_access">
+                <span class="weui-cell__ft"></span>
+            </div>
+
+        </div>
+
+        <div class="changeui-weui-panel">
+            <div class="left-item">
+                <div class="express-delivery-item">
+                    <span>顺丰</span>
+                    <span>速运</span>
+                </div>
+            </div>
+            <div class="changeui-list-item right-item">
+                <p class="title">订单号：KL89472823</p>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">出发地：</span>
+                    <span class="text-item">四川省刻个看介科省公司</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">目的地：</span>
+                    <span class="text-item">哥斯拉给谁看大哥个更公司</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">签收人：</span>
+                    <span class="text-item">张三 17867887777</span>
+                </div>
+
+            </div>
+
+            <div class="weui-cell_access">
+                <span class="weui-cell__ft"></span>
+            </div>
+
+        </div>
+
+        <div class="changeui-weui-panel">
+            <div class="left-item">
+                <div class="express-delivery-item">
+                    <span>顺丰</span>
+                    <span>速运</span>
+                </div>
+            </div>
+            <div class="changeui-list-item right-item">
+                <p class="title">订单号：KL89472823</p>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">出发地：</span>
+                    <span class="text-item">四刻个看介个各科四川省刻</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">目的地：</span>
+                    <span class="text-item">哥斯拉看大哥个更深刻公司</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">签收人：</span>
+                    <span class="text-item">张三 17867887777</span>
+                </div>
+
+            </div>
+
+            <div class="weui-cell_access">
+                <span class="weui-cell__ft"></span>
+            </div>
+
+        </div>
+
+        <div class="changeui-weui-panel">
+            <div class="left-item">
+                <div class="express-delivery-item">
+                    <span>顺丰</span>
+                    <span>速运</span>
+                </div>
+            </div>
+            <div class="changeui-list-item right-item">
+                <p class="title">订单号：KL89472823</p>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">出发地：</span>
+                    <span class="text-item">四川个看介个各科四川省刻</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">目的地：</span>
+                    <span class="text-item">哥斯拉给哥个更深刻公司</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right-item">签收人：</span>
+                    <span class="text-item">张三 17867887777</span>
+                </div>
+
+            </div>
+
+            <div class="weui-cell_access">
+                <span class="weui-cell__ft"></span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- <script src="./js/pickUp.js"></script> -->
+
+
+</body>
+<script type="text/javascript">
+
+    $(function(){
+        $('.weui-navbar__item').on('click', function () {
+            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+        });
+    });
+
+</script>
+
+</html>
+

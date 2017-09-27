@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+
+    <style type="text/css">
+        body, html,#allmap {overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+
+    <title>司机全图</title>
+<style>
+    /*弹出层样式*/
+    .jBar {
+      background:#E9EBEF;
+        background-position:top;
+        padding:25px 5px 5px;
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        z-index:9999;
+    }
+
+    .jBar .helloinner {
+        display:block;
+        margin:0 auto;
+    }
+
+    .jRibbon {
+        padding:3px;
+        position:fixed;
+        right:50px;
+        display:none;
+        background:#E9EBEF;
+        border:3px solid #FFF;
+        border-bottom:none;
+        box-shadow:0 2px 5px #777;
+        cursor:pointer;
+        border-radius:3px 3px 0 0;
+        z-index:9999;
+        top:760px;
+    }
+
+    .downarrow {
+        position:absolute;
+        top:-2px;
+        right:165px;
+    }
+
+    .arrowup {
+        padding:10px;
+    }
+
+    .jRibbon:hover {
+        background:#E9EBEF;
+        cursor:pointer;
+    }
+
+
+/*分页样式*/
+    #pagination-digg li { border:0; margin:0; padding:0; font-size:11px; list-style:none; /* savers */ float:left; }
+    #pagination-digg a { border:solid 1px #9aafe5; margin-right:2px; }
+    #pagination-digg .previous-off,#pagination-digg .next-off  { border:solid 1px #DEDEDE; color:#888888; display:block; float:left; font-weight:bold; margin-right:2px; padding:3px 4px; }
+    #pagination-digg .next a,#pagination-digg .previous a { font-weight:bold; }
+    #pagination-digg .active { background:#2e6ab1; color:#FFFFFF; font-weight:bold; display:block; float:left; padding:4px 6px; /* savers */ margin-right:2px; }
+    #pagination-digg a:link,#pagination-digg a:visited { color:#0e509e; display:block; float:left; padding:3px 6px; text-decoration:none; }
+    #pagination-digg a:hover { border:solid 1px #0e509e; }
+
+</style>
+</head>
+<body id="mapDataBody">
+
+<div class="widget-body no-padding">
+    <!-- 自定义搜索区 -->
+    <div class="widget-body-toolbar" style="height:70px;overflow:hidden;margin-top: 5px;">
+        <form id="frmSearch" role="form" class="smart-form">
+            <div style="margin-left:20px">
+                <div class="row">
+                    <section class="pull-left no-padding pull-width280" >
+                        <label class="">最后定位时间</label>
+                        <label class="input">
+                            <i class="icon-prepend fa fa-calendar"></i>
+                            <input type="text" class="statistic_date input-sm" id="statistic_date" style="width: 280px;" name="statistic_date" placeholder="" readonly="readonly">
+                        </label>
+                    </section>
+                    <section class="pull-left no-padding pull-width180">
+                        <label class="">车牌号</label>
+                        <label class="input">
+                            <input type="text" class="select2" id="carnum" name="carnum"/>
+                        </label>
+                    </section>
+                </div>
+            </div>
+            <div class="" style="width: 120px; position: absolute; top: 0px; margin-left: 420px;">
+                <a id="btnSearch" class="btn btn-primary  btn-sm" type="button" style="margin-top:16px;">搜索</a>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+
+<div id="allmap" style="height:760px;width:1900px;position: relative"></div>
+
+<span class="jRibbon jTrigger"><img src="img/arrow-up.png" class="arrow arrowup" alt="↑"></span>
+<div class="jBar" style="position: absolute;bottom:0;">
+	<span class="helloinner">
+        <div id="drivers"></div>
+		<p class="jTrigger downarrow">× 关闭</p>
+	</span>
+</div>
+
+</body>
+</html>
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+    // G7初始化页面
+    $ips.startup();
+
+    $('.jRibbon').delay(1000).fadeIn(400).addClass('up', 600);
+    $('.jBar').hide();
+    $('.jTrigger').click(function(){
+        $('.jRibbon').toggleClass('up', 300);
+        $('.jBar').slideToggle();
+    });
+</script>
+<script src="js/jquery-ui.min.js"></script>

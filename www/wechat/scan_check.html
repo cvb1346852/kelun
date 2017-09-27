@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>进厂/出厂扫码</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+
+<header class='demos-header'>
+</header>
+<div class="weui_msg">
+    <div class="weui_icon_area"><i class="weui_icon_msg" id="scan_button"><img src="../jquery_weui/images/icon_scan.png"></i></div>
+    <div class="weui_text_area">
+        <input type="hidden" value="" id="scanResult">
+        <h2 class="weui_msg_title" id="is_scan"></h2>
+    </div>
+</div>
+<div class='demos-content-padded'>
+    <a href="javascript:;" class="weui_btn weui_btn_default weui_btn_disabled" disabled="true" id="submit">提交验证</a>
+</div>
+
+<div id="full" class='weui-popup-container'>
+    <div class="weui-popup-modal">
+        <div class="weui_msg">
+            <div class="weui_icon_area"><i class="weui_icon_msg"><img id="result_image" src="../jquery_weui/images/smiling_face.png"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title" id="check_result"></h2>
+                <p class="weui_msg_desc" id="check_result_desc" style="display:inline-block;height:30px;"></p>
+            </div>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary close-popup">关闭</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="/wechat/js/scan_check.js"></script>

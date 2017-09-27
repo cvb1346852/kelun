@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的车辆</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+    <!-- <header class='demos-header' style="background:#101013; color:#fff;">
+        <h1 class="text-title">我的车辆</h1>
+    </header> -->
+<style type="text/css">
+.my-car-area{height: 100%;}
+.my-car-list-container{height: 100%; overflow: auto; box-sizing: border-box; padding-top: 2.3rem;}
+</style>
+    <div class="my-car-area">
+        <div class="weui-search-bar" id="searchBar">
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+                <label class="weui-search-bar__label" id="searchText">
+                    <i class="weui-icon-search"></i>
+                    <span>搜索车辆</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+        </div>
+
+        <div class="my-car-list-container">
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                            <div class="weui-flex__item">整车</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">件数：</div>
+                            <div class="weui-flex__item">100</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                            <div class="weui-flex__item">2016-09-02</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                            <div class="weui-flex__item">整车</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">件数：</div>
+                            <div class="weui-flex__item">100</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                            <div class="weui-flex__item">2016-09-02</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                            <div class="weui-flex__item">整车</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">件数：</div>
+                            <div class="weui-flex__item">100</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                            <div class="weui-flex__item">2016-09-02</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                            <div class="weui-flex__item">整车</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">件数：</div>
+                            <div class="weui-flex__item">100</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                            <div class="weui-flex__item">2016-09-02</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                            <div class="weui-flex__item">整车</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">件数：</div>
+                            <div class="weui-flex__item">100</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                            <div class="weui-flex__item">2016-09-02</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                            <div class="weui-flex__item">整车</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">件数：</div>
+                            <div class="weui-flex__item">100</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                            <div class="weui-flex__item">2016-09-02</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                            <div class="weui-flex__item">整车</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">件数：</div>
+                            <div class="weui-flex__item">100</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                            <div class="weui-flex__item">2016-09-02</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="changeui-fixed-bottom">
+
+        <a href="javascript:;" class="weui-btn weui-btn_primary changeui-weui-btn_primary" style="width:50%;">添加车辆</a>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript">
+
+    $(function(){
+        var $searchBar = $('#searchBar'),
+            $searchResult = $('#searchResult'),
+            $searchText = $('#searchText'),
+            $searchInput = $('#searchInput'),
+            $searchClear = $('#searchClear'),
+            $searchCancel = $('#searchCancel');
+
+        function hideSearchResult(){
+            $searchResult.hide();
+            $searchInput.val('');
+        }
+        function cancelSearch(){
+            hideSearchResult();
+            $searchBar.removeClass('weui-search-bar_focusing');
+            $searchText.show();
+        }
+
+        $searchText.on('click', function(){
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.focus();
+        });
+        $searchInput
+            .on('blur', function () {
+                if(!this.value.length) cancelSearch();
+            })
+            .on('input', function(){
+                if(this.value.length) {
+                    $searchResult.show();
+                } else {
+                    $searchResult.hide();
+                }
+            })
+        ;
+        $searchClear.on('click', function(){
+            hideSearchResult();
+            $searchInput.focus();
+        });
+        $searchCancel.on('click', function(){
+            cancelSearch();
+            $searchInput.blur();
+        });
+    });
+</script>
+
+</html>
+

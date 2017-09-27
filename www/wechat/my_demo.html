@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的运单</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+    <header class='demos-header' style="background:#101013; color:#fff;">
+        <h1 class="text-title">我的运单</h1>
+    </header>
+
+    <div class="weui-navbar changeui-weui-navbar">
+        <div class="weui-navbar__item weui-bar__item_on">
+            全部
+        </div>
+        <div class="weui-navbar__item">
+            在途
+        </div>
+        <div class="weui-navbar__item">
+            历史
+        </div>
+    </div>
+    <div class="weui-search-bar" id="searchBar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+            </div>
+            <label class="weui-search-bar__label" id="searchText">
+                <i class="weui-icon-search"></i>
+                <span>搜索</span>
+            </label>
+        </form>
+        <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+    </div>
+
+    <div class="changeui-weui-panel">
+        <p class="changeui-list-title">目的地：四川</p>
+        <div class="weui-flex">
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                    <div class="weui-flex__item">整车</div>
+                </div>
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">件数：</div>
+                    <div class="weui-flex__item">100</div>
+                </div>
+            </div>
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">重量：</div>
+                    <div class="weui-flex__item">3吨</div>
+                </div>
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                    <div class="weui-flex__item">2016-09-02</div>
+                </div>
+            </div>
+        </div>
+        <div class="changeui-signle-line"></div>
+        <div class="weui-flex">
+            <div class="weui-flex__item"><div class="text-center">18743676789</div></div>
+            <div class="weui-flex__item"><div class="text-center">广州</div></div>
+        </div>
+    </div>
+
+    <div class="changeui-weui-panel">
+        <p class="changeui-list-title">目的地：四川</p>
+        <div class="weui-flex">
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                    <div class="weui-flex__item">整车</div>
+                </div>
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">件数：</div>
+                    <div class="weui-flex__item">100</div>
+                </div>
+            </div>
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">重量：</div>
+                    <div class="weui-flex__item">3吨</div>
+                </div>
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                    <div class="weui-flex__item">2016-09-02</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="changeui-weui-panel mybid-list-panel">
+        <p class="changeui-list-title">上海 - 成都 </p>
+        <div class="weui-flex">
+            <div class="weui-flex__item changeui-list-inner-item">
+                <span class="text-right text-right-item">招标时间：</span>
+                <span class="">8/9 12:00</span>
+            </div>
+            <div class="weui-flex__item changeui-list-inner-item">
+                <span class="text-right text-right-item">招标价格：</span>
+                <span class="">2000元</span>
+            </div>
+        </div>
+        <div class="list-item-mark">已中标</div>
+    </div>
+
+    <div class="changeui-weui-panel mybid-list-panel">
+        <p class="changeui-list-title">上海 - 成都 </p>
+        <div class="weui-flex">
+            <div class="weui-flex__item">
+
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">车牌号：</div>
+                    <div class="weui-flex__item">9.6米</div>
+                </div>
+            </div>
+
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">竞价：</div>
+                    <div class="weui-flex__item">竞价</div>
+                </div>
+            </div>
+        </div>
+        <div class="changeui-list-inner-item">
+            <span class="text-right text-right-item">客户评分：</span>
+            <span class="">2000元</span>
+        </div>
+        <div class="list-item-mark" style="color:#ff7e00;">600元</div>
+    </div>
+
+
+
+    <div class="changeui-weui-panel changeui-single-style">
+        <div class="changui-checkbox-container text-center"><input type="checkbox" name=""></div>
+        <div class="changeui-list-item">
+            <div class="changeui-list-inner-item">
+                <span class="text-right text-right-item">订单号：</span>
+                <span class="text-item">6736237237</span>
+            </div>
+            <div class="changeui-list-inner-item">
+                <span class="text-right text-right-item">收货人：</span>
+                <span class="text-item">张三</span>
+            </div>
+            <div class="changeui-list-inner-item">
+                <span class="text-right text-right-item">电话：</span>
+                <span class="text-item">1786777767</span>
+            </div>
+            <div class="changeui-list-inner-item">
+                <span class="text-right text-right-item">地址：</span>
+                <span class="text-item">快回家黑科技开关机空间889好快回家黑科技开关机空间889好</span>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="changeui-fixed-bottom">
+
+        <a href="javascript:;" class="weui-btn weui-btn_primary changeui-weui-btn_primary" style="width:50%;">添加车辆</a>
+    </div>
+
+    <div class="changeui-fixed-bottom changeui-sign_apply">
+        <div class="cfb-check-area fl-l">
+            <label><input type="checkbox" name="" />全选</label>
+        </div>
+        <a href="javascript:;" class="weui-btn weui-btn_primary changeui-weui-btn_primary" style="width:30%;">申请签收</a>
+    </div>
+
+</div>
+<!-- <script src="./js/pickUp.js"></script> -->
+
+
+</body>
+<script type="text/javascript">
+
+    $(function(){
+        $('.weui-navbar__item').on('click', function () {
+            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+        });
+    });
+
+
+    $(function(){
+        var $searchBar = $('#searchBar'),
+            $searchResult = $('#searchResult'),
+            $searchText = $('#searchText'),
+            $searchInput = $('#searchInput'),
+            $searchClear = $('#searchClear'),
+            $searchCancel = $('#searchCancel');
+
+        function hideSearchResult(){
+            $searchResult.hide();
+            $searchInput.val('');
+        }
+        function cancelSearch(){
+            hideSearchResult();
+            $searchBar.removeClass('weui-search-bar_focusing');
+            $searchText.show();
+        }
+
+        $searchText.on('click', function(){
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.focus();
+        });
+        $searchInput
+            .on('blur', function () {
+                if(!this.value.length) cancelSearch();
+            })
+            .on('input', function(){
+                if(this.value.length) {
+                    $searchResult.show();
+                } else {
+                    $searchResult.hide();
+                }
+            })
+        ;
+        $searchClear.on('click', function(){
+            hideSearchResult();
+            $searchInput.focus();
+        });
+        $searchCancel.on('click', function(){
+            cancelSearch();
+            $searchInput.blur();
+        });
+    });
+</script>
+
+</html>
+

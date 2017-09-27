@@ -1,0 +1,7 @@
+ <li class="weui_media_info_meta">资料遗失 <input type="checkbox" disabled="disabled" id="product_abnormal_data_loss"  name="product_abnormal[data_loss]" value="1"/></li>
+                                  <li class="weui_media_info_meta">多装 <input type="checkbox" disabled="disabled" id="product_abnormal_more" name="product_abnormal[more]" value="1"/></li>
+                                  <li class="weui_media_info_meta">少装 <input type="checkbox" disabled="disabled" id="product_abnormal_less" name="product_abnormal[less]" value="1"/></li>
+                                  <li class="weui_media_info_meta">错装 <input type="checkbox" disabled="disabled" id="product_abnormal_error"  name="product_abnormal[error]" value="1"/></li>
+                                  <li class="weui_media_info_meta">送错收货人 <input type="checkbox" disabled="disabled" id="product_abnormal_error_receiver"  name="product_abnormal[error_receiver]" value="1"/></li>
+                                  <li class="weui_media_info_meta">码不能识别 <input type="checkbox" disabled="disabled" id="product_abnormal_error_qrcode"  name="product_abnormal[error_qrcode]" value="1"/></li>
+                                  <li class="weui_media_info_meta">物码不一致 <input type="checkbox" disabled="disabled" id="product_abnormal_error_missmatch"  name="product_abnormal[error_missmatch]" value="1"/></li>

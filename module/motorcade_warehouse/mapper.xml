@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="motorcade_warehouse">
+
+	<!-- QUERIES -->
+	<insert id="insert">
+		INSERT INTO `motorcade_warehouse` (`id`, `warehouse_id`, `name`, `contact`,`phone`,`note`, `create_time`, `update_time`, `last_update`)
+                          VALUES (#id#, #warehouse_id#, #name#, #contact#,#phone#,#note#   ,    NOW(),        NOW(),    #last_update#)
+	</insert>
+
+    <update id="updateChange">
+        UPDATE `truck_source_warehouse` SET
+        `warehouse_motorcade_id` = #motorcade_id#,
+        `last_update` = #last_update#,
+        `update_time` = NOW()
+        WHERE `id`=#id#  AND  deleted = 0
+    </update>
+
+    <update id="update">
+        UPDATE motorcade_warehouse SET
+        `name` = #name#,
+        `contact` = #contact#,
+        `phone` = #phone#,
+        `note` = #note#,
+        `deleted` = #deleted#,
+        `last_update` = #last_update#,
+        `update_time` = NOW()
+        WHERE `id`=#id#;
+    </update>
+
+	<select id="selectPage">
+		SELECT  `id`, `warehouse_id`, `name`, `contact`,`phone`,`note`, `create_time`, `update_time`, `last_update`
+        FROM `motorcade_warehouse`  WHERE `deleted` = 0 AND   `warehouse_id`   = #warehouse_id#
+        <include refid="selectPage_where"/>
+        <isNotEmpty property="sortColumns">
+            ORDER BY  $sortColumns$
+        </isNotEmpty>
+	</select>
+
+    <select id="selectPage_count">
+        SELECT count(*) FROM  `motorcade_warehouse`  WHERE `deleted`=0  AND   `warehouse_id`   = #warehouse_id#
+        <include refid="selectPage_where"/>
+    </select>
+
+    <sql id="selectPage_where">
+        <isNotEmpty prepend=" AND" property="name">
+            `name`   like '%$name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="phone">
+            `phone`   like '%$phone$%'
+        </isNotEmpty>
+    </sql>
+
+
+    <select id="getById">
+        SELECT  `id`, `warehouse_id`, `name`, `contact`,`phone`,`note`, `create_time`, `update_time`, `last_update`
+        FROM `motorcade_warehouse`  WHERE `id` = #id#
+    </select>
+
+    <select id="getByGroup">
+        SELECT   `id` , `name`   FROM   `motorcade_warehouse`  WHERE `warehouse_id` = #warehouse_id# AND `deleted` = 0
+        <isNotEmpty prepend=" AND" property="name">
+            `name`   like '%$name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="  " property="group">
+            group  by  `name`  LIMIT  10
+        </isNotEmpty>
+    </select>
+    
+
+    <update id="updateRelation">
+        UPDATE `truck_source_warehouse` SET
+        `warehouse_motorcade_id` = '',
+        `last_update` = #last_update#,
+        `update_time` = NOW()
+        WHERE `warehouse_motorcade_id`=#id#  AND  deleted = 0
+    </update>
+
+    <update id="updateRelation2">
+        UPDATE `truck_source_warehouse` SET
+        `last_update` = #last_update#,
+        `update_time` = NOW()
+        WHERE `warehouse_motorcade_id`=#id#  AND  deleted = 0
+    </update>
+
+    <select id="getIdByName">
+        SELECT `id` FROM `motorcade_warehouse` WHERE `name` = #name# AND `warehouse_id` = #warehouse_id# AND `deleted` = 0
+    </select>
+</sqlMap>

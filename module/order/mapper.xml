@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="order">
+
+    <!-- QUERIES -->
+    <!--签收人查看订单列表-->
+    <select id="getOrderList" >
+        SELECT o.id, c.carrier_name, s.carnum, s.shipment_method,s.status as traffic_status, s.leavewh_time, o.order_code, o.checkout, o.from_name, o.to_name, o.to_phone, o.apply_checkout_time, oe.create_time AS departure_time, oc.create_time AS checkout_time,oc.user_phone
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
+        LEFT JOIN `carrier` AS c ON s.carrier_id = c.id
+        LEFT JOIN `order_erp` AS oe ON oe.order_code = o.order_code
+        LEFT JOIN `order_checkout` AS oc ON oc.order_code = o.order_code
+
+        $role_condition$
+
+        <iterate prepend=" AND" property="checkoutIn" open=" o.checkout IN (" close=")" conjunction=",">
+            #checkoutIn[]#
+        </iterate>
+        <dynamic>
+        ORDER BY s.create_time DESC, o.checkout ASC
+        </dynamic>
+    </select>
+    <select id="getOrderList_count">
+        SELECT COUNT(1)
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
+        LEFT JOIN `carrier` AS c ON s.carrier_id = c.id
+        LEFT JOIN `order_erp` AS oe ON oe.order_code = o.order_code
+        LEFT JOIN `order_checkout` AS oc ON oc.order_code = o.order_code
+
+        $role_condition$
+        <iterate prepend=" AND" property="checkoutIn" open=" o.checkout IN (" close=")" conjunction=",">
+            #checkoutIn[]#
+        </iterate>
+        <dynamic>
+        ORDER BY s.create_time DESC, o.checkout ASC
+        </dynamic>
+    </select>
+    <!-- 微信端查看订单信息-->
+    <select id="getOrderList_wechat" >
+        SELECT o.id, c.carrier_name, s.carnum, s.shipment_method,s.status as traffic_status,
+                s.leavewh_time, o.order_code, o.checkout, o.from_name,o.from_address,o.to_address,
+                o.to_name, o.to_phone, o.apply_checkout_time,s.fromlocation,s.tolocation,c.carrier_name_s
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
+        LEFT JOIN `carrier` AS c ON s.carrier_id = c.id 
+        LEFT JOIN `order_erp` AS oe ON oe.order_code=o.relateBill 
+
+        $role_condition$
+
+        <iterate prepend=" AND" property="checkoutIn" open=" o.checkout IN (" close=")" conjunction=",">
+            #checkoutIn[]#
+        </iterate>
+        <dynamic>
+            ORDER BY s.create_time DESC, o.checkout ASC
+        </dynamic>
+    </select>
+    <select id="getOrderList_wechat_count">
+        SELECT COUNT(1)
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
+        LEFT JOIN `carrier` AS c ON s.carrier_id = c.id
+        LEFT JOIN `order_erp` AS oe ON oe.order_code=o.relateBill 
+         
+        $role_condition$
+        <iterate prepend=" AND" property="checkoutIn" open=" o.checkout IN (" close=")" conjunction=",">
+            #checkoutIn[]#
+        </iterate>
+        <dynamic>
+            ORDER BY s.create_time DESC, o.checkout ASC
+        </dynamic>
+    </select>
+    <select id="getUserCodeByPhone" >
+        SELECT * FROM `wechat_connect`  WHERE phone = #phone#
+    </select>
+    <select id="getOrderProduct" >
+        SELECT * FROM `order_detail`  WHERE order_id = #order_id#
+    </select>
+   
+   <select id="getCarriertoship" >
+         SELECT shipment_code FROM `shipment`  WHERE carrier_id = (select id from carrier where  g7s_orgcode= #orgcode#)
+    </select>
+
+    <!-- ZHM 2016-7-13 获取订单详细列表 -->
+    <select id="getOrderinfoprint">
+        SELECT product_name,specification,lot,serial,unit_name,quality,weight,volume,manufacturer,order_id,order_code
+        FROM `order_detail`
+        WHERE order_code = #order_code#
+    </select>
+    <!-- ZHM 2016-7-13 获取订单详细列表 -->
+    <select id="getBycarrierId">
+        SELECT carrier_name,relation_phone,carrier_name_s
+        FROM `carrier` 
+        WHERE id = #id#
+    </select>
+    <!-- 基地下的所有承运商  -->
+    <select id="getBasecarrier">
+        SELECT  carrier_id
+        FROM   carrier_warehouse   
+        where  warehouse_id = (select id  FROM warehouse where orgcode = #orgcode#)
+    </select>  
+    <!-- ZHM 2016-7-13 获取承运商下的车辆 -->
+    <select id="getCarriertruck">
+        SELECT  driver_name,driver_phone,carnum
+        FROM   truck_source  AS ts
+        LEFT JOIN `truck_source_carrier` AS tsc ON tsc.truck_source_id = ts.id 
+        WHERE  1  AND ts.deleted = 0 AND tsc.deleted = 0
+        <iterate prepend=" AND" property="checkout" open=" tsc.carrier_id IN (" close=")" conjunction=",">
+            #carrier_idArr[]#
+        </iterate>
+    </select>
+    <!-- SunJie 2016-12-2 获取承运商下的车辆 -->
+
+    <select id="getCarrierShipmentTruck">
+        SELECT  driver_name,driver_phone,carnum
+        FROM   shipment  AS s
+        WHERE  1
+        <iterate prepend=" AND" property="checkout" open=" s.carrier_id IN (" close=")" conjunction=",">
+            #carrier_idArr[]#
+        </iterate>
+    </select>
+
+
+
+    <select id="getWarehouseOpenid">
+        SELECT  wc.openid,w.name,wu.phone
+        FROM   wechat_connect  AS wc
+        LEFT JOIN `warehouse_user` wu ON wc.phone = wu.phone
+        LEFT JOIN `warehouse` w ON wu.warehouse_id  =  w.id
+        WHERE  w.platform_code = #plat_form_code# AND wu.type = 1 AND wu.deleted = 0 AND wc.user_type=5 AND w.deleted = 0
+    </select>
+
+    <select id="getWarehouseinfo">
+        SELECT  w.`name`,wu.phone,w.address
+        FROM   warehouse  AS w
+        LEFT JOIN `warehouse_user` wu ON w.id = wu.warehouse_id
+        WHERE  w.platform_code = #plat_form_code# AND w.deleted = 0
+    </select>
+
+    <select id="getmanageOrderlist">
+        SELECT o.*,s.carnum,s.driver_name,s.driver_phone,s.carrier_id,s.from_province,s.to_province,wt.first_audit_id,wt.second_audit_id,wu.name AS first_audit_name,wu1.name AS second_audit_name
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
+        LEFT JOIN `order_checkout` AS oc ON o.order_code = oc.order_code
+        LEFT JOIN `warehouse_tender` AS wt ON wt.warehouse_id = s.warehouse_id
+        LEFT JOIN `warehouse_user` AS wu ON wu.id = wt.first_audit_id
+        LEFT JOIN `warehouse_user` AS wu1 ON wu1.id = wt.second_audit_id
+        $role_condition$
+         AND s.deleted = 0 AND   o.deleted = 0
+        <iterate prepend=" AND" property="checkout" open=" o.checkout IN (" close=")" conjunction=",">
+            #checkout[]#
+        </iterate> 
+        <isNotEmpty prepend="AND" property="carnum">
+            s.`carnum` = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="driver">
+            s.`driver_name` = #driver#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="driver_phone">
+            s.`driver_phone` = #driver_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statixstic_date">
+            unix_timestamp(o.plan_leave_time) between unix_timestamp(#fromTime#) and  unix_timestamp(#toTime#)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="create_time">
+            unix_timestamp(o.create_time) between unix_timestamp(#create_time1#) and  unix_timestamp(#create_time2#)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="receipt_time">
+            unix_timestamp(o.receipt_time) between unix_timestamp(#receipt_time1#) and  unix_timestamp(#receipt_time2#)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="order_code">
+            o.`order_code` LIKE  '%$order_code$%'
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="shipment_method">
+            o.`shipment_method` = #shipment_method#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="shipment_code">
+            o.`shipment_code` = #shipment_code#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="shipment_type">
+            o.`shipment_type` = #shipment_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="abnormal">
+            oc.`product_abnormal` LIKE '%$abnormal$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="serial_num">
+            s.`serial_num`  LIKE  '%$serial_num$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_id">
+            s.`carrier_id` =  #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="fromlocation">
+            s.fromlocation LIKE '$fromlocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="tolocation">
+            s.tolocation LIKE '$tolocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlProvince">
+            s.from_province LIKE '$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlCity">
+            s.from_city LIKE '$ddlCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloProvince">
+            s.to_province LIKE '$toloProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloCity">
+            s.to_city LIKE '$toloCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="first_business">
+            o.`first_business`  LIKE  '%$first_business$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="year_month">
+            s.`year_month`  LIKE  '%$year_month$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="receipt">
+            o.`receipt_status` = #receipt#
+        </isNotEmpty>
+        <!--<dynamic>-->
+        <!--ORDER BY o.plan_leave_time DESC -->
+        <!--</dynamic>-->
+        <isNotEmpty property="sortColumns">
+            ORDER BY $sortColumns$
+        </isNotEmpty>
+    </select>
+     <select id="getmanageOrderlist_count">
+        SELECT COUNT(*)
+         FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
+         LEFT JOIN `order_checkout` AS oc ON o.order_code = oc.order_code
+        $role_condition$ 
+         AND s.deleted = 0 AND   o.deleted = 0
+         <iterate prepend=" AND" property="checkout" open=" o.checkout IN (" close=")" conjunction=",">
+             #checkout[]#
+         </iterate>
+         <isNotEmpty prepend="AND" property="carnum">
+             s.`carnum` = #carnum#
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="driver">
+             s.`driver_name` = #driver#
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="driver_phone">
+             s.`driver_phone` = #driver_phone#
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="statixstic_date">
+             unix_timestamp(o.plan_leave_time) between unix_timestamp(#fromTime#) and  unix_timestamp(#toTime#)
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="create_time">
+             unix_timestamp(o.create_time) between unix_timestamp(#create_time1#) and  unix_timestamp(#create_time2#)
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="receipt_time">
+             unix_timestamp(o.receipt_time) between unix_timestamp(#receipt_time1#) and  unix_timestamp(#receipt_time2#)
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="order_code">
+             o.`order_code` LIKE  '%$order_code$%'
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="shipment_method">
+             o.`shipment_method` = #shipment_method#
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="shipment_code">
+             o.`shipment_code` = #shipment_code#
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="shipment_type">
+             o.`shipment_type` = #shipment_type#
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="abnormal">
+             oc.`product_abnormal` LIKE '%$abnormal$%'
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="serial_num">
+             s.`serial_num`  LIKE  '%$serial_num$%'
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="carrier_id">
+             s.`carrier_id` =  #carrier_id#
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="fromlocation">
+             s.fromlocation LIKE '$fromlocation$%'
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="tolocation">
+             s.tolocation LIKE '$tolocation$%'
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="ddlProvince">
+            s.from_province LIKE '$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlCity">
+            s.from_city LIKE '$ddlCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloProvince">
+            s.to_province LIKE '$toloProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloCity">
+            s.to_city LIKE '$toloCity$%'
+        </isNotEmpty>
+         <isNotEmpty prepend="AND" property="first_business">
+             o.`first_business`  LIKE  '%$first_business$%'
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="year_month">
+             s.`year_month`  LIKE  '%$year_month$%'
+         </isNotEmpty>
+         <isNotEmpty prepend="AND" property="receipt">
+             o.`receipt_status` = #receipt#
+         </isNotEmpty>
+        <dynamic>
+        ORDER BY o.plan_leave_time DESC 
+        </dynamic>
+    </select>
+     <update id="signOk">
+        UPDATE `order` SET receipt_status = #receipt_status#
+         <isNotEmpty prepend="," property="remark">
+             remark = #remark#
+         </isNotEmpty>
+         <isNotEmpty prepend="," property="receipt_time">
+             receipt_time = NOW()
+         </isNotEmpty>
+         <dynamic>
+             where  order_code = #order_code#
+         </dynamic>
+    </update>
+    <update id="orderProductCheckout">
+        UPDATE `order_detail` SET real_quality = #real_quality#, damage = #damage#, shortage = #shortage#, update_time=#update_time#
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+    <update id="orderCheckoutUpdate">
+        UPDATE `order` SET checkout = #checkout#,  update_time=#update_time#
+        <isNotEmpty prepend="," property="checkout_status">
+            checkout_status = 1
+        </isNotEmpty>
+
+        <dynamic>
+            WHERE `id` = #order_id#
+        </dynamic>
+    </update>
+
+    <update id="CheckoutUpdateBycode">
+        UPDATE `order_checkout` SET create_time=#create_time#
+        <isNotEmpty prepend="," property="order_id">
+           order_id = #order_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="product_abnormal">
+            product_abnormal = #product_abnormal#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="quality_abnormal">
+            quality_abnormal = #quality_abnormal#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="grade">
+            grade = #grade#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="images">
+            images = #images#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="lng">
+            lng = #lng#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="lat">
+            lat = #lat#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="address">
+            address = #address#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="user_phone">
+            user_phone = #user_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="remark">
+            remark = #remark#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `order_code` = #order_code#
+        </dynamic>
+    </update>
+
+    <insert id="orderCheckout" >
+        INSERT INTO `order_checkout` (`order_id`, `order_code`, `product_abnormal`, `quality_abnormal`, `grade`,  `images`, `lng`, `lat`, `address`, `user_phone`, `create_time`, `remark`)
+                                VALUES (#order_id#, #order_code#, #product_abnormal#, #quality_abnormal#, #grade#, #images#, #lng#, #lat#, #address#, #user_phone#, #create_time#,#remark#)
+    </insert>
+
+    <insert id="insertImage" >
+        INSERT INTO `order_checkout` (`order_id`,`order_code`,`abnormal_images`,`create_time`,`remark_receipt`) VALUES (#order_id#,#order_code#, #abnormal_images#, #create_time#, #remark_receipt#)
+    </insert>
+
+    <select id="getOrderCheckoutDetail">
+        SELECT * FROM `order_checkout`
+        <dynamic>
+            WHERE order_id = #order_id#
+        </dynamic>
+    </select>
+
+    <select id="getCheckoutDetailByCode">
+        SELECT * FROM `order_checkout`
+        <dynamic>
+            WHERE order_code = #order_code#
+        </dynamic>
+    </select>
+
+    <select id="getplatform_code">
+        SELECT platform_code FROM `warehouse`
+        WHERE orgcode = #orgcode#
+    </select>
+    <select id="getOrderInfo">
+        SELECT  o.id, o.checkout, o.order_code, o.to_phone, o.to_address, o.shipment_id,
+            o.shipment_code, o.author_history, o.to_lnglat, o.tolocation, o.plat_form_code,
+            s.carnum, s.quality, s.weight, s.volume, s.driver_name,o.guid
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON s.id = o.shipment_id
+        WHERE o.id = #id# AND o.deleted = 0
+    </select>
+    <!-- 获取销售信息 -->
+    <select id="getSales">
+        SELECT id, openid, phone, base_user_code, area_user_code
+        FROM `wechat_connect`
+        WHERE user_type = 1
+        <isNotEmpty prepend="AND" property="openid">
+            `openid` = #openid#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="phone">
+            `phone` = #phone#
+        </isNotEmpty>
+        <dynamic>
+            LIMIT 0, 1
+        </dynamic>
+    </select>
+
+    <!-- 获取订单信息 -->
+    <select id="getOrders" >
+        SELECT o.id, c.carrier_name,c.carrier_name_s, s.carnum, s.shipment_method, o.order_code, o.checkout, o.from_name, o.to_name, o.to_phone, o.author_history,o.from_address,o.fromlocation,o.tolocation,o.to_address,s.status AS status_s,o.quality as order_quality,o.weight as order_weight,o.volume as order_volume
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
+        LEFT JOIN `carrier` AS c ON s.carrier_id = c.id
+
+        WHERE o.deleted = 0 AND  s.deleted = 0
+        <iterate prepend=" AND" property="user_code" open=" o.user_code IN (" close=")" conjunction=",">
+            #user_code[]#
+        </iterate>
+        <isNotEmpty prepend=" AND " property="shipment_id">
+            o.`shipment_id` = #shipment_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="auth_status">
+            o.auth_status = $auth_status$
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="plat_form_code">
+            o.plat_form_code = #plat_form_code#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="order_id">
+            o.id = #order_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="orgcode">
+            o.plat_form_code = #orgcode#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="order_code">
+            `order_code` = #order_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="shipment_code">
+            s.`shipment_code` = #shipment_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="carrier_id">
+            s.`carrier_id` = #carrier_id#
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY s.create_time DESC, o.checkout ASC
+        </dynamic>
+    </select>
+    <select id="getOrders_count">
+        SELECT COUNT(1)
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
+        LEFT JOIN `carrier` AS c ON s.carrier_id = c.id
+        WHERE 1=1 AND o.deleted = 0 AND  s.deleted = 0
+        <isNotEmpty prepend=" AND " property="shipment_id">
+            o.`shipment_id` = #shipment_id#
+        </isNotEmpty>
+       <iterate prepend=" AND" property="user_code" open=" o.user_code IN (" close=")" conjunction=",">
+            #user_code[]#
+        </iterate>
+        <isNotEmpty prepend="AND" property="auth_status">
+            o.auth_status = $auth_status$
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="plat_form_code">
+            o.plat_form_code = #plat_form_code#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="order_id">
+            o.id = #order_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="orgcode">
+            o.plat_form_code = #orgcode#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="order_code">
+            `order_code` = #order_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="shipment_code">
+            s.`shipment_code` = #shipment_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="carrier_id">
+            s.`carrier_id` = #carrier_id#
+        </isNotEmpty>
+        
+    </select>
+
+    <!-- 订单手动授权 -->
+    <update id="orderAuth">
+        UPDATE `order` SET to_phone = #phone#, author_history = #author_history#,auth_name=#name#
+        <isNotEmpty prepend="," property="auth_status">
+            auth_status = $auth_status$
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #order_id#
+        </dynamic>
+        <isNotEmpty prepend="AND" property="base_user_code">
+            `user_code` = #base_user_code#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="area_user_code">
+            `user_code` = #area_user_code#
+        </isNotEmpty>
+    </update>
+
+    <!-- 获取订单详情 -->
+    <select id="getOrderDetail" >
+        SELECT id, unit_name, product_name, quality,create_time
+        FROM `order_detail`
+        WHERE deleted = 0
+        <isNotEmpty prepend=" AND " property="order_id">
+            `order_id` = #order_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="order_code">
+            `order_code` = #order_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="line_no">
+            `line_no` = #line_no#
+        </isNotEmpty>
+    </select>
+
+    <!-- 同步订单 -->
+    <insert id="insertOrder" >
+        INSERT INTO `order` (`order_code`, `shipment_method`, `quality`, `weight`, `volume`, `user_code`, `from_name`, `from_phone`, `to_name`, `to_phone`, `plan_leave_time`, `plan_arrive_time`, `create_time`, `update_time`, `plat_form_code`, `plat_form_name`, `distance`, `fromlocation`, `tolocation`, `from_address`, `to_address`, `from_lnglat`, `to_lnglat`, `remark`, `first_business`,`relateBill`,`guid`,`shipment_type`,`from_province`,`from_city`,`to_province`,`to_city`)
+        VALUES (#code#, #shipment_method#, #quality#, #weight#, #volume#, #user_code#, #from_name#, #from_phone#, #to_name#, #to_phone#, #plan_leave_time#, #plan_arrive_time#, #create_time#, #update_time#, #plat_form_code#, #plat_form_name#, #distance#, #fromlocation#, #tolocation#, #from_address#, #to_address#, #from_lnglat#, #to_lnglat#, #remark#, #first_business#,#relateBill#,#guid#,#shipment_type#,#from_province#,#from_city#,#to_province#,#to_city#)
+        <selectKey resultClass="char" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id;
+        </selectKey>
+    </insert>
+
+    <!-- 同步订单明细 -->
+    <insert id="insertOrderDetail">
+        INSERT INTO `order_detail` (`order_id`,`order_code`,`line_no`,`product_name`,`specification`,`lot`,`serial`,`unit_name`,`quality`,`weight`,`volume`,`manufacturer`,`create_time`,`update_time`)
+        VALUES (#order_id#,#order_code#,#line_no#,#product_name#,#specification#,#lot#,#serial#,#unit_name#,#quality#,#weight#,#volume#,#manufacturer#,#create_time#,#update_time#)
+        ON DUPLICATE KEY UPDATE `product_name`=#product_name#,`specification`=#specification#,`lot`=#lot#,`serial`=#serial#,`unit_name`=#unit_name#,`quality`=#quality#,`weight`=#weight#,`volume`=#volume#,`manufacturer`=#manufacturer#,`update_time`=#update_time#,`deleted`=0
+    </insert>
+
+    <!-- 修改订单明细 -->
+    <update id="updateOrderDetail">
+        UPDATE `order_detail`
+        SET `update_time` = #update_time#
+        <isNotEmpty prepend=", " property="product_name">
+            `product_name` = #product_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="specification">
+            `specification` = #specification#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="lot">
+            `lot` = #lot#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="serial">
+            `serial` = #serial#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="unit_name">
+            `unit_name` = #unit_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="quality">
+            `quality` = #quality#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="weight">
+            `weight` = #weight#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="volume">
+            `volume` = #volume#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="manufacturer">
+            `manufacturer` = #manufacturer#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="real_quality">
+            `real_quality` = #real_quality#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="damage">
+            `damage` = #damage#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="shortage">
+            `shortage` = #shortage#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="deleted">
+            `deleted` = #deleted#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `deleted` = 0
+        </dynamic>
+        <isNotEmpty prepend=" AND " property="id">
+            `id` = #id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="order_id">
+            `order_id` = #order_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="order_code">
+            `order_code` =  #order_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="line_no">
+            `line_no` = #line_no#
+        </isNotEmpty>
+    </update>
+
+    <!-- 更新订单 -->
+    <update id="orderUpdate">
+        UPDATE `order`
+        SET `update_time` = #update_time# , `deleted` = #deleted#
+        <isNotEmpty prepend=", " property="shipment_code">
+            `shipment_code` = #shipment_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="shipment_id">
+            `shipment_id` = #shipment_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="shipment_method">
+            `shipment_method` = #shipment_method#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="quality">
+            `quality` = #quality#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="weight">
+            `weight` = #weight#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="volume">
+            `volume` = #volume#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_name">
+            `from_name` = #from_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_phone">
+            `from_phone` = #from_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_name">
+            `to_name` = #to_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_phone">
+            `to_phone` = #to_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plan_leave_time">
+            `plan_leave_time` = #plan_leave_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plan_arrive_time">
+            `plan_arrive_time` = #plan_arrive_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="user_code">
+            `user_code` = #user_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="checkout">
+            `checkout` = #checkout#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="checkout_time">
+            `checkout_time` = #checkout_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="checkout_lng">
+            `checkout_lng` = #checkout_lng#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="checkout_lat">
+            `checkout_lat` = #checkout_lat#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="checkout_address">
+            `checkout_address` = #checkout_address#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="checkout_image">
+            `checkout_image` = #checkout_image#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="auth_status">
+            `auth_status` = #auth_status#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="first_business">
+            `first_business` = #first_business#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_province">
+            `from_province` = #from_province#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_province">
+            `to_province` = #to_province#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_city">
+            `from_city` = #from_city#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_city">
+            `to_city` = #to_city#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="tolocation">
+            `tolocation` = #tolocation#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="fromlocation">
+            `fromlocation` = #fromlocation#
+        </isNotEmpty>
+		<isNotEmpty prepend=", " property="to_lnglat">
+            `to_lnglat` = #to_lnglat#
+        </isNotEmpty>
+        <dynamic>
+            WHERE 1 = 1
+        </dynamic>
+        <isNotEmpty prepend=" AND " property="id">
+            `id` = #id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="order_code">
+            `order_code` = #order_code#
+        </isNotEmpty>
+    </update>
+
+    <select id="getOrderId">
+        SELECT `id`
+        FROM `order`
+        WHERE `order_code` = #order_code#
+    </select>
+
+    <!-- ZHM 2016-7-29 插入ERP订单信息表 -->
+    <insert id="insertOrderErp">
+        INSERT INTO `order_erp`
+        (`order_code`, `desc`,`type`,`user_code`, `status`, `create_time`)
+        VALUES
+        (#order_code#, #desc#, `type`,#user_code#, #status#, #create_time#)
+        ON DUPLICATE KEY UPDATE
+        `desc` = #desc#, `user_code` = #user_code#, `status` = #status#
+    </insert>
+
+    <!-- ZHM 2016-7-29 获取制单人信息 -->
+    <select id="getUserCode">
+        SELECT `user_code`
+        FROM `order_erp`
+        WHERE `order_code` = #order_code#
+    </select>
+
+    <!--根据订单号批量获取订单-->
+    <select id="getOrderByCode">
+        SELECT `id`,`shipment_id`,`order_code` 
+        FROM `order`
+        <iterate prepend=" where" property="order_codes" open=" id IN (" close=")" conjunction=",">
+            #order_codes[]#
+        </iterate>
+        <dynamic>
+            GROUP BY id 
+        </dynamic>
+    </select>
+    <!--根据订单号获取订单id 运单id-->
+    <select id="getOrderByOrderCode">
+        SELECT `id`,`shipment_id`
+        FROM `order` WHERE order_code=#order_code#
+    </select>
+    <!--根据订单号获取车牌-->
+    <select id="getCarNumByCode">
+        SELECT s.carnum FROM shipment AS s LEFT JOIN `order` AS o 
+        ON s.id=o.shipment_id 
+        WHERE o.`order_code`=#order_code#
+    </select>
+    <!--转包上报事件插入-->
+    <insert id="report">
+        INSERT INTO `report`(`shipment_id`,`order_id`,`report_type`,`report_desc`,`address`,`lng`,`lat`,`open_id`,`carnum`,`create_time`)
+        VALUES(#shipment_id#,#order_id#,#report_type#,#report_desc#,#address#,#lng#,#lat#,#openid#,#carnum#,#create_time#)
+    </insert>
+
+    <!-- 根据调度获取其所属基地信息 -->
+    <select id="getWarehouseByUser">
+        SELECT w.id, w.name, w.type, w.platform_code, w.orgcode
+        FROM `warehouse` AS w
+        LEFT JOIN `warehouse_user` AS wu ON w.id = wu.warehouse_id
+        LEFT JOIN `wechat_connect` AS wc ON wu.phone = wc.phone
+        WHERE w.deleted = 0
+        <isNotEmpty prepend="AND" property="openid">
+            wu.openid = #openid#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="phone">
+            wu.phone = #phone#
+        </isNotEmpty>
+    </select>
+
+    <!-- 查询运单签收情况 -->
+    <select id="getShipmentStatus">
+        SELECT `checkout`,`shipment_code` FROM `order`
+        WHERE shipment_id = #shipment_id#
+    </select>
+    <update id="updataAbnormalImage">
+        UPDATE `order_checkout` SET create_time = NOW()
+        <isNotEmpty prepend="," property="abnormal_images">
+            abnormal_images = #abnormal_images#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="remark_receipt">
+            remark_receipt = #remark_receipt#
+        </isNotEmpty>
+
+        <dynamic>
+            WHERE `order_code` = #order_code#
+        </dynamic>
+    </update>
+    <!-- Ivan 2016-9-7 查询订单关联的收货人（订单签收授权） -->
+    <select id="phoneCheck">
+        SELECT o.id FROM `order` AS o 
+        LEFT JOIN `wechat_connect` AS wc 
+        ON o.to_phone=wc.phone 
+        WHERE o.`order_code`=#order_code#
+    </select>
+    <select id="getPhone">
+        SELECT   `to_phone` FROM `order` WHERE `order_code` = #order_code#
+    </select>
+    <update id="updateHistory">
+        UPDATE `order` SET author_history = #author_history# 
+        where  order_code = #order_code# 
+    </update>
+
+    <!-- 获取销售信息 -->
+    <select id="getWechatConnect">
+        SELECT * FROM `wechat_connect`
+        WHERE phone = #phone#
+        <isNotEmpty prepend="AND" property="is_crrierAddTruce">
+            user_type!=3
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="type">
+            user_type!=4
+        </isNotEmpty>
+    </select>
+
+    <select id="get_abnormal_order">
+        SELECT order_id FROM  order_checkout
+        WHERE   `product_abnormal` LIKE  '%$product_abnormal$%'
+    </select>
+    <!-- 获取该销售订单信息 -->
+    <select id="getAuthOrders" >
+        SELECT * FROM `order_erp`        
+        WHERE 1=1
+        <iterate prepend=" AND" property="user_code" open=" user_code IN (" close=")" conjunction=",">
+            #user_code[]#
+        </iterate>
+        <dynamic>
+            ORDER BY create_time DESC
+        </dynamic>
+    </select>
+    <select id="getAuthOrders_count">
+        SELECT count(*) FROM `order_erp`        
+        WHERE 1=1
+        <iterate prepend=" AND" property="user_code" open=" user_code IN (" close=")" conjunction=",">
+            #user_code[]#
+        </iterate>
+    </select>
+    <select id="getUserName">
+        SELECT `name` FROM warehouse_user WHERE phone=#phone#
+    </select>
+    <select id="getAuthOrderDetail">
+        SELECT * FROM order_erp WHERE id=$id$
+    </select>
+    <!-- 获取订单关联的运单状态 -->
+    <select id="getHoldCar">
+        SELECT dispatch_time AS order_time FROM `shipment`
+        WHERE id=#id#  AND deleted=0 AND status>3
+    </select>
+    <!-- 获取订单关联事件 -->
+    <select id="getReport">
+        SELECT report_type AS order_name,address,create_time AS order_time FROM report   
+        WHERE shipment_id=#id#  
+        ORDER BY create_time;
+    </select>
+    <!-- 获取订单关联lbs -->
+    <select id="getLbs">
+        SELECT hp.type AS order_name,hp.address,hp.time AS order_time FROM history_point AS hp
+        LEFT JOIN `shipment` AS s ON hp.phone=s.driver_phone   
+        WHERE s.id=#id# AND s.deleted=0 AND s.status>3 AND hp.type=1 AND (hp.`time` BETWEEN s.leavewh_time AND s.plan_arrive_time) 
+    </select>
+    <!-- 获取订单关联订单签收 -->
+    <select id="getOrderReceipt">
+        SELECT oc.address,oc.create_time AS order_time FROM order_checkout AS oc 
+        LEFT JOIN `order` AS o ON  oc.order_id=o.id 
+        LEFT JOIN `shipment` AS s ON  s.id=o.shipment_id 
+        WHERE s.id=#id# AND o.deleted=0 AND s.deleted=0
+    </select>
+    
+    <select id="getOrderByGuid">
+        select id,order_code,to_phone
+        from `order`
+        where deleted = 0 and guid = #guid#
+    </select>
+    <select id="getShipmentId">
+        SELECT o.shipment_id,o.shipment_code,s.fromlocation,s.tolocation,s.quality,s.plan_arrive_time FROM order_erp AS oe 
+        LEFT JOIN `order` AS o ON oe.order_code=o.relateBill 
+        LEFT JOIN shipment AS s ON s.id=o.shipment_id 
+        WHERE oe.id=$id$ AND o.deleted=0 AND s.deleted=0
+        GROUP BY o.shipment_id 
+    </select>
+    
+    <select id="getOrderByShpID">
+        SELECT * FROM `order` o
+        WHERE o.shipment_id=$shipment_id$ AND o.deleted=0
+        limit 1
+    </select>
+</sqlMap>

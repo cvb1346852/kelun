@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="user">
+
+    <!-- QUERIES -->
+    <!-- 检查司机、承运商、基地片区电话在系统中是否存在 -->
+    <select id="checkPhone">
+        SELECT $field$
+        FROM $check$
+        WHERE $col$ = #phone#
+    </select>
+
+    <!-- 登录插入WeChat_connect表 -->
+    <insert id="insertWechatConnect">
+        INSERT INTO `wechat_connect` (openid, phone, user_type, base_erp, area_erp, g7s_account, create_time, update_time) VALUES
+        (#openid#, #phone#, #user_type#, #base_erp#, #area_erp#, #g7s_account#, #create_time#, #update_time#)
+        ON DUPLICATE KEY UPDATE `deleted`= 0
+    </insert>
+
+    <!-- 登录插入wechat_user表 -->
+    <insert id="insertWechatUser">
+        REPLACE INTO `wechat_user` (openid)
+        VALUES
+        (#openid#)
+    </insert>
+
+    <!--根据openid获取用户信息-->
+    <select id="getUserInfoByOpenid">
+        SELECT `id`,`phone`,`openid`,`user_type`,`base_erp`,`base_user_code`,`area_erp`,`area_user_code`,`update_time`
+        FROM `wechat_connect`
+        WHERE `openid` = #openid# and deleted =0
+    </select>
+
+    <!-- 2016-7-27 ZHM 修改绑定erp信息 -->
+    <update id="erpBindInfoChange">
+        UPDATE `wechat_connect` 
+        SET `update_time` = #update_time#
+        <isNotEmpty prepend=", " property="type">
+            `$type$_erp` = #erp_data#,
+            `$type$_user_code` = #code#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="user_type">
+            `user_type` = #user_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bindTime">
+            `bind_time`  = #update_time#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="unbindTime">
+            `unbind_time`  = #update_time#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `openid` = #openid#
+        </dynamic>
+    </update>
+
+    <!-- 2016-7-28 ZHM 获取用户绑定信息 -->
+    <select id="bindCheck">
+        SELECT `base_erp`, `base_user_code`, `area_erp`, `area_user_code`
+        FROM `wechat_connect`
+        WHERE `openid` = #openid#
+    </select>
+
+    //分页获取基地调度列表
+    <select id="getDispatchUser">
+        select u.id,u.phone,u.update_time as create_time,c.openid,c.create_time as login_time,w.name,w.id as warehouse_id
+        FROM `warehouse_user` as u
+        INNER JOIN `warehouse` as w on w.id=u.warehouse_id and w.orgcode = #orgcode#
+        LEFT JOIN `wechat_connect` as c on u.phone=c.phone
+        where u.deleted =0 and u.type =1
+    </select>
+    <select id="getDispatchUser_count">
+        select count(u.id) as count
+        FROM `warehouse_user` as u
+        INNER JOIN `warehouse` as w on w.id=u.warehouse_id and w.orgcode = #orgcode#
+        LEFT JOIN `wechat_connect` as c on u.phone=c.phone
+        where u.deleted =0 and u.type =1
+    </select>
+
+    <select id="getWarehouseId">
+        SELECT `id` from `warehouse` where `orgcode`=#orgcode#
+    </select>
+    <select id="getConnectUser">
+        select c.id
+        from `wechat_connect` c
+        LEFT JOIN `warehouse_user` u on u.phone=c.phone
+        <iterate prepend=" where "  property="id" open=" u.id  IN (" close=")" conjunction=",">
+            #id[]#
+        </iterate>
+    </select>
+
+    <delete id="delConnectUser">
+        update `wechat_connect`  set deleted = 1
+        <iterate prepend=" where "  property="id" open="id  IN (" close=")" conjunction=",">
+            #id[]#
+        </iterate>
+    </delete>
+
+    <delete id="delDispatchUser">
+        update  `warehouse_user` set deleted =1
+        <iterate prepend="   where  " property="id" open=" id  IN (" close=")" conjunction=",">
+            #id[]#
+        </iterate>
+    </delete>
+
+    <insert id="addDispatch">
+        INSERT INTO `warehouse_user`(id,name,phone,type,warehouse_id,update_time,update_user)
+        VALUES(#id#,#name#,#phone#,#type#,#warehouse_id#,#update_time#,#update_user#)
+        ON DUPLICATE KEY UPDATE `phone` = #phone#,`update_time`=#update_time#,`update_user`=#update_user#,`deleted`=0
+    </insert>
+     <!-- 获取user_type 通过openidIvan -->
+    <select id="getUserType">
+        SELECT user_type FROM `wechat_connect` WHERE openid=#openid#
+    </select>
+
+    <!--分页查询需要发送打卡通知的司机-->
+    <select id="getWeChatConnect">
+        select `openid`  from `wechat_connect`
+        where  `deleted` = 0 and `user_type` = 3
+        <isNotEmpty prepend=" and" property="limit_from">
+            limit #limit_from# , #pageSize#
+        </isNotEmpty>
+        <isNotEmpty prepend=" " property="orderBy">
+            order by #orderBy#
+        </isNotEmpty>
+    </select>
+
+    <!--退出登录-->
+    <delete id="deleteUser">
+<!--        update `wechat_connect`
+        set `deleted` = 1,`update_time` = #time#
+        where openid = #openid#-->
+        DELETE FROM `wechat_connect`
+        WHERE openid=#openid#
+    </delete>
+
+    <!--通过openid 查询车辆-->
+    <select id="getTruckSourceByOpenid">
+        select t.`carnum`,t.`driver_phone`,t.`id`
+        from `wechat_connect` as w
+        left join `truck_source` as t on t.driver_phone = w.phone
+        where w.openid = #openid# and w.deleted = 0 and w.user_type = 3
+    </select>
+
+    <!--插入车辆微信定位-->
+    <insert id="insertHistory">
+        INSERT INTO `history_point`
+        ( `type`,`truck_source_id`, `carnum`, `phone`, `time`, `lng`, `lat`)
+        VALUES
+        ( #type#,#truck_source_id#, #carnum#, #phone#, #time#, )
+    </insert>
+
+    <!--更新车辆最新微信定位-->
+    <update id="updateHistory">
+        update `history_point` set `time` = #time#,`lng` = #lng#, `lat` = #lat#
+        where id = #id#
+    </update>
+
+    <!--获取车辆最新微信定位-->
+    <select id="getHistory">
+        select `id`,`truck_source`
+        from `history_point` where type = #type#,`truck_source_id` = #truck_source_id#
+    </select>
+    <!-- 获取司机姓名-->
+    <select id="getDriver">
+        select driver_name
+        from `truck_source` where `driver_phone` = #phone#
+    </select>
+    <!--获取承运商姓名-->
+    <select id="getCarrier">
+        select relation_person
+        from `carrier` where `relation_phone` = #phone#
+    </select>
+    <!--获取调度姓名 及价格审批人的姓名-->
+    <select id="getDispatch">
+        select `name`
+        from `warehouse_user` where `phone` = #phone#
+    </select>
+
+
+    <!--校验微信登录手机号重复(承运商除外)-->
+    <select id="checkWechatRegister">
+        select COUNT(*) AS count FROM `wechat_connect` WHERE `openid` != #openid# AND`phone` = #phone# AND user_type != '4'
+    </select>
+
+</sqlMap>
+
+
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html class="pixel-ratio-1">
+ <head>
+	 <title></title>
+	 <meta charset="utf-8">
+	 <meta http-equiv="pragma" content="no-cache" />
+	 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	 <link rel="stylesheet" type="text/css" media="screen" href="./css/wechat.css">
+	 <link rel="stylesheet" type="text/css" media="screen" href="./css/weui.css">
+	 <link rel="stylesheet" type="text/css" media="screen" href="./css/changeui.css">
+	 <link rel="stylesheet" type="text/css" media="screen" href="./css/font.css">
+	 <script src="/jquery_weui/lib/zepto.js"></script>
+	 <!-- <script src="js/wechat.js"></script> -->
+	 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+</head>
+<body ontouchstart>
+<div class="container">
+	<div class="login-area">
+		<img src="img/my-acc-icos/kelun_logo@2x.png" class="logo-img" />
+		<div class="enter-item">
+			<input type="tel" id="phone" class="changeui-input" value="" placeholder="请输入手机号码" />
+		</div>
+		<div class="enter-item has-checkcode">
+			<input type="number" id="verify_code" class="changeui-input" value="" placeholder="请输入验证码" />
+			<a href="javascript:;" id="send_msg" class="weui-btn weui-btn_primary changeui-weui-btn_primary">获取验证码</a>
+		</div>
+		<div class="enter-item text-center" style="margin-top:2rem;">
+			<a href="javascript:;" type="" id="login" class="weui-btn weui-btn_primary changeui-weui-btn_primary">登录</a>
+		</div>
+		<div class="enter-item text-center register_div" style="margin-top:2rem;color: #000;display: none">
+			<a href="javascript:;" style="color: #0381bf"  class="register">注册成为司机</a>
+		</div>
+	</div>
+
+</div>
+	<script type="text/javascript" src="./js/login.js"></script>
+</body>
+</html>

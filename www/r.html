@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订单签收</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/jquery_weui/lib/zepto.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container bg_white">
+    <div class="page__bd wo_report">
+
+
+    </div>
+
+</div>
+
+<script>
+    $.showLoading('正在为您调整签收页面');
+    var param = $.getUrlParams(window.location.search);
+    if(param.d ==undefined || param.d == ''){
+        $.error('无效的订单,请核实');
+        $.hideLoading();
+    }
+    $.sendData('order','getOrderByGuid',{guid:param.d},'', function (data) {
+        if(data){
+            $.hideLoading();
+            var url = 'http://'+window.location.host+'/wechat/orderReceipt.html?order_id='+data.id+'&order_code='+data.order_code+'&phone='+data.to_phone;
+            window.location.href = url;
+        }else{
+            $.error('无效的订单,请核实');
+            $.hideLoading();
+        }
+    });
+</script>
+</body>
+
+</html>
+
+

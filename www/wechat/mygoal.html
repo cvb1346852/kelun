@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的得分</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+    <style type="text/css">
+        .more-width-item{width: 116px;}
+        .my-score-intro-area{background: #fff; padding: 1rem 0; border-top: 1px solid #eee;}
+
+        .my-score-intro-area .line{display: block; width: auto; margin: 0 1rem; border-color: #eee; margin-top: 1rem;}
+
+        .get-score{color: #8a8a8a;}
+        .get-score .num{font-size: 1.3rem; height: 1.3rem; line-height: 1.3rem; color: #333;}
+
+        .get-star-area{padding-bottom: .5rem;}
+
+        @media screen and (max-width: 320px)  {
+            .more-width-item{width: 104px;}
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="background:#fff;">
+
+</div>
+<script type="text/template" id="join-tmpl">
+    <div class="text-center" style="background:#f6f6f6;">
+        <a href="" class="my-acc-item vl-m" style="margin:1rem;">
+            <img src="img/my-acc-icos/avatar-default@2x.png">
+        </a>
+        <div class="get-score">
+            <p class="num"><%= jdata.total_grade %></p>
+            <p>客户评分</p>
+        </div>
+        <div class="get-star-area">
+            <span class="star-area" id="iconfont">
+            </span>
+        </div>
+    </div>
+    <div class="my-score-intro-area">
+        <div class="weui-flex">
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="more-width-item text-right text-right-item">加入平台时间：</div>
+                    <div class=""><%= jdata.create_time %></div>
+                </div>
+            </div>
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">运输次数：</div>
+                    <div class="weui-flex__item"><%= jdata.delivery_times %></div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-flex">
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="more-width-item text-right text-right-item">运输距离：</div>
+                    <div class=""><%= jdata.total_distance %></div>
+                </div>
+            </div>
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">吨位：</div>
+                    <div class="weui-flex__item"><%= jdata.total_weight %></div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-flex">
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="more-width-item text-right text-right-item">运输质量：</div>
+                    <div class=""><%= jdata.total_grade %></div>
+                </div>
+            </div>
+            <div class="weui-flex__item">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class="weui-flex__item text-right text-right-item">被投诉次数：</div>
+                    <div class="weui-flex__item"><%= jdata.complain_num %></div>
+                </div>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div id="main" style="width: 320px;height:320px; margin:0 auto;"></div>
+    </div>
+</script>
+</body>
+<script type="text/javascript" src="js/echarts.min.js"></script>
+<script type="text/javascript" src="./js/mygoal.js"></script>
+</html>

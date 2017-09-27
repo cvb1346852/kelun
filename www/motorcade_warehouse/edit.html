@@ -1,0 +1,80 @@
+	<div class="row">
+	<div class="col col-sm-6 col-xs-12">
+		<a href="#motorcade_warehouse/index.html" class="btn btn-default"> &lt; 返回</a>
+	</div>
+</div>
+
+<div class="row"><br /></div>
+
+<div class="well no-padding well-light">
+    <form action="" class="smart-form" novalidate="novalidate" id="frmInfo" method="post">
+	<div id="inbox-content" class="inbox-body">
+		<header>基本信息</header>
+		
+		<fieldset>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red ">车队名称</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="name" name="name" placeholder="">
+                       </label>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red ">联系人</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="contact" name="contact" placeholder="">
+                        </label>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-red ">联系电话</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="phone" name="phone" placeholder="">
+                        </label>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-black ">备注</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="note" name="note" placeholder="">
+                        </label>
+                    </section>
+                </div>
+            </div>
+
+
+
+            </fieldset>
+    </div>
+        <footer>
+            <button type="button" class="btn btn-default" onclick="$ips.locatesubsystem('project/motorcade_warehouse/index.html',false);">取消</button>
+            <button id="btnSubmit" type="button" class="btn btn-primary" onclick="save()">
+                <span><i class="fa fa-fw fa-save"></i></span>保存
+            </button>
+        </footer>
+    </form>
+</div>
+<script type="text/javascript">
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	pageSetUp();
+	
+	// G7初始化页面 
+	$ips.startup();
+</script>
+
+

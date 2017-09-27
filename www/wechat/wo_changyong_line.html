@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>常跑线路</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+    <header class='demos-header' style="background:#101013; color:#fff;">
+        <h1 class="text-title">常跑线路</h1>
+    </header>
+    <div class="my-car-area my-line">
+
+        <div class="line-container">
+            <div class="line-ico-container">
+                <span class="line-point-ico">起</span>
+                <span class="line-point-ico" style="border-color:#ff9234; margin-top:1.2rem">终</span>
+            </div>
+            <div class="join-top-area">
+                <div class="double-select-area">
+                    <span class="changeui-input has-select weui-cell_access" style="width:30%;">
+                        <select class="weui-select" name="select2">
+                            <option value="0">请选择</option>
+                            <option value="1" selected>四川</option>
+                            <option value="2">美国</option>
+                            <option value="3">英国</option>
+                        </select>
+                        <span class="weui-cell__ft"></span>
+                    </span>
+
+                    <span class="changeui-input has-select weui-cell_access" style="width:70%;">
+                        <select class="weui-select" name="select2">
+                            <option value="0">请选择</option>
+                            <option value="1" selected>四川东皓物流</option>
+                            <option value="2">美国</option>
+                            <option value="3">英国</option>
+                        </select>
+                        <span class="weui-cell__ft"></span>
+                    </span>
+                </div>
+
+                <div class="double-select-area">
+                    <span class="changeui-input has-select weui-cell_access" style="width:30%;">
+                        <select class="weui-select" name="select2">
+                            <option value="0">请选择</option>
+                            <option value="1" selected>四川</option>
+                            <option value="2">美国</option>
+                            <option value="3">英国</option>
+                        </select>
+                        <span class="weui-cell__ft"></span>
+                    </span>
+
+                    <span class="changeui-input has-select weui-cell_access" style="width:70%;">
+                        <select class="weui-select" name="select2">
+                            <option value="0">请选择</option>
+                            <option value="1" selected>四川东皓物流</option>
+                            <option value="2">美国</option>
+                            <option value="3">英国</option>
+                        </select>
+                        <span class="weui-cell__ft"></span>
+                    </span>
+                </div>
+
+                <a href="" class="weui-btn weui-btn_primary btn-blue">查询</a>
+            </div>
+        </div>
+
+        <div class="my-car-list-container">
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">车长：</div>
+                            <div class="weui-flex__item">9.6米</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">厢型：</div>
+                            <div class="weui-flex__item">厢式</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">司机：</div>
+                            <div class="weui-flex__item">王二小</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">车长：</div>
+                            <div class="weui-flex__item">9.6米</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">厢型：</div>
+                            <div class="weui-flex__item">厢式</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">司机：</div>
+                            <div class="weui-flex__item">王二小</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">车长：</div>
+                            <div class="weui-flex__item">9.6米</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">厢型：</div>
+                            <div class="weui-flex__item">厢式</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">司机：</div>
+                            <div class="weui-flex__item">王二小</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">车长：</div>
+                            <div class="weui-flex__item">9.6米</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">厢型：</div>
+                            <div class="weui-flex__item">厢式</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">司机：</div>
+                            <div class="weui-flex__item">王二小</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">车长：</div>
+                            <div class="weui-flex__item">9.6米</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">厢型：</div>
+                            <div class="weui-flex__item">厢式</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">司机：</div>
+                            <div class="weui-flex__item">王二小</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">车长：</div>
+                            <div class="weui-flex__item">9.6米</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">厢型：</div>
+                            <div class="weui-flex__item">厢式</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">司机：</div>
+                            <div class="weui-flex__item">王二小</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-weui-panel">
+                <p class="changeui-list-title">川A889988</p>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">车长：</div>
+                            <div class="weui-flex__item">9.6米</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">重量：</div>
+                            <div class="weui-flex__item">3吨</div>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">厢型：</div>
+                            <div class="weui-flex__item">厢式</div>
+                        </div>
+                        <div class="weui-flex changeui-list-inner-item">
+                            <div class="weui-flex__item text-right text-right-item">司机：</div>
+                            <div class="weui-flex__item">王二小</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="changeui-signle-line"></div>
+                <div class="weui-flex">
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont phone-ico">&#xe601;</i>
+                            <span class="vl-m">18743676789</span>
+                        </div>
+                    </div>
+                    <div class="weui-flex__item">
+                        <div class="text-center">
+                            <i class="c-iconfont map-ico">&#xe600;</i>
+                            <span class="vl-m">广州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,73 @@
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>导入评标线路</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+
+                    <!-- widget content -->
+                    <div class="row padding-10">
+                        <div class="col-xs-10 col-sm-10 padding-10">
+                            <div class="btn-group">
+                                <a href="javascript:void(0);" class="btn btn-default padding-5" onclick="downloadTemp('tender_route')">下载模板</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-body no-padding">
+                        <form class="smart-form" role="form" id="upload" method="post" enctype="multipart/form-data">
+                            
+                            <div class="row padding-10">
+                                <section class="col col-8">
+                                    <label class="col col-3 text-align-left" langlanguage="selftruckattach" style="width:600px;text-align:left;">请选择要导入的文件(支持xlsx格式)</label>
+                                </section>
+                                <section class="col col-8" style="margin-left:10px;">
+                                    <label for="file" class="input input-file ">
+                                        <input type="file" id="selftruckfile" name="file" />
+                                    </label>
+                                </section>
+                            </div>
+                            <!--<div class="row" style="margin-left:15px;">
+                                <label class="col col-10 text-align-left">重复数据：</label>
+                                <label class="col col-10 text-align-left" style="margin-top:5px;">跳过&emsp;<input type="radio" name="selftruckinsert" value="jump" checked="checked" style="position:absolute;margin-top:5px;"></label>
+                                <label class="col col-10 text-align-left" style="margin-top:5px;">覆盖&emsp;<input type="radio" name="selftruckinsert" value="cover" style="position:absolute;"></label>
+                            </div>-->
+                    </form>
+                    <div style="margin:40px auto; width:40px;">
+                        <button type="submit" class="btn btn-primary btn-sm" id="saveselftruck" langlanguage="confirm">
+                            <span class="glyphicon glyphicon-floppy-disk"></span> 确认
+                        </button>
+                    </div>
+                    
+                    <!-- 自定义搜索区 -->
+               
+                    </div>
+
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+    <!-- end row -->
+
+</section>
+<script src="themes/default/js/tender_route_simport.js"></script>

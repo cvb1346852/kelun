@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="carrier">
+	<!-- QUERIES -->
+	<insert id="insert">
+		INSERT INTO `carrier` (`id`, `carrier_name`, `carrier_name_s`, `province`,`city`, `representative`, `property`, `capital`, `carrier_date`, `societycode`, `organizing_code`, `roadpicture`, `bankpicture`, `taxpicture`, `orgcodeprove`, `carrier_introduce`, `safe`, `travelService`, `otherService`, `carpercent`, `carrierarea`, `strengthline`, `selfcar`, `selfcarprove`, `othercar`,`relation_person`,`relation_phone`,`relation_fax`,`relation_email`,`relation_address`,`relation_post`,`create_time`,`update_time`,`last_update`,`is_invoice`,`invoice_rate`,`real_invoice_rate`,`trans_type`,`cooperate_type`,`auditor_id`)
+		                    VALUES (#id#, #carrier_name#, #carrier_name_s#, #province#,#city#,#representative#,#property#,#capital#,#carrier_date#, #societycode#,#organizing_code#, #roadpicture#, #bankpicture#, #taxpicture#, #orgcodeprove#, #carrier_introduce#, #safe#,#travelService#, #otherService#, #carpercent#, #carrierarea#, #strengthline#, #selfcar#, #selfcarprove#, #othercar#, #relation_person#,#relation_phone#,#relation_fax#,#relation_email#, #relation_address#,#relation_post#,  NOW(),        NOW(),     #last_update#,#is_invoice#,#invoice_rate#,#real_invoice_rate#,#trans_type#,#cooperate_type#,#warehouse_id#)
+	</insert>
+
+    <insert id="insert_s">
+        REPLACE INTO `carrier_warehouse` ( `carrier_id`, `warehouse_id`,`warehouse_name`, `trans_type`, `cooperate_type`, `phone`, `create_time`, `update_time`,`last_update`,`deleted`)
+                                 VALUES ( #carrier_id#, #warehouse_id#,  #warehouse_name#, #trans_type#, #cooperate_type#, #phone#,  NOW(),          NOW(),#last_update#,0)
+    </insert>
+
+
+    <update id="update">
+        UPDATE carrier SET
+        update_time =  NOW()
+        <isNotEmpty prepend="," property="carrier_name_s">
+            carrier_name_s = #carrier_name_s#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="province">
+            province = #province#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="city">
+            city = #city#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="representative">
+            representative = #representative#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="property">
+            property = #property#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="capital">
+            capital = #capital#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="carrier_date">
+            carrier_date = #carrier_date#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="organizing_code">
+            organizing_code = #organizing_code#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="societycode">
+            societycode = #societycode#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="roadpicture">
+            roadpicture = #roadpicture#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bankpicture">
+            bankpicture = #bankpicture#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="taxpicture">
+            taxpicture = #taxpicture#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="," property="orgcodeprove">
+            orgcodeprove = #orgcodeprove#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="carrier_introduce">
+            carrier_introduce = #carrier_introduce#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="safe">
+            safe = #safe#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="travelService">
+            travelService = #travelService#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="otherService">
+            otherService = #otherService#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="carpercent">
+            carpercent = #carpercent#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="carrierarea">
+            carrierarea = #carrierarea#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="strengthline">
+            strengthline = #strengthline#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="selfcar">
+            selfcar = #selfcar#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="selfcarprove">
+            selfcarprove = #selfcarprove#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="othercar">
+            othercar = #othercar#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="," property="relation_person">
+            relation_person = #relation_person#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="relation_person">
+            relation_person = #relation_person#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="relation_phone">
+            relation_phone = #relation_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="relation_fax">
+            relation_fax = #relation_fax#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="relation_email">
+            relation_email = #relation_email#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="relation_address">
+            relation_address = #relation_address#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="relation_post">
+            relation_post = #relation_post#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="last_update">
+            last_update = #last_update#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="is_invoice">
+            is_invoice = #is_invoice#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="invoice_rate">
+            invoice_rate = #invoice_rate#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="real_invoice_rate">
+            real_invoice_rate = #real_invoice_rate#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="trans_type">
+            trans_type = #trans_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="cooperate_type">
+            cooperate_type = #cooperate_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="warehouse_id">
+            auditor_id = #warehouse_id#
+        </isNotEmpty>
+
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+    <update id="updateAgree">
+        UPDATE carrier_warehouse SET
+        `carrier_id` = #carrier_id#,
+        `warehouse_id` = #warehouse_id#,
+        `warehouse_name` = #warehouse_name#,
+        `trans_type` = #trans_type#,
+        `cooperate_type` = #cooperate_type#,
+        `phone` = #phone#,
+        `last_update` = #last_update#,
+        `update_time` = NOW()
+        WHERE `id`=#id#;
+    </update>
+    
+    <update id="updateCheckStatus">
+        UPDATE `carrier` SET
+        `check_status` = #status#,
+        `update_time` = NOW()
+        WHERE `id`=#id#;
+    </update>
+
+    <update id="del">
+        UPDATE carrier_warehouse SET
+        `deleted` = 1,
+        `last_update` = #last_update#,
+        `update_time` = NOW()
+        WHERE `id`=#id#;
+    </update>
+
+	<delete id="delete">
+        UPDATE truck_source_carrier SET
+        `deleted` = 1,
+        `update_time` = NOW(),
+        `last_update` = #last_update#
+        WHERE `id`=#id#;
+    </delete>
+
+	<select id="selectPage">
+		SELECT  a.`id`,a.`carrier_id`, a.`warehouse_id`,a.`warehouse_name`,b.`carrier_name`,b.`carrier_name_s`,b.`province`,b.`city`,b.`representative`,
+        b.`property`,b.`capital`,b.`carrier_date`,b.`societycode`,b.`organizing_code`,b.`carrier_introduce`,b.`carpercent`,b.`strengthline`,b.`selfcar`,b.`othercar`,
+        b.`relation_person`,b.`relation_phone`,b.`relation_fax`,b.`relation_email`,b.`relation_address`,b.`relation_post`,b.`create_time`,b.`g7s_orgcode`,b.`is_invoice`,
+        b.`invoice_rate`,a.`trans_type`,b.`app_key`,b.`app_secret`,b.check_status,c.`name` ,b.real_invoice_rate
+        FROM `carrier_warehouse` a
+        LEFT JOIN  `carrier` b ON a.carrier_id = b.id  
+        LEFT JOIN `warehouse` c ON c.id=b.auditor_id 
+        WHERE  a.`deleted`= 0 
+
+        <include refid="selectPage_where"/>
+        <isNotEmpty property="sortColumns">
+            ORDER BY b.$sortColumns$
+        </isNotEmpty>
+        <isNotEmpty property="limit">
+           LIMIT $limit$
+        </isNotEmpty>
+	</select>
+
+    <select id="selectPage_count">
+        SELECT count(a.id) as count FROM   `carrier_warehouse` a LEFT JOIN  `carrier` b ON a.carrier_id = b.id  WHERE a.`deleted`=0
+        <include refid="selectPage_where"/>
+    </select>
+
+    <sql id="selectPage_where">
+        <isNotEmpty prepend=" AND" property="carrier_name">
+            b.`carrier_name`    like '%$carrier_name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carrier_id">
+            a.`carrier_id`  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="relation_phone">
+            b.`relation_phone`   like '%$relation_phone$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="property">
+            b.`property`  =  #property#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="organizing_code">
+            b.`organizing_code`  =  #organizing_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="status">
+            b.`check_status` = $status$
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+            a.`warehouse_id` = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="trans_type">
+            a.`trans_type` LIKE '%$trans_type$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="trans_type_cw">
+            a.`trans_type` LIKE '%$trans_type$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="relation_phone">
+            b.`relation_phone` = #relation_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="is_invoice">
+            b.`is_invoice` = #is_invoice#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="cooperate_type_tender">
+            a.`cooperate_type` != 2
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="cooperate_type_tender_cw">
+            a.`cooperate_type` != 2
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="cooperate_type_fixed">
+            a.`cooperate_type` != 1
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="cooperate_type_fixed_cw">
+            a.`cooperate_type` != 1
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="check_status">
+            b.`check_status` = $check_status$
+        </isNotEmpty>
+    </sql>
+
+
+    <select id="getById">
+        SELECT b.* ,a.*, a.trans_type AS trans_type_a, a.cooperate_type AS cooperate_type_a  FROM   `carrier_warehouse` a LEFT JOIN  `carrier` b ON a.carrier_id = b.id  WHERE a.`deleted`=0 AND a.`id` = #id#  LIMIT 1
+    </select>
+    <select id="getCarrierId">
+        SELECT carrier_id FROM   `carrier_warehouse` WHERE id=#id# AND deleted=0
+    </select>
+    <select id="getAuditorId">
+        SELECT c.* FROM `carrier` AS c
+        LEFT JOIN carrier_warehouse AS cw ON cw.carrier_id=c.id 
+        WHERE cw.id=#id# AND cw.deleted=0 AND c.deleted=0
+    </select>
+
+    <select id="selectPlat_form_code">
+        SELECT `orgcode`,`platform_code`  FROM   `warehouse`  WHERE  `id` IN (SELECT `warehouse_id`  FROM   `carrier_warehouse`  WHERE `carrier_id` = #id# AND deleted = 0);
+    </select>
+
+    <update id="g7s_set">
+        UPDATE `carrier` SET `g7s_orgcode` = #g7s_orgcode#,`last_update`=#last_update# where `id` = #id#
+    </update>
+
+    <!--获取所有承运商-->
+    <select id="getAllCarrier">
+        SELECT id,carrier_name
+        FROM `carrier`
+        WHERE carrier_name like '%$carrier$%' and deleted = 0
+    </select>
+
+    <!--获取承运商信息，用于基地审核-->
+    <select id="getAlterInfo">
+        SELECT c.*,cw.warehouse_name
+        FROM `carrier` AS c
+        LEFT JOIN `carrier_warehouse` AS cw ON  c.id = cw.carrier_id
+        WHERE c.deleted = 0
+        <isNotEmpty prepend=" AND" property="carrier_warehouse_id">
+            cw.id = $carrier_warehouse_id$
+        </isNotEmpty>
+    </select>
+
+     <!--查看是否有默认承运商-->
+    <select id="carrierCheck">
+        SELECT c.id,c.carrier_name,c.relation_phone FROM `carrier` AS c LEFT JOIN `carrier_warehouse` AS cw
+        ON cw.carrier_id=c.id 
+        LEFT JOIN `warehouse` AS w 
+        ON w.id=cw.warehouse_id 
+        WHERE w.`orgcode`=#orgcode# AND cw.is_default=1 AND cw.deleted=0 AND c.check_status=1
+    </select>
+    <!--获取承运商名称-->
+    <select id="getCarriers">
+        SELECT c.id,c.carrier_name FROM `carrier` AS c LEFT JOIN `carrier_warehouse` AS cw 
+        ON cw.carrier_id=c.id 
+        LEFT JOIN `warehouse` AS w 
+        ON w.id=cw.warehouse_id 
+        WHERE  cw.deleted=0 AND c.check_status=1
+        <isNotEmpty prepend=" AND" property="orgcode">
+            w.`orgcode`=#orgcode#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="postname">
+            c.`carrier_name` like '%$postname$%'
+        </isNotEmpty>
+    </select>
+    <!--设置默认承运商-->
+    <update id="setDefauleCarrier">
+        UPDATE `carrier_warehouse` SET `is_default` = 1 WHERE carrier_id=(SELECT `id` FROM `carrier` WHERE carrier_name=#default_carrier#) AND warehouse_id=(SELECT id FROM `warehouse` WHERE `orgcode`=#orgcode#)
+    </update>
+    <update id="setOldDefauleCarrier">
+        UPDATE `carrier_warehouse` SET `is_default` = 0 WHERE warehouse_id=(SELECT id FROM `warehouse` WHERE `orgcode`=#orgcode#)
+    </update>
+    <!--检查organizing_code是否重复-->
+    <select id="checkOrgcode">
+        SELECT id,organizing_code FROM `carrier` WHERE organizing_code=#organizing_code#
+    </select>
+    <!--检查电话是否重复-->
+    <select id="checkPhone">
+        SELECT id,check_status FROM `carrier` WHERE relation_phone=#relation_phone#
+    </select>
+    <!--检查承运商名称是否重复-->
+    <select id="checkCarrierName">
+        SELECT id FROM `carrier` WHERE carrier_name = #carrier_name#
+    </select>
+    
+    <!--获取所有的承运商用来统计-->
+    <select id="getAllCarriers">
+        SELECT id,carrier_name FROM `carrier` WHERE deleted=0 AND check_status=1
+    </select>
+    <select id="getAllCarriers_count">
+        SELECT count(*) FROM `carrier` WHERE deleted=0 AND check_status=1
+    </select>
+    <!--获取所有的司机用来统计-->
+    <select id="getAllDrivers">
+        SELECT id,driver_phone FROM `truck_source` WHERE deleted=0 
+    </select>
+    <select id="getAllDrivers_count">
+        SELECT count(*) FROM `truck_source` WHERE deleted=0 
+    </select>
+    <select id="getCarrierById">
+        SELECT * FROM `carrier` WHERE id=#id#;
+    </select>
+    <!--获取与承运商相关的运单-->
+    <select id="getShipmentMsg">
+        SELECT count(id) AS delivery_times,sum(weight) AS total_weight,sum(distance) AS total_distance,sum(price) AS total_price FROM `shipment` WHERE deleted=0 
+        <isNotEmpty prepend=" AND" property="carrier_id">
+            carrier_id=#carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_phone">
+            driver_phone=#driver_phone#
+        </isNotEmpty> 
+    </select>
+    <!--获取与承运商相关的运单-->
+    <select id="getOrderMsg">
+        SELECT s.id,oc.grade,oc.product_abnormal,oc.quality_abnormal FROM `order_checkout` AS oc 
+        LEFT JOIN `order` AS o ON o.id=oc.order_id 
+        LEFT JOIN `shipment` AS s ON s.id=o.shipment_id 
+        WHERE s.deleted=0 AND o.deleted=0 
+        <isNotEmpty prepend=" AND" property="carrier_id">
+            s.carrier_id=#carrier_id# 
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="driver_phone">
+            s.driver_phone=#driver_phone# 
+        </isNotEmpty>  
+    </select>
+    
+    <!--获取承运商被投诉数-->
+    <select id="getComplainNum">
+        SELECT count(id) AS complain_num FROM `complain` WHERE deleted=0 AND responsible_name=#carrier_name# AND result=1
+    </select>
+    <!-- <update id="updateCarrier">
+        UPDATE `carrier` SET `delivery_times` = #delivery_times#,`total_weight` = #total_weight#,`total_distance` = #total_distance#,`complain_num` = #complain_num#,`total_grade` = #total_grade#,`total_price` = #total_price#,`quote_rate` = #quote_rate#,`arraive_num` = #arraive_num#,`send_car` = #send_car#,`order_num` = #order_num#,`lbs_rate` = #lbs_rate# 
+        WHERE id=#carrier_id# 
+    </update> -->
+    <update id="updateCarrier_a">
+        UPDATE `carrier` SET `delivery_times` = #delivery_times#,`total_weight` = #total_weight#,`total_distance` = #total_distance#,`complain_num` = #complain_num#,`total_grade` = #total_grade#,`total_price` = #total_price#,`order_num` = #order_num#  
+        WHERE id=#carrier_id# 
+    </update>
+    <update id="updateCarrier_b">
+        UPDATE `carrier` SET `quote_rate` = #quote_rate#,`arraive_num` = #arraive_num#,`send_car` = #send_car#,`lbs_rate` = #lbs_rate# 
+        WHERE id=#carrier_id# 
+    </update>
+    <update id="updateTruckSource">
+        UPDATE `truck_source` SET `delivery_times` = #delivery_times#,`total_weight` = #total_weight#,`total_distance` = #total_distance#,`complain_num` = #complain_num#,`total_grade` = #total_grade#,`order_num` = #order_num# 
+        WHERE id=#driver_id# 
+    </update>
+    <!--获取承运商或司机id-->
+    <select id="getRelationId">
+        SELECT $getcolunm$ FROM $tablename$ 
+        LEFT JOIN wechat_connect AS wc ON wc.phone=$oncolunm$ 
+        WHERE wc.openid=#openid#
+    </select>
+    <!--更新司机或承运商的活跃时间-->
+    <update id="updateActiveTime">
+        UPDATE $updateTableName$ SET `active_time` = #now_date#
+        WHERE id=#id# 
+    </update>
+    <!--更新签收人的活跃时间-->
+    <update id="updateActiveTime_sign">
+        UPDATE wechat_connect SET `active_time` = NOW()
+        WHERE openid=#openid#
+    </update>
+
+    <!--统计竞标会标率-->
+    <select id="getPushNum">
+        SELECT count(DISTINCT tender_id) AS pushNum FROM tender_push WHERE relation_id=#relation_id#  
+    </select>
+    <select id="getQuoteNum">
+        SELECT count(*) AS quoteNum FROM tender_quote WHERE relation_id=#relation_id# AND is_cancel=0
+    </select>
+    <!-- 总体统计承运商 -->
+    <select  id="getCarrierStatistic">
+        SELECT count(*) AS arriveNum FROM shipment WHERE carrier_id=#carrier_id# AND deleted=0 AND arrival_date>plan_arrive_time 
+        UNION all
+        SELECT count(*) AS sendCar FROM shipment AS s 
+        LEFT JOIN `tender` AS t ON t.shipment_id=s.id 
+        WHERE s.carrier_id=#carrier_id# AND s.arrivewh_time>t.package_time 
+        UNION ALL 
+        SELECT count(DISTINCT tender_id) AS pushNum FROM tender_push WHERE relation_id=#relation_id# 
+        UNION ALL 
+        SELECT count(*) AS quoteNum FROM tender_quote WHERE relation_id=#relation_id# AND is_cancel=0 
+        UNION ALL 
+        SELECT count(*) AS carNum FROM truck_source AS ts 
+        LEFT JOIN truck_source_carrier AS tsc ON tsc.truck_source_id=ts.id 
+        WHERE tsc.deleted=0 AND ts.deleted=0 AND tsc.carrier_id=#carrier_id# 
+        UNION ALL 
+        SELECT count(*) AS carNumLbs FROM truck_source AS ts 
+        LEFT JOIN truck_source_carrier AS tsc ON tsc.truck_source_id=ts.id 
+        WHERE tsc.deleted=0 AND ts.deleted=0 AND tsc.carrier_id=#carrier_id# AND ts.lbs_register=1
+    </select>
+    <!--统计到达时效-->
+    <select id="getArriveNum">
+        SELECT count(*) AS arriveNum FROM shipment WHERE carrier_id=#carrier_id# AND deleted=0 AND arrival_date>plan_arrive_time 
+    </select>
+    <!--统计到达时效-->
+    <select id="getSendCar">
+        SELECT count(*) AS sendCar FROM shipment AS s 
+        LEFT JOIN `tender` AS t ON t.shipment_id=s.id 
+        WHERE s.carrier_id=#carrier_id# AND s.arrivewh_time>t.package_time 
+    </select>
+    <!--统计运输质量-->
+    <select id="getOrderNum">
+        SELECT oc.* FROM shipment AS s
+        LEFT JOIN `order` AS o ON o.shipment_id=s.id 
+        LEFT JOIN order_checkout AS oc ON oc.order_id=o.id 
+        WHERE s.carrier_id=#carrier_id# AND s.deleted=0 AND o.deleted=0 
+    </select>
+    <!--统计位置服务率-->
+    <select id="getLbsRate">
+        SELECT count(*) AS carNum FROM truck_source AS ts 
+        LEFT JOIN truck_source_carrier AS tsc ON tsc.truck_source_id=ts.id 
+        WHERE tsc.deleted=0 AND ts.deleted=0 AND tsc.carrier_id=#carrier_id# 
+        <isNotEmpty prepend=" AND" property="lbs">
+            ts.lbs_register=1 
+        </isNotEmpty> 
+    </select>
+    <!--获取所有的基地-->
+    <select id="getAllWarehouses">
+        SELECT id,`name` FROM warehouse WHERE deleted=0
+    </select>
+    <select id="getAllWarehouses_count">
+        SELECT count(*) FROM `warehouse` WHERE deleted=0 
+    </select>
+    <!--获取基地装车质量-->
+    <select id="getLoadQuality">
+        SELECT oc.* FROM shipment AS s
+        LEFT JOIN `order` AS o ON o.shipment_id=s.id 
+        LEFT JOIN order_checkout AS oc ON oc.order_id=o.id 
+        WHERE s.warehouse_id=#warehouse_id# AND s.deleted=0 AND o.deleted=0 
+    </select>
+    <!--更新基地统计-->
+    <update id="updateWarehouse">
+        UPDATE warehouse SET `load_quality` = #load_quality#,`total_grade`=#total_grade# 
+        WHERE id=#warehouse_id# 
+    </update>
+</sqlMap>

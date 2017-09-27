@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>签收申请</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="telephone=no,email=no" name="format-detection"/>
+    <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes"/>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+<!--     <header class='demos-header' style="background:#101013; color:#fff;">
+        <h1 class="text-title">签收申请</h1>
+    </header> -->
+    <div class="sign-apply-list">
+        <div class="changeui-weui-panel changeui-single-style">
+            <div class="changui-checkbox-container">
+                <span class="checkbox-item">
+                    <label>
+                        <input type="checkbox" name="" checked disabled="false" />
+                        <!-- <input type="checkbox" name="" /> -->
+                        <div class="checkbox">
+                            <img src="img/checkbox-unchecked.png" class="nochecked" />
+                            <img src="img/checkbox-checked.png" class="checked" />
+                        </div>
+                    </label>
+                </span>
+
+            </div>
+            <div class="changeui-list-item">
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">订单号：</span>
+                    <span class="text-item">6736237237</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">收货人：</span>
+                    <span class="text-item">张三</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">电话：</span>
+                    <span class="text-item">1786777767</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">地址：</span>
+                    <span class="text-item">
+                        快回家黑科技开关机空间
+                        <i class="c-iconfont map-ico">&#xe600;</i>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="changeui-weui-panel changeui-single-style">
+            <div class="changui-checkbox-container">
+                <span class="checkbox-item">
+                    <label>
+                        <input type="checkbox" name="" checked="checked"/>
+                        <div class="checkbox">
+                            <img src="img/checkbox-unchecked.png" class="nochecked" />
+                            <img src="img/checkbox-checked.png" class="checked" />
+                        </div>
+                    </label>
+                </span>
+            </div>
+            <div class="changeui-list-item">
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">订单号：</span>
+                    <span class="text-item">6736237237</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">收货人：</span>
+                    <span class="text-item">张三</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">电话：</span>
+                    <span class="text-item">1786777767</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">地址：</span>
+                    <span class="text-item">
+                        快回家黑科技开关机空间889好快回家黑科技开关机空间889好
+                        <i class="c-iconfont map-ico">&#xe600;</i>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="changeui-weui-panel changeui-single-style">
+            <div class="changui-checkbox-container">
+                <span class="checkbox-item">
+                    <label>
+                        <input type="checkbox" name="" disabled="disabled" />
+                        <div class="checkbox">
+                            <img src="img/checkbox-unchecked.png" class="nochecked" />
+                            <img src="img/checkbox-checked.png" class="checked" />
+                        </div>
+                    </label>
+                </span>
+            </div>
+            <div class="changeui-list-item">
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">订单号：</span>
+                    <span class="text-item">6736237237</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">收货人：</span>
+                    <span class="text-item">张三</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">电话：</span>
+                    <span class="text-item">1786777767</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">地址：</span>
+                    <span class="text-item">
+                        快回家黑科技开关机空间889好快回家黑科技开关机空间889好
+                        <i class="c-iconfont map-ico">&#xe600;</i>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="changeui-weui-panel changeui-single-style">
+            <div class="changui-checkbox-container">
+                <span class="checkbox-item">
+                    <label>
+                        <input type="checkbox" name="" />
+                        <div class="checkbox">
+                            <img src="img/checkbox-unchecked.png" class="nochecked" />
+                            <img src="img/checkbox-checked.png" class="checked" />
+                        </div>
+                    </label>
+                </span>
+            </div>
+            <div class="changeui-list-item">
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">订单号：</span>
+                    <span class="text-item">6736237237</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">收货人：</span>
+                    <span class="text-item">张三</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">电话：</span>
+                    <span class="text-item">1786777767</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">地址：</span>
+                    <span class="text-item">
+                        快回家黑科技开关机空间889好快回家黑科技开关机空间889好
+                        <i class="c-iconfont map-ico">&#xe600;</i>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="changeui-weui-panel changeui-single-style">
+            <div class="changui-checkbox-container text-center">
+                <span class="checkbox-item">
+                    <label>
+                        <input type="checkbox" name="" />
+                        <div class="checkbox">
+                            <img src="img/checkbox-unchecked.png" class="nochecked" />
+                            <img src="img/checkbox-checked.png" class="checked" />
+                        </div>
+                    </label>
+                </span>
+            </div>
+            <div class="changeui-list-item">
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">订单号：</span>
+                    <span class="text-item">6736237237</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">收货人：</span>
+                    <span class="text-item">张三</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">电话：</span>
+                    <span class="text-item">1786777767</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">地址：</span>
+                    <span class="text-item">
+                        快回家黑科技开关机空间889好快回家黑科技开关机空间889好
+                        <i class="c-iconfont map-ico">&#xe600;</i>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="changeui-weui-panel changeui-single-style">
+            <div class="changui-checkbox-container">
+                <span class="checkbox-item">
+                    <label>
+                        <input type="checkbox" name="" />
+                        <div class="checkbox">
+                            <img src="img/checkbox-unchecked.png" class="nochecked" />
+                            <img src="img/checkbox-checked.png" class="checked" />
+                        </div>
+                    </label>
+                </span>
+            </div>
+            <div class="changeui-list-item">
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">订单号：</span>
+                    <span class="text-item">6736237237</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">收货人：</span>
+                    <span class="text-item">张三</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">电话：</span>
+                    <span class="text-item">1786777767</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">地址：</span>
+                    <span class="text-item">
+                        快回家黑科技开关机空间889好快回家黑科技开关机空间889好
+                        <i class="c-iconfont map-ico">&#xe600;</i>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="changeui-weui-panel changeui-single-style">
+            <div class="changui-checkbox-container">
+                <span class="checkbox-item">
+                    <label>
+                        <input type="checkbox" name="" />
+                        <div class="checkbox">
+                            <img src="img/checkbox-unchecked.png" class="nochecked" />
+                            <img src="img/checkbox-checked.png" class="checked" />
+                        </div>
+                    </label>
+                </span>
+            </div>
+            <div class="changeui-list-item">
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">订单号：</span>
+                    <span class="text-item">6736237237</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">收货人：</span>
+                    <span class="text-item">张三</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">电话：</span>
+                    <span class="text-item">1786777767</span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">地址：</span>
+                    <span class="text-item">
+                        快回家黑科技开关机空间889好快回家黑科技开关机空间889好
+                        <i class="c-iconfont map-ico">&#xe600;</i>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="changeui-fixed-bottom changeui-sign_apply">
+        <div class="cfb-check-area fl-l">
+            <span class="checkbox-item">
+                <label>
+                    <input type="checkbox" name="" checked="checked"/>
+                    <div class="checkbox vl-m">
+                        <img src="img/checkbox-unchecked.png" class="nochecked" />
+                        <img src="img/checkbox-checked.png" class="checked" />
+                    </div>
+                    <span class="vl-m">全选</span>
+                </label>
+            </span>
+        </div>
+        <a href="javascript:;" class="weui-btn weui-btn_primary changeui-weui-btn_primary" style="width:30%;">申请签收</a>
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

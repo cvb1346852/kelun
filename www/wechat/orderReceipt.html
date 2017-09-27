@@ -1,0 +1,424 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>订单签收</title>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/jquery_weui/js/jquery-weui.min.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <script src="/js/jquery.star-rating-svg.min.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <link rel="stylesheet" href="/jquery_weui/lib/weui.min.css">
+    <link rel="stylesheet" href="/jquery_weui/css/jquery-weui.css">
+    <link rel="stylesheet" href="./css/wechat.css">
+    <link rel="stylesheet" type="text/css" href="/css/star-rating-svg.css">
+    <style>
+        #haha{
+            float:left;
+        }
+    </style>
+</head>
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="weui_toptips weui_warn js_tooltips">格式不对</div>
+    <div class="bd" id="order_product_list">
+        <form id="checkout">
+            <div class="weui_cells">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>订单号:</p>
+                    </div>
+                    <div class="weui_cell_ft" id="order_code"></div>
+                    <input type="hidden" value="" id="order_id" name="order_id">
+                </div>
+            </div>
+
+            <div class="weui_media_box weui_media_text">
+                <ul class="weui_media_info_text">
+                    <li class="weui_media_info_meta">资料遗失 <input type="checkbox"  name="product_abnormal[data_loss]" value="1"/></li>
+                    <li class="weui_media_info_meta">多装 <input type="checkbox" name="product_abnormal[more]" value="1"/></li>
+                    <li class="weui_media_info_meta">少装 <input type="checkbox" name="product_abnormal[less]" value="1"/></li>
+                    <li class="weui_media_info_meta">错装 <input type="checkbox" name="product_abnormal[error]" value="1"/></li>
+                    <li class="weui_media_info_meta">送错收货人 <input type="checkbox" name="product_abnormal[error_receiver]" value="1"/></li>
+                    <li class="weui_media_info_meta">码不能识别 <input type="checkbox" name="product_abnormal[error_qrcode]" value="1"/></li>
+                    <li class="weui_media_info_meta">物码不一致 <input type="checkbox" name="product_abnormal[error_missmatch]" value="1"/></li>
+                </ul>
+                <ul class="weui_media_info_text">
+                    <p class="weui_media_desc">
+                    <li class="weui_media_info_meta">产品破损数量 <input type="number" class="checkout-text" name="quality_abnormal[product_damage_number]" value=""/></li>
+                    <li class="weui_media_info_meta">金额 <input type="number" class="checkout-text" name="quality_abnormal[product_damage_amount]" value=""/></li>
+                    </p>
+                    <p class="weui_media_desc">
+                    <li class="weui_media_info_meta">外包破损数量 <input type="number" class="checkout-text" name="quality_abnormal[package_damage_number]" value=""/></li>
+                    <li class="weui_media_info_meta">金额 <input type="number" class="checkout-text" name="quality_abnormal[package_damage_amount]" value=""/></li>
+                    </p>
+                </ul>
+            </div>
+            &lt;!&ndash; 测试上传照片 &ndash;&gt;
+            <div class="weui_cells">
+                <div class="weui_cell" id="haha">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <div class="weui_uploader">
+                            <div class="weui_uploader_hd weui_cell">
+                                <div class="weui_cell_bd weui_cell_primary">回单照片:</div>
+                                <div class="weui_cell_ft"></div>
+                            </div>
+                            <div class="weui_uploader_bd">
+                                <ul class="weui_uploader_files" id="order-product-image-back">
+                                    <div class="weui_uploader_input_wrp">
+                                        <input class="weui_uploader_input" type="file" name="face" accept="image/*;capture=camera" id="checkout-order-back">
+                                    </div>
+
+                                </ul>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui_cell" id="haha">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <div class="weui_uploader">
+                            <div class="weui_uploader_hd weui_cell">
+                                <div class="weui_cell_bd weui_cell_primary">货损照片:</div>
+                                <div class="weui_cell_ft"></div>
+                            </div>
+                            <div class="weui_uploader_bd">
+                                <ul class="weui_uploader_files" id="order-product-image-lose">
+                                    <div class="weui_uploader_input_wrp">
+                                        <input class="weui_uploader_input" type="file" name="face" accept="image/*;capture=camera" id="checkout-order-lose">
+                                    </div>
+                                </ul>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui_cell" id="haha">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <div class="weui_uploader">
+                            <div class="weui_uploader_hd weui_cell">
+                                <div class="weui_cell_bd weui_cell_primary">其他:</div>
+                                <div class="weui_cell_ft"></div>
+                            </div>
+                            <div class="weui_uploader_bd">
+                                <ul class="weui_uploader_files" id="order-product-image-other">
+                                    <div class="weui_uploader_input_wrp">
+                                        <input class="weui_uploader_input" type="file" name="face" accept="image/*;capture=camera" id="checkout-order-other">
+                                    </div>
+                                </ul>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_media_box weui_media_text">
+                <ul class="weui_media_info_text">
+                    <p class="weui_media_desc">
+                    <li class="weui_media_info_meta">运输服务质量
+                        <div class="my-rating-6">
+                            <input type="hidden" name="rating[driver_taidu]" id="rating_driver_taidu" value="0"/>
+                        </div>
+                    </li>
+                    </p>
+                    <p class="weui_media_desc">
+                    <li class="weui_media_info_meta">基地服务质量
+                        <div class="my-rating-6">
+                            <input type="hidden" name="rating[jidigoutong]" id="rating_jidigoutong" value="0"/>
+                        </div>
+                    </li>
+                    </p>
+                </ul>
+            </div>
+            <div class="hd spacing" id="submit">
+                <input name="checkout_address" id="address" value="" type="hidden" >
+                <input name="checkout_lng" id="lng" value="" type="hidden" >
+                <input name="checkout_lat" id="lat" value="" type="hidden" >
+                <input name="openid" id="openid" value="" type="hidden" >
+                <a href="javascript:;" id="showTooltips" class="weui_btn weui_btn_primary">确认签收</a>
+            </div>
+            <div style="margin-bottom: 48px;"></div>
+        </form>
+
+    </div>
+</div>
+
+<div id="full" class='weui-popup-container'>
+    <div class="weui-popup-modal">
+        <div class="weui_msg">
+            <div class="weui_icon_area"><i class="weui_icon_msg"><img id="result_image" src="../jquery_weui/images/smiling_face.png"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title" id="check_result"></h2>
+                <p class="weui_msg_desc" id="check_result_desc"></p>
+            </div>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary close-popup">关闭</a>
+                    <a href="javascript:;" onclick="gotolist()" class="weui_btn weui_btn_plain_primary close-popup">代签收列表</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript" src="./js/orderReceipt.js"></script>
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订单签收</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dialog.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" href="/css/star-rating-svg.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <style>
+
+        .c-iconfont {cursor: pointer;font-size: 30px;}
+
+        .weui-btn_primary {cursor: pointer;}
+    </style>
+</head>
+
+<body ontouchstart>
+    <div class="container order-sign">
+        <form id="checkout">
+
+
+            <div class="title-box">
+                <p>上传照片</p>
+            </div>
+
+            <div class="detail-box">
+                <div class="weui-panel__bd">
+                    <div class="weui_cell" id="haha">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <div class="weui_uploader">
+                                <div class="weui_uploader_hd weui_cell">
+                                    <div class="weui_cell_bd weui_cell_primary">回单照片:</div>
+                                    <div class="weui_cell_ft"></div>
+                                </div>
+                                <div class="weui_uploader_bd">
+                                    <ul class="weui_uploader_files" id="order-product-image-back">
+                                        <div class="weui_uploader_input_wrp">
+                                            <input class="weui_uploader_input" type="file" name="face" accept="image/*;capture=camera" id="checkout-order-back">
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> <div class="weui_cell_bd weui_cell_primary">
+                        <div class="weui_uploader">
+                            <div class="weui_uploader_hd weui_cell">
+                                <div class="weui_cell_bd weui_cell_primary">异常:</div>
+                                <div class="weui_cell_ft"></div>
+                            </div>
+                            <div class="weui_uploader_bd">
+                                <ul class="weui_uploader_files" id="order-product-image-lose">
+                                    <div class="weui_uploader_input_wrp">
+                                        <input class="weui_uploader_input" type="file" name="face" accept="image/*;capture=camera" id="checkout-order-lose" >
+                                    </div>
+                                </ul>
+
+
+                            </div>
+                        </div>
+                    </div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <div class="weui_uploader">
+                                <div class="weui_uploader_hd weui_cell">
+                                    <div class="weui_cell_bd weui_cell_primary">其他:</div>
+                                    <div class="weui_cell_ft"></div>
+                                </div>
+                                <div class="weui_uploader_bd">
+                                    <ul class="weui_uploader_files" id="order-product-image-other">
+                                        <div class="weui_uploader_input_wrp">
+                                            <input class="weui_uploader_input" type="file" name="face" accept="image/*;capture=camera" id="checkout-order-other">
+                                        </div>
+                                    </ul>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-panel__ft link-box">
+                <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link bt-none">
+                    <div class="weui-cell__bd bds"> 签收异常上报 </div>
+                    <span class="weui-cell__ft arrow-up" id="arrow"></span>
+                </a>
+            </div>
+
+            <div class="detail-box" id="taggle">
+                <div class="weui-panel__bd">
+                    <div class="weui-media-box weui-media-box_text clearfix" id="option_consign">
+
+
+
+                    </div>
+
+                    <div class="weui-media-box weui-media-box_text clearfix">
+                        <div class="form-input-item form-adj fl-l">
+                            <label><span class="vl-m input-before-font vm-l-large">产品破损数量</span><input type="number"  class="changeui-input input-l-sm"  placeholder="输入数量" name="quality_abnormal[product_damage_number]"/></label>
+                        </div>
+                        <div class="form-input-item form-adj fl-l">
+                            <label><span class="vl-m input-before-font vm-l-large">金额</span><input type="number"  class="changeui-input input-l-sm" placeholder="输入金额" name="quality_abnormal[product_damage_amount]" value=""/></label>
+                        </div>
+                        <div class="form-input-item form-adj fl-l">
+                            <label><span class="vl-m input-before-font vm-l-large">外包破损数量</span><input type="number"  class="changeui-input input-l-sm"  placeholder="输入数量"  name="quality_abnormal[package_damage_number]" value=""/></label>
+                        </div>
+                        <div class="form-input-item form-adj fl-l">
+                            <label><span class="vl-m input-before-font vm-l-large">金额</span><input type="number"  class="changeui-input input-l-sm" placeholder="输入金额" name="quality_abnormal[package_damage_amount]" value=""/></label>
+                        </div>
+                    </div>
+
+                    <div class="weui-media-box weui-media-box_text clearfix">
+                        <div class="changeui-list-inner-item">
+                            <span class="text-right text-right-item">主观评价500字：</span>
+                        </div>
+                        <textarea class="weui-textarea border-textarea" name="remark" placeholder="" rows="4"></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sub-btn-box">
+
+                <input name="order_id" id="order_id" value="" type="hidden" >
+                <input name="checkout_address" id="address" value="" type="hidden" >
+                <input name="checkout_lng" id="lng" value="" type="hidden" >
+                <input name="checkout_lat" id="lat" value="" type="hidden" >
+                <input name="openid" id="openid" value="" type="hidden" >
+                <input type="hidden" name="rating[driver_taidu]" id="rating_driver_taidu" value="0"/>
+                <input type="hidden" name="rating[jidigoutong]" id="rating_jidigoutong" value="0"/>
+                <a class="weui-btn weui-btn_primary "  id="showTooltips">提交</a>
+            </div>
+        </form>
+    </div>
+    <script type="text/template" id="consign_option_tmp">
+
+        <%
+        var _types = {'data_loss':'资料遗失','more':'多装','less':'少装','error':'错装','error_receiver':'送错收货人','error_qrcode':'码不能识别','error_missmatch':'物码不一致'};
+        _.each(_types,function(_value,_key){
+        %>
+        <div class="changui-checkbox-container checkbox-wrap fl-l" style="font-size:14px;">
+                <span class="checkbox-item">
+                    <!--<label>
+                        <input type="checkbox" id="product_abnormal_data_loss" name="product_abnormal[<%= _key %>]" value="1" checked="nochecked">
+                        <div class="checkbox">
+                            <img src='img/checkbox-unchecked.png' class= "checked"/>
+                            <img src='img/checkbox-checked.png' class= "nochecked"/>
+                        </div>
+                        <span><%= _value %></span>
+                    </label>-->
+                     <label>
+                         <input type="checkbox" id="product_abnormal_data_loss" name="product_abnormal[<%= _key %>]" value="1" >
+                         <div class="checkbox vl-m">
+                             <img src="img/checkbox-unchecked.png" class="nochecked">
+                             <img src="img/checkbox-checked.png" class="checked">
+                         </div>
+                         <span class="vl-m"><%= _value %></span>
+                     </label>
+                </span>
+        </div>
+        <% }); %>
+
+    </script>
+    <script type="text/html" id="order_info_tmp">
+        <div class="title-box">
+            <p>订单号:<span><%= jdata.order_code %></span></p>
+        </div>
+
+        <div class="detail-box">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text">
+                    <!--<h4 class="weui-media-box__title"> 标题一 </h4>-->
+                    <div class="item-box"><span class="key">要货件数:</span><span class="value"><%= jdata.quality ? jdata.quality  : '0'%>&nbsp;件</span></div>
+                    <div class="item-box"><span class="key">货品重量:</span><span class="value"><%= jdata.weight ? jdata.weight  : '0'%>&nbsp;t</span></div>
+                    <div class="item-box"><span class="key">货品体积:</span><span class="value"><%= jdata.volume ? jdata.volume  : '0'%>&nbsp;m³</span></div>
+                    <a class="weui-btn weui-btn_primary btn-detail" id="order_detail_info">详情</a>
+                </div>
+                <div class="weui-media-box weui-media-box_text">
+                    <div class="changeui-list-inner-item">
+                        <span class="text-right text-right-item"  style="width:30%">运输服务质量：</span>
+                                <span class="star-area">
+                                    <i class="c-iconfont gray-star" id="st11"></i>
+                                    <i class="c-iconfont gray-star" id="st12"></i>
+                                    <i class="c-iconfont gray-star" id="st13"></i>
+                                    <i class="c-iconfont gray-star" id="st14"></i>
+                                    <i class="c-iconfont gray-star" id="st15"></i>
+                                   <!-- <i class="c-iconfont gray-star"></i>-->
+                                </span>
+                    </div>
+                    <div class="changeui-list-inner-item">
+                        <span class="text-right text-right-item" style="width:30%">基地服务质量：</span>
+                            <span class="star-area">
+                                    <i class="c-iconfont gray-star" id="st21"></i>
+                                    <i class="c-iconfont gray-star" id="st22"></i>
+                                    <i class="c-iconfont gray-star" id="st23"></i>
+                                    <i class="c-iconfont gray-star" id="st24"></i>
+                                    <i class="c-iconfont gray-star" id="st25"></i>
+                                </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="js_dialog" id="androidDialog2" style="display:none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd dia-verify-detail">
+                    <strong class="weui-dialog__title">商品详情</strong><br/>
+                    <div class="weui-flex content">
+                        <span id="order_detail"><%= jdata.order_detail_info%></span>
+                    </div>
+
+                </div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="closeDiv()">知道了</a>
+                </div>
+            </div>
+        </div>
+    </script>
+
+<script>
+            $('#arrow').addClass('arrow-down').removeClass('arrow-up');
+            $('#taggle').hide();
+            $('.sub-btn-box').addClass('area-fold');
+    $(document).on('click', '.weui-cell_link', function(e){
+        if ( $('#taggle').css("display") == "block" ) {
+            $('#arrow').addClass('arrow-down').removeClass('arrow-up');
+            $('#taggle').hide();
+            $('.sub-btn-box').addClass('area-fold');
+        }
+        else {
+            $('#arrow').addClass('arrow-up').removeClass('arrow-down')
+            $('#taggle').show();
+            $('.sub-btn-box').removeClass('area-fold');
+        }
+    })
+</script>
+<script type="text/javascript" src="./js/orderReceipt.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col col-sm-6 col-xs-12">
+        <a href="#dispatch_set/index.html" class="btn btn-default"> &lt; 返回</a>
+    </div>
+</div>
+
+<div class="row"><br /></div>
+
+<div class="well no-padding well-light">
+    <form action="" class="smart-form" novalidate="novalidate" id="frmInfo" method="post">
+        <div id="inbox-content" class="inbox-body">
+            <header>基本信息</header>
+
+            <fieldset>
+                <div class="col-xs-12 col-sm-12 col-md-5">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">管理员账号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input style="width:100%;height:auto!important;" type="text" id="user_id" name="user_id" disabled="disabled" >
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-12 col-md-10">
+                    <div class="row">
+                        <label class="label col col-2 text-align-right txt-color-red ">所属基地</label>
+                        <fieldset class="self" id="push"></fieldset>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="modal-footer" style="padding: 12px;">
+                <input type="hidden" id="dispatch_id" name="dispatch_id">
+                <button id="btnSubmit" type="button" class="btn btn-primary" onclick="save()" style="padding: 6px 20px;">
+                    <span><i class="fa fa-fw fa-save"></i></span>保存
+                </button>
+                </button>
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+
+    // G7初始化页面
+    $ips.startup();
+</script>
+
+

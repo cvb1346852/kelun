@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<phpunit bootstrap="./common.php" colors="true">
+  <testsuite name="Cat Test Suite">
+    <directory suffix="_test.php">.</directory>
+  </testsuite>
+    <logging>
+        <log type="coverage-html" target="./build/coverage" title="Name of Project"
+             charset="UTF-8" yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="../build/logs/clover.xml"/>
+        <log type="junit" target="../build/logs/junit.xml"
+             logIncompleteSkipped="false"/>
+    </logging>
+</phpunit>

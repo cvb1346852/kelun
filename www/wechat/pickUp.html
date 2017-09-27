@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的运单</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <style>.weui_toptips{z-index: 99999;}</style>
+    <style type="text/css">
+        .ontouchstart{height: 100%;}
+        .my-waybill-list-container{height: 100%; overflow: auto; box-sizing: border-box; padding-top: 2.3rem;}
+    </style>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+    <div class="weui-navbar changeui-weui-navbar">
+        <div class="weui-navbar__item weui-bar__item_on" tab="">
+            全部
+        </div>
+        <div class="weui-navbar__item" tab="onway">
+            在途
+        </div>
+        <div class="weui-navbar__item" tab="arrival">
+            历史
+        </div>
+    </div>
+    <div class="my-waybill-list-container" id="pickup">
+
+    </div>
+</div>
+<script src="./js/pickUp.js"></script>
+</body>
+</html>
+

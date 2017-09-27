@@ -1,0 +1,562 @@
+<style>
+   
+    .checkbox{
+        margin:0 0 0 0;
+    }
+    .checkbox input{
+        width:10px;
+        height:10px;
+    }
+    .global-search-btn2{
+        position: absolute;
+        right: -150px;
+        top: 17px;
+    }
+    .global-search-box {
+    	margin-right: 160px;
+    }
+    .nextpage {page-break-after:always;}
+    
+    
+</style>
+<section id="widget-grid">
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2> 调度单</h2>
+                </header>
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <div class="widget-body no-padding">
+                        <div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+                            <form id="frmSearch" role="form" class="smart-form">
+                                <div class="global-search-box" style="margin-right:160px;">
+                                    <section class="pull-left no-padding pull-width280" >
+                                        <label class="">创建时间段</label>
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-calendar"></i>
+                                            <input type="text" class="statistic_date input-sm" id="statistic_date" style="width: 280px;" name="statistic_date" placeholder="" readonly="readonly">
+                                        </label>
+                                    </section>
+                                    <!-- <section class="pull-left no-padding pull-width100">
+                                        <label class="">是否发标</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="is_tender" name="is_tender">
+                                                <option value="" selected>-全部-</option>
+                                                <option value="1" >是</option>
+                                                <option value="2" >否</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section> -->
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">运单号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="shipment_code" name="shipment_code"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">订单号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="order_code" name="order_code"/>
+                                        </label>
+                                    </section>
+                                    
+                                    <section class="pull-left no-padding pull-width120">
+                                        <label class="">运单状态</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="check_shipStatus" name="check_shipStatus">
+                                                <option value="" >-全部-</option>
+                                                <option value="valid" selected="selected" >未生效</option>
+                                                <option value="4" >已调度</option>
+                                                <option value="6" >装货</option>
+                                                <option value="7" >在途</option>
+                                                <option value="arrival" >运抵</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    
+                                    <section class="pull-left no-padding pull-width120">
+                                        <label class="">运输方式</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="shipment_method" name="shipment_method">
+                                                <option value="" selected>-全部-</option>
+                                                <option value="整车运输" >整车运输</option>
+                                                <option value="零担运输" >零担运输</option>
+                                                <option value="车皮运输" >车皮运输</option>
+                                                <option value="铁路快件" >铁路快件</option>
+                                                <option value="铁路运输" >铁路运输</option>
+                                                <option value="短转运输" >短转运输</option>
+                                                <option value="航空快件" >航空快件</option>
+                                                <option value="集装箱运输" >集装箱运输</option>
+                                                <option value="水路运输" >水路运输</option>
+                                                <option value="海路运输" >海路运输</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width80">
+                                    <label class="">出发地</label>
+                                        <label class="input">
+                                            <input type="text"  class="input-sm" name="fromlocation" id="fromlocation"/>
+                                        </label> 
+                                    </section>
+                                    <section class="pull-left no-padding pull-width80">
+                                        <label class="">目的地</label>
+                                        <label class="input">
+                                            <input type="text"  class="input-sm"   name="tolocation" id="tolocation"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">承运商</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="carrier_id" name="carrier_id"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">司机</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="driver" name="driver"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">车牌号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="carnum" name="carnum"/>
+                                        </label>
+                                    </section>
+                                    
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">连续号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="serial_num" name="serial_num"/>
+                                        </label>
+                                    </section>
+
+                                    <input type="hidden" name="orgcode" id="orgcode"/>
+                                  
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">相关单据号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="relate_bill" name="relate_bill"/>
+                                        </label>
+                                    </section>
+
+                                    <!-- <section class="pull-left no-padding pull-width120">
+                                        <label class="">招投标状态</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="bidding_status" name="bidding_status">
+                                                <option value="" selected>-全部-</option>
+                                                <option value="0" >未发标</option>
+                                                <option value="1" >竞标中</option>
+                                                <option value="2" >已评标</option>
+
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width120">
+                                        <label class="">是否超额中标</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="over_price" name="over_price">
+                                                <option value="" selected>-全部-</option>
+                                                <option value="1" >是</option>
+                                                <option value="0" >否</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section> -->
+                                    <div class="global-search-btn2" >
+                                        <a id="btnSearch" class="btn btn-primary  btn-sm" type="button"><i class="fa fa-search"></i> 查询</a>
+                                        <a  class="btn btn-primary  btn-sm" type="button" onclick="resetForm()">重置</a>
+                                        <a id="btnMoreSearch" class="btn btn-sm btn-link" type="button" state="open">更多条件</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row margin-top-10 margin-bottom-10 dispatch-field" style="margin:0">
+                            <!-- 左侧按钮 -->
+                            <div class="col-xs-12 col-sm-12 operating-button">
+                            	<div class="btn-group">
+                                    <a href="javascript:void(0)" id="waybill-button"    class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="33BF28DED0BCC76274F503D2B0F86455">运单查看</a>
+                                    <a href="javascript:void(0)" id="ordersInfo-button" class="btn btn-default btn-only-one" data-toggle="modal" data-target="#ordersInfo" data-button-resource="3204D4314BEEF3367998D52FF569A601">订单查看</a>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)" id="show_history" class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="49FACCE95302E50FCB63A0458FFE173A">轨迹回放</a>
+                                </div>
+                                <div class="btn-group">
+                                	<a href="javascript:void(0)" id="printOrderInfo-button" class="btn btn-default btn-only-one" data-toggle="modal" data-target="#printOrder" data-button-resource="E396C62F7CEFB021880B8C61043C41FF">打印运输凭证</a>
+                                	<a href="javascript:void(0)" id="printtranshipment"   class="btn btn-default btn-only-one" data-toggle="modal" data-target="#ordersInfo_s" data-button-resource="C6148ECDEBE06153515E09654335E1D4">打印零担转运单</a>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)" id="enter_factory" class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="DF4763400F08364442F90AC8EB218F6B">进厂</a>
+                                    <a href="javascript:void(0)" id="out_factory" class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="049212E93C40AF75CAF9E33D1DAD7AF4">出厂</a>
+                                    <a href="javascript:void(0)" id="complete" class="btn btn-default btn-must-one" data-button-resource="C3DC92DF566ECA09CA6E41A1A4B8E378">运抵</a>
+
+                                </div>
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)" id="lbs-button" class="btn btn-default btn-only-one" data-toggle="modal"  data-button-resource="51935F94D181CC0045FA8AF076652C0B">LBS定位</a>
+                                </div>
+                                <div class="btn-group"><a href="javascript:void(0);" class="btn btn-default "  data-toggle="modal" id="export"  data-button-resource="874A7628333A878053E400D65E942E9A">导出</a></div>
+                            </div>
+                        </div>
+                        <table id="shipmentTbl" class="table table-striped table-bordered table-hover has-tickbox">
+                        </table>
+
+                        <!-- 发标通知 -->
+                        <div class="modal fade" id="dispatch_tenderMsg" tabindex="-1" role="dialog"
+                       aria-labelledby="" aria-hidden="true">
+                            <div class="modal-dialog" style="width:900px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="tenderMessage">
+                                           发标通知
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" id="tenderMsg" style="height:100%;over-flow:auto;">
+
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                        <input type="hidden" id="shipmentid" name="shipmentid" value="">
+                        <!-- 废标弹框 -->
+                        <div class="modal fade" id="dispatch_abandtender" tabindex="-1" role="dialog"
+                       aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="abandTender">
+                                           废标确认
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" style="margin:20px auto;">
+                                        <h3 class="label-row-title">确定要废标吗</h3>
+                                        <label class="input" style="margin-left:30px;">
+                                            <textarea id="aband_remark" name="aband_remark" placeholder="最多50个字" maxlength="50" rows=5 cols=60></textarea>
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary " id="aband">
+                                            确定
+                                        </button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                     </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                          <!-- 进厂事件 -->
+                        <div class="modal fade" id="dispatch_enterfactory" role="dialog" aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="abandTender">
+                                           车辆进厂事件
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" style="margin:20px auto;">
+                                        <h3 class="label-row-title">进厂时间</h3>
+                                        <label class="input" style="margin-left:30px;">
+                                            <input type="text" class="statistic_date input-sm" id="enterTime" style="width: 280px;" name="enterTime">
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary " id="enterf">
+                                            确定
+                                        </button>
+
+                                     </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                          <!-- 出厂事件 -->
+                        <div class="modal fade" id="dispatch_outfactory"  role="dialog"
+                       aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog" style="width:800px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="abandTender">
+                                           车辆出厂事件
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" style="">
+                                        
+                                        <h3 class="label-row-title">出厂时间</h3>
+                                        <label class="input" style="margin-left:30px;">
+                                            <input type="text" class="statistic_date input-sm" id="outTime" style="width: 280px;" name="outTime" readonly="readonly">
+                                        </label>
+                                        
+                                         <button type="button" class="btn btn-primary " id="outf">确定</button>
+                                         
+                                         <div id="orderMsg">
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                       
+                                     </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                        <!-- 运抵事件 -->
+                        <div class="modal fade" id="dispatch_complete" role="dialog" aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="abandTender">
+                                           运抵事件
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" style="margin:20px auto;">
+                                        <h3 class="label-row-title">运抵时间</h3>
+                                        <label class="input" style="margin-left:30px;">
+                                            <input type="text" class="statistic_date input-sm" id="arriveTime" style="width: 280px;" name="arriveTime">
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary " id="arrive">
+                                            确定
+                                        </button>
+
+                                     </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                        <!-- 转包上报 -->
+                        <div class="modal fade" id="reportInfo" tabindex="-1" role="dialog"
+                       aria-labelledby="reportInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="reportInfoLabel">
+                                           转包上报
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">订单号</h3>
+                                            <span id="orderid" class="label-row-input" style="display:inline-block;text-align:center"></span>
+                                            <input type="hidden" id="soid" />
+                                        </label>
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">时间</h3>
+                                            <label class="input">
+                                                <input type="text" class="statistic_date input-sm" id="reportTime" style="width: 280px;" name="reportTime" placeholder="" readonly="readonly">
+                                            </label>
+                                        </label>
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">类型</h3>
+                                            <select id="type" class="label-row-input">
+                                                <option>承包</option>
+                                                <option>分包</option>
+                                            </select>
+                                        </label>
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">地点</h3>
+                                            <input id="position" type="text"  class="label-row-input"/>
+                                        </label>
+                                        <label class="label-row">
+                                            <h3 class="label-row-title">车牌号</h3>
+                                            <input id="reportCarnum" type="text"  class="label-row-input"/>
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                        <button type="button" class="btn btn-primary reported">
+                                           上报
+                                        </button>
+                                     </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+                        <!-- 查看订单 -->
+                        <div class="modal fade" id="ordersInfo" tabindex="-1" role="dialog"
+                       aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog" style="width: 1300px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="ordersInfoLabel">
+                                           订单详情
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body ordersInfo-table">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                     </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+                        <!--打印运输凭证-->
+                        <div class="modal fade" id="printOrder" tabindex="-1" role="dialog"
+                             aria-labelledby="reportInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title" id="printOrderLabel">
+                                            打印运输凭证
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" id="table-product" style="font-size:10px;font-family: '宋体';">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                        <button type="button" class="btn btn-primary " id="jsprint">
+                                            打印
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+
+
+                        <!--       打印转运单       -->
+                         <div class="modal fade" id="ordersInfo_s" tabindex="-1" role="dialog"
+                       aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content"  style="width:500px;">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                              ×
+                                        </button>
+                                        <h4 class="modal-title" id="ordersInfoLabel_s">
+                                            打印转运单
+                                        </h4>
+                                    <div style="text-align: right;">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="jsprint_s">
+                                            打印
+                                        </button>
+                                    </div>
+                                    </div>
+                                     <div class="modal-body" id="table-product_s">
+                                    </div>
+                                </div><!-- /.modal-content -->
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                        <!--                               -->
+
+                        <!-- 评标 -->
+                        <div class="modal fade" id="tender_quote_table" tabindex="-1" role="dialog"
+                             aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog"  style="width:1200px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title" id="tender_quoteLabel">
+                                            评标
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body tender_quote_list">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                    <!-- 预中标上报 -->
+                    <div class="modal fade" id="dispatch_plantender" tabindex="-1" role="dialog"
+                         aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        ×
+                                    </button>
+                                    <h4 class="modal-title" id="abandTender1">
+                                        预中标上报
+                                    </h4>
+                                </div>
+                                <div class="modal-body" >
+                                    <h3 class="label-row-title">预中标备注：</h3>
+                                    <label class="input" >
+                                        <textarea id="plan_remark" name="plan_remark" placeholder="最多50个字" maxlength="50" rows=5 cols=60></textarea>
+                                    </label>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary " id="plantender-button">
+                                        确定
+                                    </button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                    </button>
+                                    <input type="hidden" id="operating_type_val">
+                                    <input type="hidden" id="tender_id_val">
+                                    <input type="hidden" id="quote_id_val">
+                                    <input type="hidden" id="quote_price_val">
+                                    <input type="hidden" id="shipment_id_val">
+                                    <input type="hidden" id="shipment_code_val">
+                                    <input type="hidden" id="auditType_val">
+                                    <input type="hidden" id="from_city_val">
+                                    <input type="hidden" id="to_city_val">
+                                    <input type="hidden" id="quote_type_name_val">
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div>
+                    </div>
+                    </div>
+                    <!-- end widget content -->
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+    </div>
+</section>
+
+
+<script src="js/resetForm.js"></script>
+<script src="js/plugin/jquery.PrintArea.js"></script>
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+    // G7初始化页面
+    $ips.startup();
+</script>

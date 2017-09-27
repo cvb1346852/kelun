@@ -1,0 +1,160 @@
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2> 收货人列表 </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+    
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <!-- 自定义搜索区 -->
+                        <div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+                            <form id="frmSearch" role="form" class="smart-form">
+                                <div style="margin-left:10px">
+                                    <div class="row">
+                                        <section class="pull-left  col pull-width200" >
+                                            <label class="">手机号选择</label>
+                                            <label class="input">
+                                                <input type="text" name="phone" class="select2" id="phone"/>
+                                            </label>
+                                        </section>
+
+                                        <section class="pull-left  col pull-width200" >
+                                            <label class="">请输入基地ERP账号</label>
+                                            <label class="input">
+                                                <input type="text" name="base_erp" class="select2" id="base_erp">
+                                            </label>
+                                        </section>
+                                        <section class="pull-left  col pull-width200" >
+                                            <label class="">请输入片区ERP账号</label>
+                                            <label class="input">
+                                                <input type="text" name="area_erp" class="select2" id="area_erp">
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="" style="width: 120px; position: absolute; top: 0px; right: 0px;">
+                                    <a id="btnSearch" class="btn btn-primary  btn-sm" type="button" style="margin-top:16px;">搜索</a>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="row padding-10">
+                        <!-- 左侧按钮 -->
+                        <!-- data-button-resource="025D0CF72CC7EBC7A6A7E67523DB80DD"  -->
+                        <!-- data-button-resource="706B84645CAD90A36FF096ADB497A063"  -->
+                            <div class="col-xs-8 col-sm-8">
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)" onclick="edit();" class="btn btn-default btn-only-one">解绑erp</a>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)" onclick="del();" class="btn btn-default">删除</a>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="javascript:void(0);" class="btn btn-default"  id="export">导出</a>
+                                </div>
+                            </div>
+                        </div>
+                
+
+                        <table id="tblMain" class="table table-striped table-bordered table-hover has-tickbox">
+                        </table>
+    
+                    </div>
+                    <!-- end widget content -->
+                    <!--  解绑erp弹出框 -->
+                <div class="modal fade" id="boxWorks" role="dialog" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="width:500px; max-height:400px;overflow-y:scroll">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabels" langlanguage="bindDriCardNum">选择要解绑的erp账号</h4>
+                            </div>
+                            <div class="modal-body" style="padding: 0;">
+                                <form class="smart-form" id="iccard_bind_forms"> 
+                                <div class="jarviswidget-editbox"> 
+                                 </div>
+                                 <div id="unbindbase">
+                                      <label class="col col-4 text-align-right" id="address_lable" name="user_abstract">解绑基地erp</label>
+                                    <section class="col col-8"> 
+                                            <input id="unbinderp" type="checkbox" name="erp[]" value="base_erp"/>   
+                                    </section> 
+                                 </div>  
+                                 <div id="unbindarea">
+                                   <label class="col col-4 text-align-right" id="address_lable" name="user_abstract">解绑片区erp</label>
+                                    <section class="col col-8"> 
+                                            <input id="unbinderp" type="checkbox" name="erp[]" value="area_erp"/>   
+                                    </section>   
+                                 </div>
+                                   <input  type="hidden" id= "id" name="id" value=""/>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="border: 0;">
+                                <span id="bindDriverCards"><button type="submit" class="btn btn-primary btn-sm" onclick="unbinderp()"><span class="glyphicon glyphicon-floppy-disk"></span> <span langlanguage="binding">确认解绑</span></button></span>
+                                <button type="submit" class="btn btn-default" data-dismiss="modal" langlanguage="cancel">
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 无erp解绑时弹出框 -->
+                <div class="modal fade" id="boxWorks2" role="dialog" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="width:500px; max-height:400px;overflow-y:scroll">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabels" langlanguage="bindDriCardNum">没有要解绑的erp账号</h4>
+                            </div>
+                            <div class="modal-body" style="padding: 0;">
+                                <div class="jarviswidget-editbox"> 
+                                 </div>  
+                            </div>
+                            <div class="modal-footer" style="border: 0;">
+                                <button type="submit" class="btn btn-default" data-dismiss="modal" langlanguage="cancel">
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- end widget div -->
+    
+            </div>
+            <!-- end widget -->
+    
+    
+        </article>
+        <!-- WIDGET END -->
+    
+    </div>
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<!-- Modal REMARK -->
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+    
+    // G7初始化页面 
+    $ips.startup();
+</script>

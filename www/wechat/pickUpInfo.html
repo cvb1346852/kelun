@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>运单详情</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+    <div class="bid-car-detail-container waybill-detail-container">
+        <div class="changeui-weui-panel no-pad-weui-panel" id="pickUpInfo_id">
+
+            <div class="changeui-signle-line" style="margin-left:10px; margin-right:10px;"></div>
+            
+            <div id="tblMain">
+            <p class="changeui-list-title" style="margin-bottom:10px;">收货地址</p>
+            
+            </div>
+            
+            <div class="weui-btn-area" style="display:none;" id="carrier">
+                <a class="weui-btn weui-btn_primary" href="javascript:" onclick="showTooltips();">订车</a>
+            </div>
+            <div class="weui-flex" style="display:none;" id="driver">
+                <div class="weui-flex__item">
+                    <div class="text-center">
+                        <i class="c-iconfont track-ico">&#xe60d;</i>
+                        <span class="vl-m weixin_scan" scan_type="in" >进门扫码</span>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="text-center">
+                        <i class="c-iconfont detail-ico" style="color: #FF9234;">&#xe60d;</i>
+                        <span class="vl-m weixin_scan" scan_type="out">出门扫码</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <input type="hidden" value="" id="scanResult">
+            <input type="hidden" value="" id="lng">
+            <input type="hidden" value="" id="lat">
+            <input type="hidden" value="" id="address">
+            <input type="hidden" value="" id="shipment_id">
+            <input type="hidden" value="" id="carnum">
+            <input type="hidden" id="scan_type_id" >
+        </div>
+    </div>
+</div>
+<div class="js_dialog" id="androidDialog2" style="display:none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd dia-verify-detail">
+            <strong class="weui-dialog__title">商品详情</strong><br/>
+            <div class="weui-flex content">
+                <span id="order_detail"></span>
+            </div>
+
+        </div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="closeDiv()">知道了</a>
+        </div>
+    </div>
+</div>
+<div id="full" class='weui-popup-container'>
+    <div class="weui-popup-modal">
+        <div class="weui_msg">
+            <div class="weui_icon_area"><i class="weui_icon_msg"><img id="result_image" src="../jquery_weui/images/smiling_face.png"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title" id="check_result"></h2>
+                <p class="weui_msg_desc" id="check_result_desc"></p>
+            </div>
+            <div class="weui_opr_area">
+                <p class="weui_btn_area">
+                    <a href="javascript:;" class="weui_btn weui_btn_plain_primary close-popup">关闭</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="./js/pickUpInfo.js"></script>
+</body>
+</html>
+

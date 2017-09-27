@@ -1,0 +1,88 @@
+<section id="widget-grid" class="">
+	<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2> 车队列表 </h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+	
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<!-- 自定义搜索区 -->
+						<div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+							<form id="frmSearch" role="form" class="smart-form">
+								<div style="margin-left:10px">
+									<div class="row">
+                                        <section class="pull-left  col pull-width200" >
+                                            <label class="">车队名称</label>
+                                            <label class="input">
+                                                <input type="text" name="name" placeholder="" class="input-sm" id="name">
+                                            </label>
+                                        </section>
+                                        <section class="pull-left  col pull-width200" >
+                                            <label class="">联系电话</label>
+                                            <label class="input">
+                                                <input type="text" name="phone" placeholder="" class="input-sm" id="phone">
+                                            </label>
+                                        </section>
+									</div>
+								</div>
+								<div class="" style="width: 120px; position: absolute; top: 0px; right: 0px;">
+                                    <a id="btnSearch" class="btn btn-primary  btn-sm" type="button" style="margin-top:16px;">搜索</a>
+                                    <a id="btnMoreSearch" class="btn btn-sm btn-link" type="button" style="margin-top:16px;">更多条件</a>
+							    </div>
+							</form>
+						</div>
+						
+					  <div class="row padding-10">
+					  		<!-- 左侧按钮 -->
+							<div class="col-xs-8 col-sm-8">
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)"  id="editPage"  data-button-resource="D97937DE3C2C629DB02E3AD0C58792E1" class="btn btn-default">新增车队</a>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)"  id="del"  data-button-resource="5F221B727A0FD5B8C5EAEA59FF6D695E" onclick="del()" class="btn btn-default">删除车队</a>
+                                </div>
+							</div>
+						</div>
+						<table id="tblMain" class="table table-striped table-bordered table-hover has-tickbox">
+						</table>
+	
+					</div>
+					<!-- end widget content -->
+	
+				</div>
+				<!-- end widget div -->
+	
+			</div>
+			<!-- end widget -->
+	
+	
+		</article>
+		<!-- WIDGET END -->
+	
+	</div>
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<!-- Modal REMARK -->
+<script type="text/javascript">
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	pageSetUp();
+	
+	// G7初始化页面 
+	$ips.startup();
+</script>

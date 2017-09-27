@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>货源详情</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script><!--添加这个在新页面-->
+    <script src="js/wechat.js"></script><!--取消这个隐藏-->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+    <div class="sourcing-detail-container">
+
+        <div class="changeui-weui-panel no-pad-weui-panel">
+            <div id="tblMain">
+
+            </div>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item" id="shipment_method"></div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">件数：</div>
+                        <div class="weui-flex__item" id="quality"></div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">重量：</div>
+                        <div class="weui-flex__item" id="weight"></div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                        <div class="weui-flex__item" id="plan_leave_time"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="changeui-signle-line" style="margin-left:10px; margin-right:10px;"></div>
+
+            <div class="big-font-area">
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class=" text-right text-right-item">联系人：</div>
+                    <div class="text-item" id="username"></div>
+                </div>
+                <div class="weui-flex changeui-list-inner-item">
+                    <div class=" text-right text-right-item">联系方式：</div>
+                    <div class="text-item" id="phone"></div>
+                </div>
+                 <div class="weui-flex changeui-list-inner-item">
+                    <div class=" text-right text-right-item">联系地址：</div>
+                    <div class="text-item" id="address"></div>
+                </div>
+            </div>
+            <!-- </div> -->
+
+        </div>
+
+        <div class="changeui-weui-panel changeui-single-style no-pad-weui-panel" id="cd">
+            <p class="changeui-list-title">招标中</p>
+            <div class="changeui-list-item">
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">竞标方式：</span>
+                    <span class="text-item" id="ctype"></span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">厢型要求：</span>
+                    <span class="text-item" id="carriage_type"></span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">车长要求：</span>
+                    <span class="text-item" id="car_length"></span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">温度要求：</span>
+                    <span class="text-item" id="temperature"></span>
+                </div>
+                <div class="changeui-list-inner-item">
+                    <span class="text-right text-right-item">截止日期：</span>
+                    <span class="text-item" id="ctime"></span>
+                </div>
+                <div class="changeui-list-inner-item" style="padding-top:1.5rem;">
+                    <span class="text-right text-right-item"></span>
+                    <span class="text-item"><a href="javascript:;" id="button" class="weui-btn weui-btn_primary changeui-weui-btn_primary" style="width:80%; display:inline-block;">立即报名</a></span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <input type="hidden" name="tender_id" id="tender_id" value="">
+    <input type="hidden" name="cooperate_type" id="cooperate_type" value="">
+
+</div>
+
+<script type="text/javascript" src="./js/orderDetail.js"></script>
+
+</body>
+
+
+</html>
+
+
+

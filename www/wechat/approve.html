@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>价格审批列表</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <style type="text/css">
+        .weui-hidden{height: 45px;}
+        .history-mission-list{height: 100%; overflow: auto; box-sizing: border-box; padding-top: 2.3rem;}
+    </style>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+    <div class="weui-navbar changeui-weui-navbar weui-hidden">
+        <div class="weui-navbar__item weui-bar__item_on">
+            未审核
+        </div>
+        <div class="weui-navbar__item">
+            已审核
+        </div>
+    </div>
+
+    <div class="history-mission-list bid-car-detail-container put-on-record-container" style="background:none;" >
+    </div>
+
+        <script type="text/template" id="approve-tmpl">
+            <% _.each(jdata,function(item){ %>
+        <div class="changeui-weui-panel" onclick = "goto('retify.html?tender_audit_id=<%= item.id%>&openid=<%= openid%>&show=yes')">
+            <div class="changeui-list-title">运单号：<%= item.shipment_code%></div>
+            <p class="normal-tip" style="padding-left:16px;"><%= item.fromlocation%> - <%= item.tolocation%></p>
+            <div class="changeui-signle-line" style="margin:.7rem 10px;"></div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">发车时间：</span>
+                <span class="single-right-item item"><%= item.plan_leave_time%></span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">分级运价：</span>
+                <span class="single-right-item item"><%= item.maxprice ? item.maxprice : '未设定' %></span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">审批报价：</span>
+                <span class="single-right-item item"><%= (item.quote_price ? item.quote_price : '--')+'元'%>(含税价：<%= item.tallage_price%>元) </span>
+            </div>
+            <div class="weui-cell_access">
+                <span class="weui-cell__ft"></span>
+            </div>
+            <% if(cheackOut == 2){%>
+
+            <img src="img/<%=  item.status == 2 ? 'icon_pass@2x' : 'icon_fail@2x' %>.png" class="shippers-status-mark-img "/>
+
+            <%};%>
+            </div>
+            <% }); %>
+        </script>
+
+
+</div>
+
+
+
+<script type="text/javascript" src="./js/approve.js"></script>
+</body>
+
+
+</html>
+

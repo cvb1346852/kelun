@@ -1,0 +1,1026 @@
+<style>
+    #shipmentTbl tr{
+        height:30px;
+        font-size:12px;
+        padding:0 0 0 0;
+    }
+    .checkbox{
+        margin:0 0 0 0;
+    }
+    .checkbox input{
+        width:10px;
+        height:10px;
+    }
+    .global-search-btn2{
+        position: absolute;
+        right: -150px;
+        top: 17px;
+    }
+</style>
+<section id="widget-grid">
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2> 派车管理</h2>
+                </header>
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box  -->
+                    </div>
+                    <div class="widget-body no-padding">
+                        <div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+                            <form id="frmSearch" role="form" class="smart-form">
+                                <div class="global-search-box" style="margin-right:160px;">
+                                    <section class="pull-left no-padding pull-width280" >
+                                        <label class="">创建时间段</label>
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-calendar"></i>
+                                            <input type="text" class="statistic_date input-sm" id="statistic_date" style="width: 280px;" name="statistic_date" placeholder="" readonly="readonly">
+                                        </label>
+                                    </section>
+
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">运单号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="shipment_code" name="shipment_code"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width120">
+                                        <label class="">运单状态</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="check_shipStatus" name="check_shipStatus">
+                                                <option value="" >-全部-</option>
+                                                <option value="valid" selected="selected" >未生效</option>
+                                                <option value="4" >已调度</option>
+                                                <option value="6" >装货</option>
+                                                <option value="7" >在途</option>
+                                                <option value="arrival" >运抵</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+
+                                    <section class="pull-left no-padding pull-width120">
+                                        <label class="">运输方式</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="shipment_method" name="shipment_method">
+                                                <option value="" selected>-全部-</option>
+                                                <option value="整车运输" >整车运输</option>
+                                                <option value="零担运输" >零担运输</option>
+                                                <option value="车皮运输" >车皮运输</option>
+                                                <option value="铁路快件" >铁路快件</option>
+                                                <option value="铁路运输" >铁路运输</option>
+                                                <option value="短转运输" >短转运输</option>
+                                                <option value="航空快件" >航空快件</option>
+                                                <option value="集装箱运输" >集装箱运输</option>
+                                                <option value="水路运输" >水路运输</option>
+                                                <option value="海路运输" >海路运输</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <!--<section class="pull-left no-padding pull-width190">
+                                        <label class="">出发地</label>
+                                        <label class="select">
+                                            <select class="input-sm" name="ddlProvince"  id="ddlProvince" onchange="selectMoreCity(this)">
+                                                <option value="2" selected>-全部-</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width50">
+                                        <label class=""></label>
+                                        <label class="select" >
+                                            <select class="input-sm" name="ddlCity" id="ddlCity">
+                                                <option value="" selected>-全部-</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width190">
+                                        <label class="">目的地</label>
+                                        <label class="select">
+                                            <select class="input-sm" name="toloProvince"  id="toloProvince" onchange="selectMoreCity1(this)">
+                                                <option value="" selected>-全部-</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width50">
+                                        <label class=""></label>
+                                        <label class="select" >
+                                            <select class="input-sm" name="toloCity" id="toloCity">
+                                                <option value="" selected>-全部-</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>-->
+
+                                    <section class="pull-left no-padding pull-width80">
+                                        <label class="">出发地</label>
+                                        <label class="input">
+                                            <input type="text"  class="input-sm" name="fromlocation" id="fromlocation"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width80">
+                                        <label class="">目的地</label>
+                                        <label class="input">
+                                            <input type="text"  class="input-sm"   name="tolocation" id="tolocation"/>
+                                        </label>
+                                    </section>
+
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">承运商</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="carrier_id" name="carrier_name"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">司机</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="driver" name="driver"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180">
+                                        <label class="">车牌号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="carnum" name="carnum"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width120">
+                                        <label class="">招投标状态</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="bidding_status" name="bidding_status">
+                                                <option value="" selected>-全部-</option>
+                                                <option value="0" >未发标</option>
+                                                <option value="1" >竞标中</option>
+                                                <option value="2" >已评标</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width120">
+                                        <label class="">是否超额中标</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="over_price" name="over_price">
+                                                <option value="" selected>-全部-</option>
+                                                <option value="1" >是</option>
+                                                <option value="0" >否</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <div class="global-search-btn2" >
+
+                                        <a id="btnSearch" class="btn btn-primary  btn-sm" type="button"><i class="fa fa-search"></i> 查询</a>
+                                        <a  class="btn btn-primary  btn-sm" type="button" onclick="resetForm()">重置</a>
+                                        <a id="btnMoreSearch" class="btn btn-sm btn-link" type="button" state="open">更多条件</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row margin-top-10 margin-bottom-10 dispatch-field" style="margin:0">
+                            <!-- 左侧按钮 -->
+                            <div class="col-xs-12 col-sm-12 operating-button">
+                                <a href="javascript:void(0)" id="show_tender"  class="btn btn-default btn-only-one" data-toggle="modal" >查看</a>
+                                <a href="javascript:void(0)" id="issue_tender"  data-button-resource="203FC4AC819F51F53320252D2A18192C"  class="btn btn-default btn-only-one" data-toggle="modal" >发标</a>
+                                <a href="javascript:void(0)" id="issue_tenders"    class="btn btn-default btn-only" data-toggle="modal"  data-button-resource="0255A11F863C398F9F19705C363FCEEF">批量发标</a>
+                                <a href="javascript:void(0)" id="change_tender"    class="btn btn-default btn-only-one" data-toggle="modal"  data-button-resource="EC3FA623792CFBD6554C210F3267BA0D">改标</a>
+                                <a href="javascript:void(0)" id="tender_quote"    class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="7B43250D9BD3F89AF9041B91814CD7CD">评标</a>
+                                <a href="javascript:void(0)" id="aband_tender" class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="E1592F6A4C6505C0E5BFF095B6FAB84F">废标</a>
+                                <a href="javascript:void(0)" id="tender_msg" class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="E61135F530F7B8D69FEB06DD6C3E3536">发标通知</a>
+                                <a href="javascript:void(0)" id="bid_win" class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="9FB1434D4F9F1E00D9F3266B021FBC2B">中标通知</a>
+                                <a href="javascript:void(0)" id="cpecify_carrier" class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="C2D5C95A0FBF5227D1A8A8A03DE6433A">指定承运商</a>
+                                <a href="javascript:void(0)" id="maintain_price_button" class="btn btn-default btn-only-one" data-toggle="modal" data-button-resource="57526AB97966C4DCF62CD0FAA3646C83">维护一口价</a>
+                                <a href="javascript:void(0);" class="btn btn-default "  data-toggle="modal" id="export" data-button-resource="8B3423BE9396384B4DD49CF39D7FA628">导出</a>
+                            </div>
+                        </div>
+                        <table id="shipmentTbl" class="table table-striped table-bordered table-hover">
+                        </table>
+                        <!-- 废标弹框 -->
+                        <div class="modal fade" id="dispatch_abandtender" tabindex="-1" role="dialog"
+                             aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title" id="abandTender">
+                                            废标确认
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" style="margin:20px auto;">
+                                        <h3 class="label-row-title">确定要废标吗</h3>
+                                        <label class="input" style="margin-left:30px;">
+                                            <textarea id="aband_remark" name="aband_remark" placeholder="最多50个字" maxlength="50" rows=5 cols=60></textarea>
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary " id="aband">
+                                            确定
+                                        </button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                        <!--标信息查看-->
+
+                        <div class="modal fade" id="dispatch_showTender" tabindex="-1" role="dialog" aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title" id="">
+                                           查看
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <fieldset  class="no-padding">
+                                            <div class="col  col-xs-12 no-padding">
+                                                <div class="row">
+                                                    <section class="col col-sm-2"></section>
+                                                    <section class="col col-sm-3">
+                                                        <label class="input state txt-color-red">
+                                                            运输方式
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-6">
+                                                        <label class="input state">
+                                                            <span id="ship_method">加载中</span>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-sm-2"></section>
+                                                    <section class="col col-sm-3">
+                                                        <label class="input state txt-color-red">
+                                                            招标方式
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-6">
+                                                        <label class="input state">
+                                                            <span id="cooperate_type_show">加载中</span>
+                                                        </label>
+                                                    </section>
+                                                </div>
+
+                                                <div class="row">
+                                                    <section class="col col-sm-2"></section>
+                                                    <section class="col col-sm-3">
+                                                        <label class="input state txt-color-red">
+                                                            报价方式
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-6">
+                                                        <label class="input state">
+                                                            <span id="price_type_show">加载中</span>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-sm-2"></section>
+                                                    <section class="col col-sm-3">
+                                                        <label class="input state txt-color-red">
+                                                            车长要求
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-6">
+                                                        <label class="input state">
+                                                            <span id="car_length_show">加载中</span>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-sm-2"></section>
+                                                    <section class="col col-sm-3">
+                                                        <label class="input state txt-color-red">
+                                                            箱型要求
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-6">
+                                                        <label class="input state">
+                                                            <span id="carriage_type_show">加载中</span>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-sm-2"></section>
+                                                    <section class="col col-sm-3">
+                                                        <label class="input state txt-color-red">
+                                                            竞标截止时间
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-6">
+                                                        <label class="input state">
+                                                            <span id="tender_limit_show">加载中</span>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-sm-2"></section>
+                                                    <section class="col col-sm-3">
+                                                        <label class="input state txt-color-red">
+                                                            要求到场时间
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-6">
+                                                        <label class="input state">
+                                                            <span id="package_time_show">加载中</span>
+                                                        </label>
+                                                    </section>
+                                                </div>
+
+                                                <div class="row">
+                                                    <section class="col col-sm-2"></section>
+                                                    <section class="col col-sm-3">
+                                                        <label class="input state txt-color-red">
+                                                            备注
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-6">
+                                                        <label class="input state">
+                                                            <span id="remark_show">加载中</span>
+                                                        </label>
+                                                    </section>
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                        <!-- 发标通知 -->
+                        <div class="modal fade" id="dispatch_tenderMsg" tabindex="-1" role="dialog"
+                             aria-labelledby="" aria-hidden="true" style="text-align:center;">
+                            <div class="modal-dialog" style="display: inline-block;width:auto;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title" id="tenderMessage" style="text-align:left;">
+                                            发标通知
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" id="tenderMsg" style="height:100%;over-flow:auto;text-align:left;">
+
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+                        <input type="hidden" id="shipmentid" name="shipmentid" value="">
+                        <input type="hidden" id="carrier_id_hidden" name="carrier_id_hidden" value="">
+                    <!-- 评标 -->
+                    <div class="modal fade" id="tender_quote_table" tabindex="-1" role="dialog"
+                         aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                        <div class="modal-dialog"  style="width: 1200px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        ×
+                                    </button>
+                                    <h4 class="modal-title" id="tender_quoteLabel">
+                                        评标
+                                    </h4>
+                                </div>
+                                <div class="modal-body tender_quote_list">
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div>
+                    </div>
+
+                        <!-- 批量发标 -->
+                        <div class="modal fade"  id="issue_tenders_table" role="dialog"
+                             aria-labelledby="ordersInfoLabel" aria-hidden="true">
+
+                            <div class="modal-dialog"  style="width:800px;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title" id="issue_tenders_table1">
+                                            批量发标
+                                        </h4>
+                                    </div>
+                                    <form action="" id="frmInfo" class="smart-form" novalidate="novalidate"  method="post">
+                                    <div class="modal-body">
+                                        <fieldset>
+                                            <div class="col-xs-12 col-sm-6 col-md-6" id="cooperate_type">
+                                                <div class="row">
+                                                    <label class="col col-4 text-align-right txt-color-red ">招标方式</label>
+                                                    <section class="col col-8" >
+                                                        <label class="col-10 text-align-left" >
+                                                            <input type="radio"  name="cooperate_type" value="1" checked="checked" style="position:absolute;" >&emsp;竞价&emsp;
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6 col-md-6" style="display: none;" id="price">
+                                                <div class="row">
+                                                    <label class="col col-4 text-align-right txt-color-red ">一口价</label>
+                                                    <section class="col col-8">
+                                                        <label class="input">
+                                                            <input type="text"  name="price" >
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6 col-md-6" id="price_type">
+                                                <div class="row">
+                                                    <label class="col col-4 text-align-right txt-color-red ">报价方式</label>
+                                                    <section class="col col-8">
+                                                        <label class="col-10 text-align-left" ><input type="radio" name="price_type" value="2" checked="checked" style="position:absolute;">&emsp;每吨报价&emsp;<input type="radio" name="price_type" value="1" style="position:absolute;">&emsp;整车报价&emsp;</label>
+                                                    </section>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-xs-12 col-sm-6 col-md-6 ">
+                                                <div class="row">
+                                                    <label class="  col col-4 text-align-right txt-color-black" style="margin-top:5px;">车长要求</label>
+                                                    <section class="col col-3">
+                                                        <label class="select">
+                                                            <select id="car_length" name="car_length"  class="label-row-input">
+                                                                <option></option>
+                                                                <option>4.2</option>
+                                                                <option>4.3</option>
+                                                                <option>4.8</option>
+                                                                <option>5</option>
+                                                                <option>5.2</option>
+                                                                <option>5.8</option>
+                                                                <option>6</option>
+                                                                <option>6.15</option>
+                                                                <option>6.2</option>
+                                                                <option>6.8</option>
+                                                                <option>7</option>
+                                                                <option>7.2</option>
+                                                                <option>7.6</option>
+                                                                <option>7.7</option>
+                                                                <option>8</option>
+                                                                <option>8.2</option>
+                                                                <option>8.6</option>
+                                                                <option>8.8</option>
+                                                                <option>9.6</option>
+                                                                <option>10</option>
+                                                                <option>10.5</option>
+                                                                <option>10.8</option>
+                                                                <option>12</option>
+                                                                <option>12.5</option>
+                                                                <option>13</option>
+                                                                <option>13.5</option>
+                                                                <option>14</option>
+                                                                <option>14.6</option>
+                                                                <option>15</option>
+                                                                <option>16</option>
+                                                                <option>16.4</option>
+                                                                <option>16.5</option>
+                                                                <option>17</option>
+                                                                <option>17.2</option>
+                                                                <option>17.3</option>
+                                                                <option>17.4</option>
+                                                                <option>17.5</option>
+                                                                <option>17.6</option>
+                                                                <option>17.8</option>
+                                                                <option>18</option>
+                                                                <option>18.5</option>
+                                                                <option>19</option>
+                                                                <option>19.5</option>
+                                                                <option>20</option>
+                                                                <option>20.5</option>
+                                                                <option>21</option>
+                                                                <option>21.5</option>
+                                                                <option>22</option>
+                                                                <option>30</option>
+                                                            </select>
+
+                                                        </label>
+                                                    </section>
+                                                    <label class="col">-</label>
+                                                    <section class="col col-3">
+                                                        <label class="select">
+                                                            <select id="car_length1" name="car_length1"  lass="input-sm">
+                                                                <option></option>
+                                                                <option>4.2</option>
+                                                                <option>4.3</option>
+                                                                <option>4.8</option>
+                                                                <option>5</option>
+                                                                <option>5.2</option>
+                                                                <option>5.8</option>
+                                                                <option>6</option>
+                                                                <option>6.15</option>
+                                                                <option>6.2</option>
+                                                                <option>6.8</option>
+                                                                <option>7</option>
+                                                                <option>7.2</option>
+                                                                <option>7.6</option>
+                                                                <option>7.7</option>
+                                                                <option>8</option>
+                                                                <option>8.2</option>
+                                                                <option>8.6</option>
+                                                                <option>8.8</option>
+                                                                <option>9.6</option>
+                                                                <option>10</option>
+                                                                <option>10.5</option>
+                                                                <option>10.8</option>
+                                                                <option>12</option>
+                                                                <option>12.5</option>
+                                                                <option>13</option>
+                                                                <option>13.5</option>
+                                                                <option>14</option>
+                                                                <option>14.6</option>
+                                                                <option>15</option>
+                                                                <option>16</option>
+                                                                <option>16.4</option>
+                                                                <option>16.5</option>
+                                                                <option>17</option>
+                                                                <option>17.2</option>
+                                                                <option>17.3</option>
+                                                                <option>17.4</option>
+                                                                <option>17.5</option>
+                                                                <option>17.6</option>
+                                                                <option>17.8</option>
+                                                                <option>18</option>
+                                                                <option>18.5</option>
+                                                                <option>19</option>
+                                                                <option>19.5</option>
+                                                                <option>20</option>
+                                                                <option>20.5</option>
+                                                                <option>21</option>
+                                                                <option>21.5</option>
+                                                                <option>22</option>
+                                                                <option>30</option>
+                                                            </select>
+
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 col-md-6 self">
+                                                <div class="row">
+                                                    <label class="col col-4 text-align-right txt-color-red" style="margin-top:5px;">竞标截止时间</label>
+                                                    <section class="col col-8">
+                                                        <label class="input">
+                                                            <input type="text" id="tender_limit" name="tender_limit" class="form-control">
+                                                            </select> <i></i>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 col-md-6 ">
+                                                <div class="row">
+                                                    <label class="col col-4 text-align-right txt-color-black" style="margin-top:5px;">厢型要求</label>
+                                                    <section class="col col-8">
+                                                        <label class="select">
+                                                            <input style="width:100%;height:auto!important;" type="text" id="carriage_type" name="carriage_type" placeholder="" >
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-12 col-sm-6 col-md-6 self" id="temperature_requirement" style="display: none;">
+                                                <div class="row">
+                                                    <label class="col col-4 text-align-right txt-color-red">温度要求</label>
+                                                    <section class="col col-3">
+                                                        <label class="input">
+                                                            <input type="text" id="temperature_from" name="temperature_from" class="form-control">
+                                                        </label>
+                                                    </section>
+                                                    <label class="col">-</label>
+                                                    <section class="col col-3">
+                                                        <label class="input">
+                                                            <input type="text" id="temperature_to" name="temperature_to" class="form-control">
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-xs-12 col-sm-6 col-md-6 self">
+                                                <div class="row">
+                                                    <label class="col col-4 text-align-right txt-color-red" style="margin-top:5px;">要求到场时间</label>
+                                                    <section class="col col-8">
+                                                        <label class="input">
+                                                            <input type="text" id="package_time" name="package_time" class="form-control">
+                                                            </select> <i></i>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" value="" name="remark" id="remark">
+                                            <!--<div class="col-xs-12 col-sm-6 col-md-6 self">
+                                                <div class="row">
+                                                    <label class="col col-4 text-align-right txt-color-black">备注</label>
+                                                    <section class="col col-8">
+                                                        <label class="input">
+                                                            <textarea id="remark" name="remark" class="form-control"></textarea>
+                                                            </select> <i></i>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </div>-->
+                                        </fieldset>
+                                         <header class="self">
+                                            <span>竞标方</span>
+                                            <icon class="fieldset-tag glyphicon pull-right" ></icon>
+                                        </header>
+                                        <fieldset class="self" id="push">
+                                            <label class="checkbox" style="display: inline;"  ><input type="checkbox" class="checkbox style-0"  name="tender_push[carrier]" value="1" /> <span style="margin-right: 0px;vertical-align:baseline;"></span>承运商 </label>
+                                        </fieldset>
+                                    </div>
+                                    <div class="modal-footer" style="padding: 12px;">
+                                        <input type="hidden" id="shipment_ids" name="shipment_ids" value="">
+                                        <input type="hidden"  id="shipment_codes" name="shipment_codes"  value="">
+                                        <input type="hidden"  id="trans_types" name="trans_types"  value="">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" style="padding: 6px 20px;">关闭
+                                        <button id="btnSubmit" type="button" class="btn btn-primary" onclick="savetenders()" style="padding: 6px 20px;">
+                                            <span><i class="fa fa-fw fa-save"></i></span>保存
+                                        </button>
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+
+                    <!-- 预中标上报 -->
+                    <div class="modal fade" id="dispatch_plantender" tabindex="-1" role="dialog"
+                         aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        ×
+                                    </button>
+                                    <h4 class="modal-title" id="abandTender1">
+                                        预中标上报
+                                    </h4>
+                                </div>
+                                <div class="modal-body" >
+                                    <h3 class="label-row-title">预中标备注：</h3>
+                                    <label class="input" >
+                                        <textarea id="plan_remark" name="plan_remark" placeholder="最多50个字" maxlength="50" rows=5 cols=60 style=" resize:none;"></textarea>
+                                    </label>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary " id="plantender-button">
+                                        确定
+                                    </button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                    </button>
+                                    <input type="hidden" id="operating_type_val">
+                                    <input type="hidden" id="tender_id_val">
+                                    <input type="hidden" id="quote_id_val">
+                                    <input type="hidden" id="quote_price_val">
+                                    <input type="hidden" id="shipment_id_val">
+                                    <input type="hidden" id="shipment_code_val">
+                                    <input type="hidden" id="auditType_val">
+                                    <input type="hidden" id="from_city_val">
+                                    <input type="hidden" id="to_city_val">
+                                    <input type="hidden" id="from_location_val">
+                                    <input type="hidden" id="to_location_val">
+                                    <input type="hidden" id="quote_type_name_val">
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div>
+                    </div>
+
+                    <!-- 中标上报 -->
+                    <div class="modal fade" id="bidding_remark_plantender" tabindex="-1" role="dialog"
+                         aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        ×
+                                    </button>
+                                    <h4 class="modal-title" id="abandTender2">
+                                        是否确认中标？
+                                    </h4>
+                                </div>
+                                <div class="modal-body" >
+                                    <h3 class="label-row-title">备注：</h3>
+                                    <label class="input" >
+                                        <textarea id="bidding_remark" name="bidding_remark" placeholder="如果没有特殊原因，中标备注可以为空" maxlength="50" rows=5 cols=60 style=" resize:none;"></textarea>
+                                    </label>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary " id="bidding-button">
+                                        确定
+                                    </button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                    </button>
+                                    <input type="hidden" id="operating_type_bidding">
+                                    <input type="hidden" id="tender_id_bidding">
+                                    <input type="hidden" id="quote_id_bidding">
+                                    <input type="hidden" id="quote_price_bidding">
+                                    <input type="hidden" id="shipment_id_bidding">
+                                    <input type="hidden" id="shipment_code_bidding">
+                                    <input type="hidden" id="auditType_bidding">
+                                    <input type="hidden" id="from_city_bidding">
+                                    <input type="hidden" id="to_city_bidding">
+                                    <input type="hidden" id="from_location_bidding">
+                                    <input type="hidden" id="to_location_bidding">
+                                    <input type="hidden" id="quote_type_name_bidding">
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div>
+                    </div>
+                        <!-- 取消中标备注 -->
+                        <div class="modal fade" id="cancel_tender" tabindex="-1" role="dialog"
+                             aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title" id="cancel_tender1">
+                                            取消中标原因
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" >
+                                        <label class="input" >
+                                            <label class="col col-5 text-align-right txt-color-black">选择责任方：</label>
+                                            <input type="radio"   name="responsible_party" value="1" checked="checked" style="position:absolute;margin-top:5px;" >&emsp;基地&emsp;
+                                            <input type="radio"   name="responsible_party" value="2" style="position:absolute;margin-top:5px;" >&emsp;承运商
+                                        </label>
+                                        <h5 class="label-row-title">取消中标备注：</h5>
+                                        <label class="input" >
+                                            <textarea id="cancel_remark" name="cancel_remark" placeholder="最多50个字" maxlength="50" rows=5 cols=60 style=" resize:none;"></textarea>
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary " id="canceltender-button">
+                                            确定
+                                        </button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                        <input type="hidden" id="operating_type_cancel">
+                                        <input type="hidden" id="tender_id_cancel">
+                                        <input type="hidden" id="quote_id_cancel">
+                                        <input type="hidden" id="quote_price_cancel">
+                                        <input type="hidden" id="shipment_id_cancel">
+                                        <input type="hidden" id="shipment_code_cancel">
+                                        <input type="hidden" id="auditType_cancel">
+                                        <input type="hidden" id="from_city_cancel">
+                                        <input type="hidden" id="to_city_cancel">
+                                        <input type="hidden" id="from_location_cancel">
+                                        <input type="hidden" id="to_location_cancel">
+                                        <input type="hidden" id="quote_type_name_cancel">
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+                        <!--  指定承运商      -->
+                        <div class="modal fade" id="cpecify_carrier_s"   role="dialog"
+                             aria-labelledby="ordersInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content"  style="width: 500px;">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title">
+                                            指定承运商
+                                        </h4>
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <section class="pull-left no-padding pull-width180">
+                                            <label class="">承运商</label>
+                                            <label class="input">
+                                                <input type="text" class="select2" id="carries" name="carries"  style="width: 180px; height: 30px;" />
+                                            </label>
+                                        </section> -->
+                                        <fieldset class="no-padding">
+                                            <div class="col  col-xs-12 no-padding">
+                                                <div class="row">
+                                                    <!-- <section class="pull-left no-padding pull-width180">
+                                                        <label class="">承运商</label>
+                                                        <label class="input">
+                                                            <input type="text" class="select2" id="carries" name="carries"  style="width: 180px; height: 30px;" />
+                                                        </label>
+                                                    </section> -->
+                                                    <section class="col col-sm-4">
+                                                        <label class="input state txt-color-red">
+                                                            承运商
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-8">
+                                                        <label class="input state">
+                                                            <input type="text" class="select2" id="carries" name="carries"  style="width: 180px; height: 30px;" />
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-sm-4">
+                                                        <label class="input state txt-color-black">
+                                                            备注
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-8">
+                                                        <label class="input state">
+                                                            <textarea id="assign_carrier_remark" name="assign_carrier_remark" style=" width: 300px; height: 150px; resize:none;"></textarea>
+                                                        </label>
+                                                    </section>
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                        <button type="button" class="btn btn-primary " id="cpecify_carrier_button">
+                                            确认
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-content -->
+                        </div>
+
+                        <!-- 维护一口价   -->
+                        <!-- end widget grid -->
+                        <div class="modal fade" id="maintain_price_s" role="dialog" aria-labelledby="myModalLabels" aria-hidden="falde">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="width: 500px;">
+
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title" > 维护一口价</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                    <form action="" id="frmMessage" class="smart-form" novalidate="novalidate"  method="post">
+                                        <fieldset class="no-padding">
+                                            <div class="col  col-xs-12 no-padding">
+                                                <div class="row">
+                                                    <section class="col col-sm-4">
+                                                        <label class="input state txt-color-red">
+                                                            报价方式
+                                                        </label>
+                                                    </section>
+                                                    <!-- <label class="col col-4 text-align-right txt-color-red ">报价方式</label> -->
+                                                    <section class="col col-sm-8">
+                                                        <label id="check_radio"><input type="radio" name="price_type" value="2" checked="checked" >&emsp;每吨报价&emsp;<input type="radio" name="price_type" value="1">&emsp;整车报价&emsp;</label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-sm-4">
+                                                        <label class="input state txt-color-red" id="maintain_name">
+                                                            每单价格
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-8">
+                                                        <label class="input state">
+                                                            <input type="text" id="maintain_price" name="maintain_price" class="form-control" style="width:120px;">
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-sm-4">
+                                                        <label class="input state" id="calculate_name">
+                                                            总价
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-8">
+                                                        <label class="input state">
+                                                            <input type="text" id="calculate_price" name="calculate_price" class="form-control" style="width:120px;" readonly="readonly">
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-sm-4">
+                                                        <label class="input state txt-color-black">
+                                                            备注
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-sm-8">
+                                                        <label class="input state">
+                                                            <textarea id="maintain_price_remark" name="maintain_price_remark" style=" width: 300px; height: 150px; resize:none;"></textarea>
+                                                        </label>
+                                                    </section>
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" id="old_price" name="old_price" value="">
+                                        <button type="button" class="btn btn-primary " id="maintain_price_save">确认</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 承运商信用   -->
+                        <div class="modal fade" id="carrier_sign" role="dialog" aria-labelledby="myModalLabels" aria-hidden="falde">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="width: 500px;">
+
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title" >承运商信用显示</h4>
+                                    </div>
+                                    <div class="modal-body carrier_sign">
+
+                                    </div>
+                                    <div class="modal-footer">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 司机信用   -->
+                        <div class="modal fade" id="driver_sign" role="dialog" aria-labelledby="myModalLabels" aria-hidden="falde">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="width: 500px;">
+
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title" >司机信用</h4>
+                                    </div>
+                                    <div class="modal-body driver_sign">
+
+                                    </div>
+                                    <div class="modal-footer">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 中标通知 -->
+                        <div class="modal fade" id="dispatch_bidwin" tabindex="-1" role="dialog"
+                             aria-labelledby="" aria-hidden="true" style="text-align:center;">
+                            <div class="modal-dialog" style="display: inline-block;width:auto;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title" id="tenderMessage" style="text-align:left;">
+                                            中标通知
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" id="bidWinMsg" style="height:100%;over-flow:auto;text-align:left;">
+
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+    </div>
+    <!-- end widget -->
+    </article>
+    </div>
+</section>
+<script src="js/city.js"></script>
+<script src="js/city1.js"></script>
+<!-- <script src="js/plugin/date/moment.js"></script>
+<script src="js/plugin/date/daterangepicker.js"></script> -->
+<script src="js/plugin/jquery.PrintArea.js"></script>
+<script src="js/resetForm.js"></script>
+
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+    // G7初始化页面
+    $ips.startup();
+
+</script>

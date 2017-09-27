@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>要货计划详情</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+<div class="container">
+
+    <div class="have-the-goods-container">
+
+        
+        
+        <!-- <div class="times">
+            <ul>
+                <b class="head-mask"></b>
+                <li>
+                    <b class="act"></b>
+                    <span class="title act">武汉</span>
+                    <p class="act"><span class="time">2016/09/02 10:00</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="desc">货物卸载</span></p>
+                    <i></i>
+                    <div class="weui-cell_access">
+                        <span class="weui-cell__ft"></span>
+                    </div>
+                </li>
+                <li>
+                    <b></b>
+                    <span class="title">成都</span>
+                    <p><span class="time">2016/09/02 10:00</span><span class="desc">货物卸载</span></p>
+                    <p><span class="time">2016/09/02 10:00</span><span class="desc">货物卸载</span></p>
+                    <i></i>
+                    <div class="weui-cell_access">
+                        <span class="weui-cell__ft"></span>
+                    </div>
+                </li>
+                <b class="tail-mask"></b>
+            </ul>
+        </div>  -->
+
+
+    </div>
+
+</div>
+<script type="text/template" id="orders-tmpl">
+        <div class="changeui-weui-panel bid-car-detail-container no-pad-weui-panel" style="margin-top:0;">
+            <div class="changeui-list-title">
+                要货单号:<%= allOrder.order_code %>
+                <span class="history-mission-item-time"><%= allOrder.date%></span>
+            </div>
+            <div class="changeui-signle-line g-line-item"></div>
+
+            <!-- <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">制单人：</span>
+                <span class="single-right-item item"><%= allOrder.userName %></span>
+            </div> -->
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">要货详情：</span>
+                <span class="single-right-item item"><%= allOrder.detail %></span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">收货单位：</span>
+                <span class="single-right-item item"><%= allOrder.desc.receiving_party %></span>
+            </div>
+
+        </div>
+        <% if(!jQuery.isEmptyObject(allOrder.message)){%>     
+        <% _.each(allOrder.message,function(item){ %>
+        <div class="times">
+            <ul>
+                <b class="tail-mask"></b>
+                <li>
+                    <!-- <b class="act"></b> -->
+                    <span class="title"><%= item.fromlocation %>&nbsp;&nbsp;<%= item.tolocation %>&nbsp;&nbsp;<%= item.shipment_code %></span>
+                    <p style="padding-left:0;"><span class="title">件数:<%= item.quality %>&nbsp;&nbsp;计划到达:<%= item.plan_arrive_time %></span></p>
+                    <i></i>
+                    <div class="weui-cell_access">
+                        <span class="weui-cell__ft"></span>
+                    </div>
+                </li>
+                <b class="tail-mask"></b>
+                <% if(!jQuery.isEmptyObject(item.message)){%>     
+                <% _.each(item.message,function(e){ %>
+                    <li>
+                        <b></b>
+                        <span class="title"><%= e.order_name %></span>
+                        <p><span class="time"><%= e.order_time %></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="desc"><%= e.address ? e.address:'' %></span></p>
+                        <i></i>
+                        <div class="weui-cell_access">
+                            <span class="weui-cell__ft"></span>
+                        </div>
+                    </li>
+                <% }); %>
+                <% } %>
+            </ul>
+        </div>
+        <% }); %>
+        <% } %>
+    </script>
+<script type="text/javascript" src="./js/authOrderDetail.js"></script>
+</body>
+
+</html>

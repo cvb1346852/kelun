@@ -1,0 +1,1214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="statementlist">
+    <!-- 获取运输质量明细报表-->
+    <select id="getOrderTrans">
+        SELECT c.carrier_name,s.driver_name,s.id,s.create_time FROM shipment AS s 
+        LEFT JOIN `carrier` AS c ON c.id=s.carrier_id 
+        WHERE s.deleted=0 AND s.status IN (8,9,10) 
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           s.carrier_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            s.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           s.warehouse_id  = #warehouse_id#
+        </isNotEmpty>
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getOrderTrans_count">
+        SELECT count(*) FROM shipment AS s 
+        LEFT JOIN `carrier` AS c ON c.id=s.carrier_id 
+        WHERE s.deleted=0 AND s.status IN (8,9,10)  
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           s.carrier_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            s.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           s.warehouse_id  = #warehouse_id#
+        </isNotEmpty>
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getOrderList">
+        SELECT oc.grade,o.id FROM `order` AS o 
+        LEFT JOIN `order_checkout` AS oc ON oc.order_id=o.id  
+        WHERE o.deleted=0 AND o.shipment_id=#shipment_id# 
+    </select>
+    <select id="getCarrierName">
+        SELECT id,carrier_name FROM `carrier` 
+        WHERE deleted=0 AND check_status=1 
+        <isNotEmpty prepend=" AND" property="carrier_name">
+           carrier_name LIKE '%$carrier_name$%'
+        </isNotEmpty>
+    </select>
+    <select id="getShipmentReport">
+        SELECT
+			s.*, c.carrier_name,ts.car_length,tst.name as car_type_name
+		FROM
+			`shipment` AS `s`
+		LEFT JOIN `carrier` AS `c` ON s.carrier_id = c.id
+		left join truck_source ts on ts.driver_phone = s.driver_phone
+		left join truck_source_type tst on tst.id = ts.carriage_type
+        $role_condition$
+        WHERE  s.deleted = 0
+        <include refid="getShipmentReport_where" />
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getShipmentReport_count">
+        SELECT count(*)
+        FROM `shipment` AS `s`
+        LEFT JOIN `carrier` AS `c` ON s.carrier_id = c.id
+        $role_condition$
+        WHERE  s.deleted = 0
+        <include refid="getShipmentReport_where" />
+    </select>
+    <sql id="getShipmentReport_where">
+        <isNotEmpty prepend="AND" property="carrier_id">
+            s.carrier_id = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            s.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            w.id  = #warehouse_id#
+        </isNotEmpty>
+    </sql>
+    <!-- 获取废标报表-->
+    <select id="getAbandTenderList">
+        SELECT s.*,t.create_time AS tender_time,t.aband_time,t.aband_remark,w.`name`,c.carrier_name FROM `tender` AS t LEFT JOIN shipment AS s ON s.id=t.shipment_id 
+        LEFT JOIN warehouse AS w ON w.id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c ON c.id=s.carrier_id 
+        WHERE t.status=4 AND s.deleted=0
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           s.carrier_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           w.id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.aband_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </select>
+    <select id="getAbandTenderList_count">
+        SELECT count(*) FROM `tender` AS t 
+        LEFT JOIN shipment AS s ON s.id=t.shipment_id 
+        LEFT JOIN warehouse AS w ON w.id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c ON c.id=s.carrier_id 
+        WHERE t.status=4 AND s.deleted=0
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           s.carrier_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           w.id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.aband_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </select>
+     <!-- 取消中标报表-->
+    <select id="getAbandWinBidList">
+        SELECT tch.*,tq.create_time AS tender_quote_time,t.create_time AS tender_time,tq.quote_price,tq.relation_id,tq.quote_type,w.`name`,s.fromlocation,s.tolocation,s.weight,s.shipment_code,s.create_time AS shipment_time FROM tender_cancel_history AS tch 
+        LEFT JOIN `tender` AS t ON t.id=tch.tender_id 
+        LEFT JOIN `tender_quote` AS tq ON tq.id=tch.tender_quote_id 
+        LEFT JOIN `shipment` AS s ON s.id=tch.shipment_id 
+        LEFT JOIN `warehouse` AS w ON w.id=s.warehouse_id 
+        WHERE 1=1
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           tq.relation_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           w.id = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            tch.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </select>
+    <select id="getAbandWinBidList_count">
+        SELECT count(*) FROM tender_cancel_history AS tch 
+        LEFT JOIN `tender` AS t ON t.id=tch.tender_id 
+        LEFT JOIN `tender_quote` AS tq ON tq.id=tch.tender_quote_id 
+        LEFT JOIN `shipment` AS s ON s.id=tch.shipment_id 
+        LEFT JOIN `warehouse` AS w ON w.id=s.warehouse_id 
+        WHERE 1=1
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           tq.relation_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           w.id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            tch.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </select>
+    <select id="getCarrier">
+        SELECT carrier_name AS relation_name FROM `carrier` WHERE id=#id#
+    </select>
+    <select id="getDriverName">
+        SELECT driver_name AS relation_name FROM `truck_source` WHERE id=#id#
+    </select>
+
+    <select id="getDriverNameList">
+        SELECT driver_name,driver_phone,ts.id
+        FROM `truck_source` as ts
+        $role_condition$
+        WHERE  1
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            cw.warehouse_id = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="driver_phone">
+            ts.driver_phone LIKE  '$driver_phone$%'
+        </isNotEmpty>
+
+    </select>
+
+    <!--投诉报表-->
+    <select id="getAppealList">
+        SELECT *
+        FROM `complain`
+        $role_condition$
+        WHERE  `complain`.deleted = 0 AND  result = 1
+        <include refid="getAppealList_where" />
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getAppealList_count">
+        SELECT count(*)
+        FROM `complain`
+        $role_condition$
+        WHERE  `complain`.deleted = 0 AND  result = 1
+        <include refid="getAppealList_where" />
+    </select>
+    <sql id="getAppealList_where">
+        <isNotEmpty prepend="AND" property="responsible_type_w">
+            responsible_type = 2
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            `complain`.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_name">
+            responsible_name  = #warehouse_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_name">
+            responsible_name  = #carrier_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+            cw.warehouse_id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="responsible_type_carrier">
+            responsible_type = 1
+        </isNotEmpty>
+    </sql>
+
+    <!--分级运价审批明细报表-->
+    <select id="getRetifyList">
+        SELECT ta.update_time,s.plat_form_name,s.tolocation,s.fromlocation,s.weight,s.volume,s.shipment_method,t.carriage_type,s.price AS tender_price,tr.price AS maxprice,t.price_type,tr.over_rate,if(s.volume/s.weight > 4,'泡货','重货') AS density,ta.quote_price AS ta_price
+        FROM `tender_audit` AS ta
+        LEFT JOIN `tender` AS  t  on ta.tender_id = t.id
+        LEFT JOIN `shipment` AS  s  on t.shipment_id = s.id
+        LEFT JOIN  `tender_route` as tr ON tr.from_location = s.fromlocation AND tr.to_location = s.tolocation
+        $role_condition$
+        WHERE  s.deleted = 0 AND  ta.status = 2
+        <include refid="getRetifyList_where" />
+        <dynamic>
+            GROUP BY  ta.id
+        </dynamic>
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getRetifyList_count">
+        SELECT count(1)
+        from (
+            SELECT count(*)
+            FROM `tender_audit` AS ta
+            LEFT JOIN `tender` AS  t  on ta.tender_id = t.id
+            LEFT JOIN `shipment` AS  s  on t.shipment_id = s.id
+            LEFT JOIN  `tender_route` as tr ON tr.from_location = s.fromlocation AND tr.to_location = s.tolocation
+            $role_condition$
+            WHERE  s.deleted = 0 AND  ta.status = 2
+            <include refid="getRetifyList_where" />
+        <dynamic>
+            GROUP BY  ta.id ) count
+        </dynamic>
+    </select>
+    <sql id="getRetifyList_where">
+        <isNotEmpty prepend="AND" property="statistic_date">
+            ta.update_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_name">
+            s.plat_form_name  = #warehouse_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            w.id  = #warehouse_id#
+        </isNotEmpty>
+
+    </sql>
+
+    <!--调度单定位明细报表-->
+    <select id="getLbsDetailList">
+        SELECT lh.*,s.plat_form_name,c.carrier_name,count(*) AS lbs_count,s.shipment_code
+        FROM `lbs_history` AS lh
+        LEFT JOIN `shipment` AS  s  on lh.shipment_id = s.id
+        LEFT JOIN `carrier` AS  c  on s.carrier_id = c.id
+        WHERE  1 AND lh.shipment_id != 0
+        <include refid="getLbsDetailList_where" />
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+        <dynamic>
+            GROUP BY  lh.shipment_id
+        </dynamic>
+    </select>
+    <select id="getLbsDetailList_count">
+        SELECT count(1)
+        from (
+            SELECT count(*)
+            FROM `lbs_history` AS lh
+            LEFT JOIN `shipment` AS  s  on lh.shipment_id = s.id
+            LEFT JOIN `carrier` AS  c  on s.carrier_id = c.id
+            WHERE  1 AND lh.shipment_id != 0
+            <isNotEmpty prepend="AND" property="statistic_date">
+                lh.create_time BETWEEN #start# AND #end#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="warehouse_name">
+                s.plat_form_name  = #warehouse_name#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="carrier_name">
+                c.carrier_name  = #carrier_name#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="warehouse_orgcode">
+                s.plat_form_code = #warehouse_orgcode#
+            </isNotEmpty>
+        <dynamic>
+            GROUP BY  lh.shipment_id ) count
+        </dynamic>
+
+    </select>
+
+    <sql id="getLbsDetailList_where">
+        <isNotEmpty prepend="AND" property="statistic_date">
+            lh.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_name">
+            s.plat_form_name  = #warehouse_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_name">
+            c.carrier_name  = #carrier_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_orgcode">
+            s.plat_form_code = #warehouse_orgcode#
+        </isNotEmpty>
+
+    </sql>
+
+    <!--分级运价审批明细报表-->
+    <select id="getArriveList">
+        SELECT s.create_time,c.carrier_name,s.plat_form_name,s.tolocation,s.price,s.shipment_code
+        FROM `shipment` AS s
+        LEFT JOIN `carrier` AS  c  on s.carrier_id = c.id
+        $role_condition$
+        WHERE  s.deleted = 0 AND  c.check_status = 1 AND s.status > 7
+        <include refid="getArriveList_where" />
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getArriveList_count">
+        SELECT count(*)
+        FROM `shipment` AS s
+        LEFT JOIN `carrier` AS  c  on s.carrier_id = c.id
+        $role_condition$
+        WHERE  s.deleted = 0 AND  c.check_status = 1 AND s.status > 7
+        <include refid="getArriveList_where" />
+    </select>
+    <sql id="getArriveList_where">
+        <isNotEmpty prepend="AND" property="statistic_date">
+            s.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_name">
+            s.plat_form_name  = #warehouse_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            w.id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_name">
+            c.carrier_name  = #carrier_name#
+        </isNotEmpty>
+
+    </sql>
+    <!--LBS明细报表-->
+    <select id="getLbsCost">
+        SELECT lh.*,ts.driver_phone,ts.driver_name
+        FROM `lbs_history` AS lh
+        LEFT JOIN `truck_source` AS  ts  on lh.truck_source_id = ts.id
+        $role_condition$
+        WHERE  ts.deleted = 0
+        <include refid="getLbsCost_where" />
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getLbsCost_count">
+        SELECT count(*)
+        FROM `lbs_history` AS lh
+        LEFT JOIN `truck_source` AS  ts  on lh.truck_source_id = ts.id
+        $role_condition$
+        WHERE  ts.deleted = 0
+        <include refid="getLbsCost_where" />
+    </select>
+    <sql id="getLbsCost_where">
+        <isNotEmpty prepend="AND" property="statistic_date">
+            lh.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            cw.warehouse_id  = #warehouse_id# 
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="driver_phone">
+            ts.driver_phone  = #driver_phone#
+        </isNotEmpty>
+    </sql>
+
+    <!--固定运价合同提醒报表-->
+    <select id="getReportList">
+        SELECT co.create_time,c.carrier_name,w.name,co.start_time
+        FROM `contract` AS co
+        LEFT JOIN `warehouse` AS  w  on co.warehouse_id = w.id
+        LEFT JOIN `carrier` AS  c  on co.carrier_id = c.id
+        WHERE  co.deleted = 0
+        <include refid="getReportList_where" />
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getReportList_count">
+        SELECT count(*)
+        FROM `contract` AS co
+        LEFT JOIN `warehouse` AS  w  on co.warehouse_id = w.id
+        LEFT JOIN `carrier` AS  c  on co.carrier_id = c.id
+        WHERE  co.deleted = 0
+        <include refid="getReportList_where" />
+    </select>
+    <sql id="getReportList_where">
+        <isNotEmpty prepend="AND" property="statistic_date">
+            co.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            w.id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_name">
+            w.name = #warehouse_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_name">
+            c.carrier_name  = #carrier_name#
+        </isNotEmpty>
+
+    </sql>
+    <!--固定运价合同提醒报表-->
+    <select id="getReceiptList">
+        SELECT o.*,c.carrier_name,s.shipment_code
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS  s  on o.shipment_id = s.id
+        LEFT JOIN `carrier` AS  c  on s.carrier_id = c.id
+        WHERE  o.deleted = 0
+        <include refid="getReceiptList_where" />
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getReceiptList_count">
+        SELECT count(*)
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS  s  on o.shipment_id = s.id
+        LEFT JOIN `carrier` AS  c  on s.carrier_id = c.id
+        WHERE  o.deleted = 0
+        <include refid="getReceiptList_where" />
+    </select>
+    <sql id="getReceiptList_where">
+        <isNotEmpty prepend="AND" property="statistic_date">
+            o.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="plat_form_code">
+            o.plat_form_code  = #plat_form_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_name">
+            o.plat_form_name = #warehouse_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_name">
+            c.carrier_name  = #carrier_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="is_checkout">
+            o.checkout  != 1
+        </isNotEmpty>
+
+
+
+    </sql>
+
+    <select id="getWarehouseName">
+        SELECT $filed$
+        FROM  $chart_name$
+        WHERE 1
+        <isNotEmpty prepend="AND" property="orgcode">
+            orgcode = #orgcode#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="g7s_orgcode">
+            g7s_orgcode = #g7s_orgcode#
+        </isNotEmpty>
+    </select>
+    <select id="getResultName">
+        SELECT $filed$
+        FROM  $chart_name$
+        $role_condition$
+        WHERE 1
+        <isNotEmpty prepend="AND" property="type_warehouse">
+            `type`  = 1
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            cw.`warehouse_id`  = #warehouse_id# AND cw.`deleted` = 0
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carnum">
+            `carnum` LIKE  '%$carnum$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_name">
+            `carrier_name` LIKE  '%$carrier_name$%' AND carrier.`deleted` = 0
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="name">
+            `name` LIKE  '%$name$%'
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="carrier_status">
+            `check_status` = 1
+        </isNotEmpty>
+
+    </select>
+    <!-- 获取中标统计报表-->
+    <select id="getWinBidList">
+        SELECT tq.relation_id,w.name,c.carrier_name ,count(1) as countQuote,count(IF(tq.`status` = 3, 1, NULL)) as countWin
+        FROM tender_quote AS tq
+        LEFT JOIN `tender` AS t ON t.id=tq.tender_id 
+        LEFT JOIN `shipment` AS s ON s.id=t.shipment_id 
+        LEFT JOIN `warehouse` AS w ON w.id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c ON c.id=tq.relation_id 
+        WHERE tq.is_cancel=0 AND tq.quote_type=1 AND t.valid=1  
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           tq.relation_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           w.id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY tq.relation_id
+        </dynamic>
+    </select>
+    <select id="getWinBidList_count">
+        SELECT count(DISTINCT tq.relation_id) FROM tender_quote AS tq 
+        LEFT JOIN `tender` AS t ON t.id=tq.tender_id 
+        LEFT JOIN `shipment` AS s ON s.id=t.shipment_id 
+        LEFT JOIN `warehouse` AS w ON w.id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c ON c.id=tq.relation_id 
+        WHERE tq.is_cancel=0 AND tq.quote_type=1 AND t.valid=1 
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           w.id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           tq.relation_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </select>
+
+    <select id="getCountQoute">
+        SELECT count(*) AS countQuote FROM tender_quote AS tq 
+        WHERE tq.relation_id=#relation_id# AND tq.is_cancel=0
+    </select>
+    <select id="getCountWin">
+        SELECT count(*) AS countWin FROM tender_quote AS tq 
+        WHERE tq.relation_id=#relation_id# AND tq.is_cancel=0 AND tq.status=3
+    </select>
+    <!-- 承运商竞标关注明细-->
+    <select id="getCarrierAttentionDetail">
+        SELECT tp.*,c.carrier_name,s.shipment_code,t.create_time AS tender_time FROM `tender_push` AS tp 
+        LEFT JOIN `tender` AS t ON t.id=tp.tender_id 
+        LEFT JOIN `shipment` AS s ON s.id=t.shipment_id 
+        LEFT JOIN `carrier` AS c ON c.id=tp.relation_id 
+        WHERE tp.to_type=1 
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           tp.relation_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           s.warehouse_id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </select>
+    <select id="getCarrierAttentionDetail_count">
+        SELECT count(*) FROM `tender_push` AS tp 
+        LEFT JOIN `tender` AS t ON t.id=tp.tender_id 
+        LEFT JOIN `shipment` AS s ON s.id=t.shipment_id 
+        LEFT JOIN `carrier` AS c ON c.id=tp.relation_id 
+        WHERE tp.to_type=1 
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           tp.relation_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           s.warehouse_id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </select>
+    <select id="getQouteTime">
+        SELECT create_time FROM `tender_quote` WHERE tender_id=#tender_id# AND relation_id=#relation_id# AND is_cancel=0
+    </select>
+    <!-- 获取角色类型-->
+    <select id="checkRole">
+
+        SELECT id  FROM warehouse WHERE `orgcode`=#orgcode#
+
+    </select>
+    <!-- 一口价设置明细报表-->
+    <select id="oneprice_report">
+        SELECT mp.*,s.shipment_code,s.fromlocation,s.tolocation,s.weight,w.name,c.carrier_name
+        FROM `maintain_price` AS mp
+        LEFT JOIN `shipment` AS `s` ON s.id = mp.shipment_id
+        LEFT JOIN `carrier` AS `c` ON c.id = s.carrier_id
+        LEFT JOIN `warehouse` AS `w` ON w.id = s.warehouse_id
+        WHERE  1
+        <include refid="oneprice_report_where" />
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  mp.create_time DESC
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="oneprice_report_count">
+        SELECT count(*)
+        FROM `maintain_price` AS `mp`
+        LEFT JOIN `shipment` AS `s` ON s.id = mp.shipment_id
+        WHERE  1
+        <include refid="oneprice_report_where" />
+    </select>
+    <sql id="oneprice_report_where">
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+             s.warehouse_id = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            mp.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </sql>
+
+    <!-- 承运商竞标明细报表-->
+    <select id="getCarrierBidDetail">
+        SELECT s.`plat_form_name` as name,s.shipment_code,c.carrier_name ,tq.create_time ,s.fromlocation,s.tolocation ,if(tq.price_type = 2,'按吨报价','按车报价') as price_type,tq.quote_price,if(tq.`status` = 3 ,'中标','未中标' ) as status,_tq.quote_price as price
+        FROM
+		tender_quote AS tq
+		LEFT JOIN `tender` AS t ON t.id = tq.tender_id
+		left join tender_quote _tq on t.quote_id  = _tq.id
+		LEFT JOIN `shipment` AS s ON s.id = t.shipment_id
+		LEFT JOIN `carrier` AS c ON c.id = tq.relation_id
+        WHERE tq.quote_type=1 AND tq.is_cancel=0 AND t.valid=1 
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           tq.relation_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           s.warehouse_id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            (tq.create_time BETWEEN #start# AND #end#)
+        </isNotEmpty>
+    </select>
+    <select id="getCarrierBidDetail_count">
+        SELECT count(*) FROM tender_quote AS tq 
+        LEFT JOIN `tender` AS t ON t.id=tq.tender_id 
+        LEFT JOIN `shipment` AS s ON s.id=t.shipment_id 
+        LEFT JOIN `carrier` AS c ON c.id=tq.relation_id 
+        LEFT JOIN `warehouse` AS wh ON wh.id=s.warehouse_id 
+        WHERE tq.quote_type=1 AND is_cancel=0 AND t.valid=1 
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           tq.relation_id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           s.warehouse_id  = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            tq.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </select>
+
+    <!-- 承运商考核报表-->
+    <select id="getCarrierEvaluationList">
+        SELECT c.* FROM `carrier` AS c 
+        LEFT JOIN carrier_warehouse AS cw ON cw.carrier_id=c.id 
+        WHERE c.check_status=1 AND c.deleted=0 
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           c.id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           cw.warehouse_id  = #warehouse_id# AND cw.deleted=0 
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY c.id
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getCarrierEvaluationList_count">
+        SELECT count(DISTINCT c.id) FROM `carrier` AS c 
+        LEFT JOIN carrier_warehouse AS cw ON cw.carrier_id=c.id 
+        WHERE c.check_status=1 AND c.deleted=0 
+        <isNotEmpty prepend=" AND" property="carrier_id">
+           c.id  = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           cw.warehouse_id  = #warehouse_id# AND cw.deleted=0 
+        </isNotEmpty>
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <!-- 基地考核报表-->
+    <select id="getWareEvaluationList">
+        SELECT * FROM warehouse WHERE deleted=0
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           id  = #warehouse_id# 
+        </isNotEmpty>
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+        
+    </select>
+    <select id="getWareEvaluationList_count">
+        SELECT count(*) FROM warehouse WHERE deleted=0
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           id  = #warehouse_id# 
+        </isNotEmpty>
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <!-- 司机排名报表-->
+    <select id="getDriverRankingList">
+        SELECT ts.* FROM truck_source AS ts 
+        WHERE ts.deleted=0  
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+        
+    </select>
+    <select id="getDriverRankingList_count">
+        SELECT count(*) FROM truck_source AS ts 
+        WHERE ts.deleted=0  
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getDriverRankingListW">
+        SELECT ts.* FROM warehouse AS wh 
+        LEFT JOIN carrier_warehouse AS cw ON cw.warehouse_id=wh.id 
+        LEFT JOIN truck_source_carrier AS tsc ON tsc.carrier_id=cw.carrier_id 
+        LEFT JOIN truck_source AS ts ON ts.id=tsc.truck_source_id 
+        WHERE wh.deleted=0 AND cw.deleted=0 AND tsc.deleted=0 AND ts.deleted=0 
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           wh.id  = #warehouse_id# 
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY ts.id 
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+        
+    </select>
+    <select id="getDriverRankingListW_count">
+        SELECT count(DISTINCT ts.id) FROM warehouse AS wh 
+        LEFT JOIN carrier_warehouse AS cw ON cw.warehouse_id=wh.id 
+        LEFT JOIN truck_source_carrier AS tsc ON tsc.carrier_id=cw.carrier_id 
+        LEFT JOIN truck_source AS ts ON ts.id=tsc.truck_source_id 
+        WHERE wh.deleted=0 AND cw.deleted=0 AND tsc.deleted=0 AND ts.deleted=0 
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+           wh.id  = #warehouse_id# 
+        </isNotEmpty>
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <!-- 发标、中标时间明细报表-->
+    <select id="tenderlist">
+        SELECT t.*,s.shipment_code,s.warehouse_id,w.name,tq.create_time AS quote_time
+        FROM `tender` AS t
+        LEFT JOIN `shipment` AS `s` ON s.id = t.shipment_id
+        LEFT JOIN `warehouse` AS `w` ON w.id = s.warehouse_id
+        LEFT JOIN `tender_quote` AS `tq` ON tq.id = t.quote_id
+        WHERE  t.valid = 1 AND t.status = 3
+        <include refid="tenderlist_where" />
+        <dynamic>
+            <isNotEmpty property="sortColumns">
+                ORDER BY  mp.create_time DESC
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="tenderlist_count">
+        SELECT count(*)
+        FROM `tender` AS t
+        LEFT JOIN `shipment` AS `s` ON s.id = t.shipment_id
+        WHERE  t.valid = 1 AND t.status = 3
+        <include refid="tenderlist_where" />
+    </select>
+    <sql id="tenderlist_where">
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            s.warehouse_id = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </sql>
+
+    <!-- lbs费用统计报表-->
+    <select id="lbsConstStatistical">
+        SELECT COUNT(1) AS total, lh.user_type, w.name, c.carrier_name
+        FROM `lbs_history` AS lh
+        LEFT JOIN `warehouse` AS `w` ON w.orgcode = lh.orgcode
+        LEFT JOIN `carrier` AS `c` ON c.g7s_orgcode = lh.orgcode
+        WHERE 1
+        <include refid="lbsConstStatistical_where" />
+        <dynamic>
+            GROUP BY  lh.orgcode
+        </dynamic>
+    </select>
+    <select id="lbsConstStatistical_count">
+        SELECT  COUNT(DISTINCT (lh.orgcode))
+        FROM `lbs_history` AS lh
+        LEFT JOIN `carrier` AS `c` ON c.g7s_orgcode = lh.orgcode
+        WHERE 1
+        <include refid="lbsConstStatistical_where" />
+    </select>
+    <sql id="lbsConstStatistical_where">
+        <isNotEmpty prepend="AND" property="orgcode">
+            lh.orgcode = #orgcode#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_name">
+            c.carrier_name = #carrier_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            lh.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </sql>
+
+
+    <!-- lbs费用明细报表（调度单）-->
+    <select id="lbsCostShipment">
+        SELECT lh.shipment_id, lh.create_time, lh.address, s.carrier_id, s.shipment_code,c.carrier_name
+        FROM `lbs_history` AS lh
+        LEFT JOIN `shipment` AS `s` ON s.id = lh.shipment_id
+        LEFT JOIN `carrier` AS `c` ON c.id = s.carrier_id
+        WHERE shipment_id != ''
+        <include refid="lbsCostShipment_where" />
+
+    </select>
+    <select id="lbsCostShipment_count">
+        SELECT  COUNT(1)
+        FROM `lbs_history` AS lh
+        LEFT JOIN `shipment` AS `s` ON s.id = lh.shipment_id
+        LEFT JOIN `carrier` AS `c` ON c.id = s.carrier_id
+        WHERE shipment_id != ''
+        <include refid="lbsConstStatistical_where" />
+    </select>
+    <sql id="lbsCostShipment_where">
+        <isNotEmpty prepend="AND" property="orgcode">
+            lh.orgcode = #orgcode#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_name">
+            c.carrier_name = #carrier_name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            lh.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </sql>
+
+    <!--上方列表显示-->
+    <select id="getShipmentCount_active">
+        SELECT
+        count(*) as count
+        FROM
+        `order` AS o
+        WHERE  deleted=0 AND (shipment_method = '零担' || shipment_method = '零担运输')
+        UNION ALL
+        select count(1)
+        from (
+            SELECT  count(*)
+            FROM  report
+            where report_type = 1
+            GROUP BY  order_id
+        ) count
+        UNION ALL
+        SELECT
+        count(1)
+        FROM (
+            SELECT driver_phone
+            FROM  shipment
+            WHERE driver_phone != ''
+            GROUP BY driver_phone
+        ) count
+
+
+
+    </select>
+
+    <select id="getStatementCount_active">
+        SELECT
+        count(*)  as carrier_count,count(if(active_time,true,null)) as active_time
+        from carrier
+        WHERE check_status = 1
+        UNION all
+        SELECT
+        count(*) as truck_count ,count(if(active_time,true,null)) as active_truck
+        FROM
+        truck_source
+        UNION all
+        SELECT
+        count(if(user_type = 2,true,null)),count(if(active_time,true,null))
+        from wechat_connect
+        WHERE deleted = 0
+        UNION all
+        SELECT
+        count(*),''
+        from shipment
+        UNION all
+        SELECT
+        count(if(status = 3,true,null)),''
+        from tender_push
+        UNION all
+        SELECT
+        count(if(type = 3,true,null)),''
+        from history_point
+        UNION all
+        SELECT
+        count(*),''
+        from lbs_history
+        UNION all
+        SELECT
+        count(if(type = 1,true,null)) ,''
+        FROM
+        truck_source
+    </select>
+
+    <!-- 柱状图统计-->
+    <select id="getNewDrivers">
+
+        select v.month,ifnull(b.newNum,0)  newNum from past_12_month v 
+        left join (SELECT
+                   count(*) AS newNum,
+                    DATE_FORMAT( create_time,'%Y-%m') month
+                FROM `truck_source` 
+                WHERE
+                    deleted = 0
+                GROUP BY
+                     `month`) b
+        on v.month = b.month 
+        ORDER BY v.`month`
+    </select>
+    <select id="getNewReceipters">
+        select v.month,ifnull(b.newNum,0)  newNum from past_12_month v 
+        left join (SELECT
+                    count(*) AS newNum,
+                    DATE_FORMAT( create_time,'%Y-%m') month
+                FROM `wechat_connect` 
+                WHERE
+                    deleted = 0 AND user_type=2
+                GROUP BY
+                     `month`) b
+        on v.month = b.month 
+        ORDER BY v.`month`
+    </select> 
+    <select id="getNewBreakbulks">
+       select v.month,ifnull(b.newNum,0)  newNum from past_12_month v 
+        left join (SELECT
+                    count(*) AS newNum,
+                    DATE_FORMAT( create_time,'%Y-%m') month
+                FROM `order` 
+                WHERE
+                    deleted = 0 AND (shipment_method = '零担' || shipment_method = '零担运输')
+                GROUP BY
+                     `month`) b
+        on v.month = b.month 
+        ORDER BY v.`month`
+    </select>
+    <select id="getLBSnum">
+        select v.month,ifnull(b.newNum,0)  newNum from past_12_month v 
+        left join (SELECT
+                    count(*) AS newNum,
+                    DATE_FORMAT( create_time,'%Y-%m') month
+                FROM `lbs_history` 
+                GROUP BY `month`) b
+        on v.month = b.month 
+        ORDER BY v.`month`
+    </select>
+    <select id="getSignnum">
+        select v.month,ifnull(b.newNum,0)  newNum from past_12_month v 
+        left join (SELECT count(*) AS newNum,DATE_FORMAT( time,'%Y-%m') month
+                FROM `history_point` 
+                WHERE `type`=3 GROUP BY `month`) b
+        on v.month = b.month 
+        ORDER BY v.`month`
+    </select>
+    <select id="getTenderPushNum">
+        select v.month,ifnull(b.newNum,0)  newNum from past_12_month v 
+        left join (SELECT
+                    count(*) AS newNum,
+                    DATE_FORMAT( create_time,'%Y-%m') month
+                FROM `tender_push` 
+                WHERE `status`=3 
+                   GROUP BY `month`) b
+        on v.month = b.month 
+        ORDER BY v.`month`
+    </select>
+
+
+    <select id="getGoods">
+        SELECT
+        w.id,w.`name`,w.platform_code,w.city,o.from_city,o.from_lnglat,o.to_city,o.to_lnglat,w.orgcode
+        FROM
+        warehouse w
+        LEFT JOIN `order` o ON w.platform_code = o.plat_form_code
+        WHERE w.deleted = 0 AND o.deleted = 0
+        <isNotEmpty prepend=" AND" property="statistic_date">
+            o.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="shipment_method">
+            o.shipment_method = #shipment_method#
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY w.orgcode,to_city
+        </dynamic>
+    </select>
+
+
+
+    <!-- lbs费用明细报表（调度单）-->
+    <select id="changeTender">
+        SELECT s.shipment_code,s.fromlocation,s.tolocation,s.weight,s.warehouse_id,w.name,tch.*
+        FROM `tender_change_history` AS tch
+        LEFT JOIN `shipment` AS `s` ON s.id = tch.shipment_id
+        LEFT JOIN `warehouse` AS `w` ON w.id = s.warehouse_id
+        WHERE 1
+        <include refid="changeTender_where" />
+        <dynamic>
+            ORDER BY  tch.shipment_id DESC
+        </dynamic>
+    </select>
+    <select id="changeTender_count">
+        SELECT  COUNT(1)
+        FROM `tender_change_history` AS tch
+        LEFT JOIN `shipment` AS `s` ON s.id = tch.shipment_id
+        WHERE 1
+        <include refid="changeTender_where" />
+
+    </select>
+    <sql id="changeTender_where">
+        <isNotEmpty prepend=" AND" property="warehouse_id">
+            s.warehouse_id = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            tch.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+    </sql>
+
+	<select id="getLineTender_x1">
+		SELECT
+			s.fromlocation,count(1) as count
+		FROM
+			tender_quote AS tq
+		LEFT JOIN `tender` AS t ON t.id = tq.tender_id
+		LEFT JOIN `shipment` AS s ON s.id = t.shipment_id
+		WHERE
+			1=1
+		AND tq.is_cancel = 0
+		AND t.valid = 1
+		and s.plat_form_code = #warehouse_id#
+		and tq.create_time BETWEEN #start# AND #end#
+		GROUP BY s.fromlocation
+		order by count desc;
+	</select>
+	
+	<select id="getLineTender_x2">
+		SELECT
+			s.tolocation,count(1) as count
+		FROM
+			tender_quote AS tq
+		LEFT JOIN `tender` AS t ON t.id = tq.tender_id
+		LEFT JOIN `shipment` AS s ON s.id = t.shipment_id
+		
+		WHERE
+			1=1
+		AND tq.is_cancel = 0
+		AND t.valid = 1
+		and s.plat_form_code = #warehouse_id#
+		and tq.create_time BETWEEN #start# AND #end#
+		and s.fromlocation = #fromlocation#
+		GROUP BY s.tolocation
+		order by count desc;
+	</select>
+	
+	<select id="getLineTender_x3">
+		SELECT
+			tq.relation_id,
+			if(c.carrier_name_s != '' ,c.carrier_name_s,concat(ts.driver_name,'-司机')) as qtname,
+			count(1) AS count,
+			count(if( tq.status = '3',1,null)) AS counts
+		FROM
+			tender_quote AS tq
+		LEFT JOIN `tender` AS t ON t.id = tq.tender_id
+		LEFT JOIN `shipment` AS s ON s.id = t.shipment_id
+		LEFT JOIN `carrier` AS c ON c.id = tq.relation_id
+		left join truck_source ts on ts.id = tq.relation_id
+		WHERE
+			1=1
+		AND tq.is_cancel = 0
+		AND t.valid = 1
+		and s.plat_form_code = #warehouse_id#
+		and tq.create_time BETWEEN #start# AND #end#
+		and s.fromlocation = #fromlocation# and s.tolocation = #tolocation#
+		GROUP BY tq.relation_id
+		order by counts desc,count DESC
+	</select>
+	
+	
+	<select id="getLineTender">
+		SELECT
+			s.shipment_code,s.shipment_method,date(s.create_time) as create_date,convert(if(_tq.price_type = 1, _tq.quote_price /s.weight, _tq.quote_price),decimal) as _price ,convert(if(_tq.price_type = 1, _tq.quote_price , _tq.quote_price * s.weight),decimal) as sum_price ,_tq.relation_id ,convert(min(if(tq.price_type = 1, tq.quote_price /s.weight, tq.quote_price)),decimal) as min_price,
+			$ca_sql$
+		FROM
+			tender_quote AS tq
+		LEFT JOIN `tender` AS t ON t.id = tq.tender_id
+		left join tender_quote _tq on t.quote_id  = _tq.id
+		LEFT JOIN `shipment` AS s ON s.id = t.shipment_id
+		LEFT JOIN `carrier` AS c ON c.id = tq.quote_carrier
+		WHERE
+			1=1
+		AND tq.is_cancel = 0
+		AND t.valid = 1
+		and s.plat_form_code = #warehouse_id#
+		and tq.create_time BETWEEN #start# AND #end#
+		and s.fromlocation = #fromlocation# and s.tolocation = #tolocation#
+		GROUP BY s.shipment_code
+		order by s.shipment_code asc
+	</select>
+
+
+	<select id="getLineTenderTrend_y1">
+		SELECT
+			shp.fromlocation,count(1) as count
+		FROM
+			shipment shp
+		LEFT JOIN tender t ON shp.id = t.shipment_id 
+		LEFT JOIN tender_quote tq ON tq.tender_id = t.id
+		WHERE
+			1 = 1
+		AND tq.is_cancel = '0'
+		AND tq.`status` = '3'
+		AND t.valid = '1'
+		AND shp.deleted = '0'
+		and shp.plat_form_code = #warehouse_id# 
+		and shp.create_time BETWEEN #start# AND #end#
+		and shp.shipment_method = #shipment_method# 
+		group by shp.fromlocation
+		HAVING count > 2
+		order by count desc
+	</select>
+	
+	<select id="getLineTenderTrend_y2">
+		SELECT
+			shp.tolocation,count(1) as count
+		FROM
+			shipment shp
+		LEFT JOIN tender t ON shp.id = t.shipment_id 
+		LEFT JOIN tender_quote tq ON tq.tender_id = t.id
+		WHERE
+			1 = 1
+		AND tq.is_cancel = '0'
+		AND tq.`status` = '3'
+		AND t.valid = '1'
+		AND shp.deleted = '0'
+		and shp.plat_form_code = #warehouse_id#
+		and shp.create_time BETWEEN #start# AND #end#
+		and shp.shipment_method = #shipment_method# and shp.fromlocation = #fromlocation#
+		group by shp.tolocation
+		HAVING count > 2
+		order by count desc
+	</select>
+	
+	<select id="getLineTenderTrend">
+		SELECT
+			concat(year(shp.create_time),'-',month(shp.create_time)) as mdate,
+			convert( sum( if(tq.price_type = '1' ,quote_price ,quote_price*weight)) / sum(weight),DECIMAL) as avg_price,
+			convert(sum(shp.weight),DECIMAL) as sum_weight
+		FROM
+			shipment shp
+		LEFT JOIN tender t ON shp.id = t.shipment_id 
+		LEFT JOIN tender_quote tq ON tq.tender_id = t.id
+		WHERE
+			1 = 1
+		AND tq.is_cancel = '0'
+		AND tq.`status` = '3'
+		AND t.valid = '1'
+		AND shp.deleted = '0'
+		and shp.plat_form_code = #warehouse_id# 
+		and shp.create_time BETWEEN #start# AND #end#
+		and shp.shipment_method = #shipment_method# and shp.fromlocation = #fromlocation# and shp.tolocation = #tolocation#
+		group by mdate
+	</select>
+
+</sqlMap>

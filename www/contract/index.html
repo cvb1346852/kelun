@@ -1,0 +1,86 @@
+<section id="widget-grid" class="">
+	<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2> 合同列表 </h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+	
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<!-- 自定义搜索区 -->
+						<div class="widget-body-toolbar">
+							<form id="frmSearch" role="form" class="smart-form">
+								<div>
+									<div class="row">
+                                        <section class="pull-left  col pull-width200" >
+                                            <label class="">合同编号</label>
+                                            <label class="input">
+                                                <input type="text" name="code" placeholder="" class="input-sm" id="code">
+                                            </label>
+                                        </section>
+
+									</div>
+								</div>
+								<div class="" style="width: 120px; position: absolute; top: 0px; right: 0px;">
+                                    <a id="btnSearch" class="btn btn-primary  btn-sm" type="button" style="margin-top:16px;">搜索</a>
+                                    <a id="btnMoreSearch" class="btn btn-sm btn-link" type="button" style="margin-top:16px;">更多条件</a>
+							    </div>
+							</form>
+						</div>
+						
+					  <div class="row padding-10">
+					  		<!-- 左侧按钮 -->
+							<div class="col-xs-8 col-sm-8">
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)"  id="editPage"  data-button-resource="D3F1C1D62A072FABE36C5F139E1C2B94" class="btn btn-default">新增合同</a>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)"  onclick="edit()"  data-button-resource="D3F1C1D62A072FABE36C5F139E1C2B94" class="btn btn-default">修改合同</a>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)"  id="del"  data-button-resource="7D997FAFEDC5CDF594F83B4D26CDD222" onclick="del()" class="btn btn-default">删除合同</a>
+                                </div>
+							</div>
+						</div>
+						<table id="tblMain" class="table table-striped table-bordered table-hover has-tickbox">
+						</table>
+	
+					</div>
+					<!-- end widget content -->
+	
+				</div>
+				<!-- end widget div -->
+	
+			</div>
+			<!-- end widget -->
+	
+	
+		</article>
+		<!-- WIDGET END -->
+	
+	</div>
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+
+<!-- Modal REMARK -->
+<script type="text/javascript">
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	pageSetUp();
+	
+	// G7初始化页面 
+	$ips.startup();
+</script>

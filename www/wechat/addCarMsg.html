@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>司机注册</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="js/wechat.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+    <div class="add-car-area">
+
+        <div class="weui_cells weui_cells_form">
+            <form  action="" class="smart-form" novalidate="novalidate" id="frmInfo" method="post">
+                <div class="form-input-item">
+                    <label><span class="vl-m input-before-font" style="color: #f00000;">车牌号</span><input type="text" class="changeui-input" name="carnum"  id="carnum" placeholder="请输入车牌号" />
+                        <input type="hidden" name="wechat" value="1"/></label>
+                </div>
+                <input type="hidden" name="openid" id="openid" value=""/>
+                <div class="form-input-item">
+                    <label><span class="vl-m input-before-font" style="color: #f00000;">车长</span>
+                        <!--<input type="text" class="changeui-input" maxlength="4" name="car_length" id="car_length"/><span class="vl-m input-employer">米</span>-->
+                         <span class="changeui-input has-select weui-cell_access">
+                                <select class="weui-select" name="car_length" id="car_length">
+                                    <option>请选择</option>
+                                    <option>4.2</option>
+                                    <option>4.3</option>
+                                    <option>4.8</option>
+                                    <option>5</option>
+                                    <option>5.2</option>
+                                    <option>5.8</option>
+                                    <option>6</option>
+                                    <option>6.15</option>
+                                    <option>6.2</option>
+                                    <option>6.8</option>
+                                    <option>7</option>
+                                    <option>7.2</option>
+                                    <option>7.6</option>
+                                    <option>7.7</option>
+                                    <option>8</option>
+                                    <option>8.2</option>
+                                    <option>8.6</option>
+                                    <option>8.8</option>
+                                    <option>9.6</option>
+                                    <option>10</option>
+                                    <option>10.5</option>
+                                    <option>10.8</option>
+                                    <option>12</option>
+                                    <option>12.5</option>
+                                    <option>13</option>
+                                    <option>13.5</option>
+                                    <option>14</option>
+                                    <option>14.6</option>
+                                    <option>15</option>
+                                    <option>16</option>
+                                    <option>16.4</option>
+                                    <option>16.5</option>
+                                    <option>17</option>
+                                    <option>17.2</option>
+                                    <option>17.3</option>
+                                    <option>17.4</option>
+                                    <option>17.5</option>
+                                    <option>17.6</option>
+                                    <option>17.8</option>
+                                    <option>18</option>
+                                    <option>18.5</option>
+                                    <option>19</option>
+                                    <option>19.5</option>
+                                    <option>20</option>
+                                    <option>20.5</option>
+                                    <option>21</option>
+                                    <option>21.5</option>
+                                    <option>22</option>
+                                    <option>30</option>
+
+
+                                </select>
+                                <span class="weui-cell__ft"></span>
+                            </span>
+                    </label>
+
+                </div>
+                <div class="form-input-item">
+                    <label><span class="vl-m input-before-font" style="color: #f00000;">厢型</span>
+                            <span class="changeui-input has-select weui-cell_access">
+                                <select class="weui-select" name="carriage_type" id="carriage_type">
+                                </select>
+                                <span class="weui-cell__ft"></span>
+                            </span>
+                    </label>
+                </div>
+
+                <div class="form-input-item">
+                    <label><span class="vl-m input-before-font" style="color: #f00000;">额定载重</span><input type="text" class="changeui-input" name="rated_load" id="rated_load" onkeyup="if(/[^\d{1,}\.\d{1,}|\d{1,}]/g.test(this.value)){$.toast('只能输入纯数字');this.value='';}" /><span class="vl-m input-employer">吨</span></label>
+                </div>
+                <div class="form-input-item">
+                    <label><span class="vl-m input-before-font" style="color: #f00000;">司机姓名</span><input type="text" class="changeui-input" name="driver_name" id="driver_name" placeholder="请输入司机姓名"/></label>
+                </div>
+                <div class="form-input-item">
+                    <label><span class="vl-m input-before-font" style="color: #f00000;">手机号码</span><input type="text" class="changeui-input"  name="driver_phone"  maxlength='11' id="driver_phone" placeholder="请输入手机号码" /></label>
+                </div>
+                <div class="form-input-item">
+                    <label><span class="vl-m input-before-font" style="color: #f00000;">身份证号码</span><input type="text" class="changeui-input" name="id_card" id="id_card"   maxlength='18'  placeholder="请输入身份证号码"/></label>
+                </div>
+                <div class="form-input-item">
+                    <label><span class="vl-m input-before-font">驾驶证号</span><input type="text" class="changeui-input" name="drive_license" id="drive_license" placeholder="请输入驾驶证号码"/></label>
+                </div>
+                <div class="form-input-item">
+                    <label><span class="vl-m input-before-font">行驶证所有人</span><input type="text" class="changeui-input" name="run_owner" id="run_owner" placeholder="请输入行驶证所有人"/></label>
+                </div>
+                <!--<div class="form-input-item" style="margin-top:-20px;">
+                    <label><span class="vl-m input-before-font" style="color: #f00000;">请选择承运商</span></label>
+
+                        <span class="vl-m input-before-font ">
+
+                                <div class="double-select-area " style="width:180px;height:40px;">
+                                    <span class="changeui-input has-select weui-cell_access" style="width:50%;">
+                                        <select class="weui-select" name="city">
+                                            <option value="0">请选择</option>
+
+                                        </select>
+                                        <script type="text/template" id="select-tmpl"> <% _.each(pdata,function(item){%> <option value="<%= item.province %>"><%= item.province %></option> <% }); %></script>
+                                        <span class="weui-cell__ft"></span>
+                                    </span>
+
+                                    <span class="changeui-input has-select weui-cell_access" style="width:50%;">
+                                        <select class="weui-select" name="carriername">
+                                            <option value="0">请选择</option>
+                                        </select>
+                                        <script type="text/template" id="select2-tmpl"> <option value="0">请选择</option> <% _.each(citydata.carrierlist,function(item){%> <option value="<%= item.carrier_name %>"><%= item.carrier_name %></option> <% }); %></script>
+                                        <span class="weui-cell__ft"></span>
+                                    </span>
+                                </div>
+
+                        </span>
+
+                    
+                </div>-->
+
+                <div class="form-input-item">
+                    <span class="vl-m input-before-font"></span>
+                    <a href="javascript:;" class="weui-btn weui-btn_primary changeui-weui-btn_primary" style="width:50%; display:inline-block;" onclick="addNewstruck()">确定</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="./js/addCarMsg.js"></script>
+
+
+</body>
+
+
+</html>
+
+

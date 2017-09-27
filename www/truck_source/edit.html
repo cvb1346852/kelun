@@ -1,0 +1,1039 @@
+	<div class="row">
+	<div class="col col-sm-6 col-xs-12">
+		<a href="javascript:void(0)" class="btn btn-default" id="callback"> &lt; 返回</a>
+	</div>
+</div>
+
+<div class="row"><br /></div>
+
+<div class="well no-padding well-light">
+    <form action="" class="smart-form" novalidate="novalidate" id="frmInfo" method="post">
+	<div id="inbox-content" class="inbox-body">
+            <header>
+                <span>基本资料</span>
+                <icon class="fieldset-tag glyphicon pull-right" ></icon>
+            </header>
+            <fieldset>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">车牌号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="carnum" name="carnum" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">车长</label>
+                        <section class="col col-8">
+                            <label class="select">
+                                <select id="car_length" name="car_length"  class="label-row-input">
+                                    <option>4.2</option>
+                                    <option>4.3</option>
+                                    <option>4.8</option>
+                                    <option>5</option>
+                                    <option>5.2</option>
+                                    <option>5.8</option>
+                                    <option>6</option>
+                                    <option>6.15</option>
+                                    <option>6.2</option>
+                                    <option>6.8</option>
+                                    <option>7</option>
+                                    <option>7.2</option>
+                                    <option>7.6</option>
+                                    <option>7.7</option>
+                                    <option>8</option>
+                                    <option>8.2</option>
+                                    <option>8.6</option>
+                                    <option>8.8</option>
+                                    <option>9.6</option>
+                                    <option>10</option>
+                                    <option>10.5</option>
+                                    <option>10.8</option>
+                                    <option>12</option>
+                                    <option>12.5</option>
+                                    <option>13</option>
+                                    <option>13.5</option>
+                                    <option>14</option>
+                                    <option>14.6</option>
+                                    <option>15</option>
+                                    <option>16</option>
+                                    <option>16.4</option>
+                                    <option>16.5</option>
+                                    <option>17</option>
+                                    <option>17.2</option>
+                                    <option>17.3</option>
+                                    <option>17.4</option>
+                                    <option>17.5</option>
+                                    <option>17.6</option>
+                                    <option>17.8</option>
+                                    <option>18</option>
+                                    <option>18.5</option>
+                                    <option>19</option>
+                                    <option>19.5</option>
+                                    <option>20</option>
+                                    <option>20.5</option>
+                                    <option>21</option>
+                                    <option>21.5</option>
+                                    <option>22</option>
+                                    <option>30</option>
+                                </select>
+
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">额定载重</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="rated_load" name="rated_load" placeholder="吨" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">额定容积</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="rated_volume" name="rated_volume" placeholder="立方米" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black">车辆类型</label>
+                        <section class="col col-8">
+                            <label class="select">
+                                <select class="input-sm" id="car_type" name="car_type">
+                                    <option value="1">车头</option>
+                                    <option value="2">挂车</option>
+                                </select> <i></i>
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">厢型</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input style="width:100%;height:auto!important;" type="text" id="carriage_type" name="carriage_type" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <header class="self">
+                <span>附加信息</span>
+                <icon class="fieldset-tag glyphicon pull-right" ></icon>
+            </header>
+            <fieldset class="self">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-black">车辆定位类型</label>
+                    <section class="col col-8">
+                        <label class="select">
+                            <select class="input-sm" id="type" name="type">
+                                <option value="1">lbs</option>
+                                <option value="2">gps</option>
+                                <option value="3">其他</option>
+                            </select> <i></i>
+                        </label>
+                    </section>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-black">载重类型</label>
+                    <section class="col col-8">
+                        <label class="select">
+                            <select class="input-sm" id="weight" name="weight">
+                                <option value="1">轻载</option>
+                                <option value="2">重载</option>
+                            </select> <i></i>
+                        </label>
+                    </section>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 gpsno-input">
+                <div class="row">
+                    <label class="label col col-4 text-align-right txt-color-black ">GPS设备号</label>
+                    <section class="col col-8">
+                        <label class="input">
+                            <input type="text" id="gpsno" name="gpsno" />
+                        </label>
+                    </section>
+                </div>
+            </div>
+            </fieldset>
+            <header>
+                <span>司机信息</span>
+                <icon class="fieldset-tag glyphicon pull-right" ></icon>
+            </header>
+            <fieldset>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">司机姓名</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="driver_name" name="driver_name" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">司机电话号码</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="driver_phone" name="driver_phone" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-red ">身份证号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="id_card" name="id_card" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">户口所在地</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="domicile_place" name="domicile_place" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">当前居住地</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="live_place" name="live_place" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">籍贯</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="native_place" name="native_place" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">家庭联系电话</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="family_phone" name="family_phone" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">驾驶证号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="drive_license" name="drive_license" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">发证机关</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="issuing_authority" name="issuing_authority" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">驾驶证档案号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="licence_record" name="licence_record" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">有效期截止日</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="in_date" name="in_date" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">驾龄</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="driving_years" name="driving_years" placeholder="" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">准驾车型</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="license_type" name="license_type" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">从业资格证号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="drive_cert" name="drive_cert" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">从业类型</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="drive_type" name="drive_type" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">从业证发证机关</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="drive_cert_auth" name="drive_cert_auth" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">从业证有效期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="drive_cert_in_date" name="drive_cert_in_date" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">体检日期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="health_date" name="health_date" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="col col-4 text-align-right txt-color-black " id="idcardattach_label" name="idcardattach_label">身份证附件</label>
+                        <section class="col col-2">
+                            <input type="hidden" id="idcardattachurl" name="id_card_file" placeholder="">
+                            <label class="input">
+                                <input type="text" id="idcardattach" placeholder="">
+                            </label>
+                        </section>
+                        <label class="col col-2" style="display:none" id="idcardattach_tip">
+                            <a href="javascript:void(0);" class="btn btn-sm extiat">查看</a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="col col-4 text-align-right txt-color-black " id="idcardattach_label2" name="idcardattach_label2" >驾照附件</label>
+                        <section class="col col-2">
+                            <input type="hidden" id="idcardattachurl2" name="license_file" placeholder="">
+                            <label class="input">
+                                <input type="text" id="idcardattach2" placeholder="">
+                            </label>
+                        </section>
+                        <label class="col col-2" style="display:none" id="idcardattach_tip2">
+                            <a href="javascript:void(0);" class="btn btn-sm extiat">查看</a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="col col-4 text-align-right txt-color-black " id="idcardattach_label3" name="idcardattach_label3" >从业资格证附件</label>
+                        <section class="col col-2">
+                            <input type="hidden" id="idcardattachurl3" name="drive_cert_file" placeholder="">
+                            <label class="input">
+                                <input type="text" id="idcardattach3" placeholder="">
+                            </label>
+                        </section>
+                        <label class="col col-2" style="display:none" id="idcardattach_tip3">
+                            <a href="javascript:void(0);" class="btn btn-sm extiat">查看</a>
+                        </label>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <header>
+                <span >行驶证信息</span>
+                <icon class="fieldset-tag glyphicon pull-right" ></icon>
+            </header>
+            <fieldset>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">行驶证所有人</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="run_owner" name="run_owner" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">行驶证车辆类型</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="run_type" name="run_type" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">使用性质</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="run_use" name="run_use" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">品牌型号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="run_num" name="run_num" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">车辆识别代码</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="run_code" name="run_code" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">发动机号码</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="run_engine" name="run_engine" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 self">
+                    <div class="row">
+                        <label class="col col-4 text-align-right txt-color-black " id="idcardattach_label4" name="idcardattach_label4" >行驶证附件</label>
+                        <section class="col col-2">
+                            <input type="hidden" id="idcardattachurl4" name="run_file" placeholder="">
+                            <label class="input">
+                                <input type="text" id="idcardattach4" placeholder="">
+                            </label>
+                        </section>
+                        <label class="col col-2" style="display:none" id="idcardattach_tip4">
+                            <a href="javascript:void(0);" class="btn btn-sm extiat">查看</a>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+
+
+            <header class="self">
+                <span >经营信息</span>
+                <icon class="fieldset-tag glyphicon pull-right" ></icon>
+            </header>
+            <fieldset class="self">
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">文管字号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="operate_tube" name="operate_tube" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">经营许可证</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="operate_code" name="operate_code" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">经营范围</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="operate_type" name="operate_type" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">发证日期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="operate_date" name="operate_date" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">二维日期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="operate_date2" name="operate_date2" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">年检日期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="operate_annual" name="operate_annual" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">营运证有效期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="operate_in_date" name="operate_in_date" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">注册地</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="operate_register" name="operate_register" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="col col-4 text-align-right txt-color-black " id="idcardattach_label5"  >营运证附件</label>
+                        <section class="col col-2">
+                            <input type="hidden" id="idcardattachurl5" name="operate_file" placeholder="">
+                            <label class="input">
+                                <input type="text" id="idcardattach5" placeholder="">
+                            </label>
+                        </section>
+                        <label class="col col-2" style="display:none" id="idcardattach_tip5">
+                            <a href="javascript:void(0);" class="btn btn-sm extiat">查看</a>
+                        </label>
+                    </div>
+                </div>
+
+            </fieldset>
+
+
+            <header class="self">
+                <span >保险信息</span>
+                <icon class="fieldset-tag glyphicon pull-right" ></icon>
+            </header>
+            <fieldset class="self">
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">商业险有效日期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_business" name="security_business" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">交强险有效期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_traffic" name="security_traffic" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">交强险保单号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_traffic_code" name="security_traffic_code" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">保险公司</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_company" name="security_company" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">第三责任保险保单号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_third_code" name="security_third_code" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">第三责任险截止日期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_third_date" name="security_third_date" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">交强险保额</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_traffic_rated" name="security_traffic_rated" placeholder="" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">第三方责任险保险额</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_third_rated" name="security_third_rated" placeholder="" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">物流责任险保险单号</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_shipment_code" name="security_shipment_code" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">物流责任险有效期</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_shipment_date" name="security_shipment_date" placeholder="">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="label col col-4 text-align-right txt-color-black ">物流责任险保额</label>
+                        <section class="col col-8">
+                            <label class="input">
+                                <input type="text" id="security_shipment_rated" name="security_shipment_rated" placeholder="" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+                            </label>
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="row">
+                        <label class="col col-4 text-align-right txt-color-black " id="idcardattach_label6" name="idcardattach_label6" >保险附件</label>
+                        <section class="col col-2">
+                            <input type="hidden" id="idcardattachurl6" name="security_file" placeholder="">
+                            <label class="input">
+                                <input type="text" id="idcardattach6" placeholder="">
+                            </label>
+                        </section>
+                        <label class="col col-2" style="display:none" id="idcardattach_tip6">
+                            <a href="javascript:void(0);" class="btn btn-sm extiat">查看</a>
+                        </label>
+                    </div>
+                </div>
+
+            </fieldset>
+
+    </div>
+        <footer id="save_type">
+            <button type="button" class="btn btn-default" onclick="$ips.locatesubsystem('project/truck_source/index.html',false);">取消</button>
+            <button id="btnSubmit" type="button" class="btn btn-primary" onclick="save()">
+                <span><i class="fa fa-fw fa-save"></i></span>保存
+            </button>
+        </footer>
+    </form>
+</div>
+
+    <div class="modal fade" id="idcard_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" langlanguage="uploadFile">上传文件</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="smart-form" role="form" id="upload" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <label class="col col-3 text-align-right" langlanguage="idcardattach">身份证附件</label>
+                            <section class="col col-8">
+                                <label for="file" class="input input-file ">
+                                    <input type="file" id="idcardfile" name="file" />
+                                </label>
+                            </section>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal" langlanguage="cancel">
+                        取消
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="saveidcard" langlanguage="confirm">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> 确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="idcard_modal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" langlanguage="uploadFile">上传文件</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="smart-form" role="form" id="upload" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <label class="col col-3 text-align-right" >驾照附件</label>
+                            <section class="col col-8">
+                                <label for="file" class="input input-file ">
+                                    <input type="file" id="idcardfile2" name="file" />
+                                </label>
+                            </section>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal" langlanguage="cancel">
+                        取消
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="saveidcard2" langlanguage="confirm">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> 确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="idcard_modal3" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" langlanguage="uploadFile">上传文件</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="smart-form" role="form" id="upload" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <label class="col col-3 text-align-right" >从业资格证附件</label>
+                            <section class="col col-8">
+                                <label for="file" class="input input-file ">
+                                    <input type="file" id="idcardfile3" name="file" />
+                                </label>
+                            </section>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal" langlanguage="cancel">
+                        取消
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="saveidcard3" langlanguage="confirm">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> 确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="idcard_modal4" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" langlanguage="uploadFile">上传文件</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="smart-form" role="form" id="upload" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <label class="col col-3 text-align-right" >行驶证附件</label>
+                            <section class="col col-8">
+                                <label for="file" class="input input-file ">
+                                    <input type="file" id="idcardfile4" name="file" />
+                                </label>
+                            </section>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal" langlanguage="cancel">
+                        取消
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="saveidcard4" langlanguage="confirm">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> 确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="idcard_modal5" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" langlanguage="uploadFile">上传文件</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="smart-form" role="form" id="upload" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <label class="col col-3 text-align-right" >营运证附件</label>
+                            <section class="col col-8">
+                                <label for="file" class="input input-file ">
+                                    <input type="file" id="idcardfile5" name="file" />
+                                </label>
+                            </section>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal" langlanguage="cancel">
+                        取消
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="saveidcard5" langlanguage="confirm">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> 确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="idcard_modal6" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" langlanguage="uploadFile">上传文件</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="smart-form" role="form" id="upload" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <label class="col col-3 text-align-right" >保险附件</label>
+                            <section class="col col-8">
+                                <label for="file" class="input input-file ">
+                                    <input type="file" id="idcardfile6" name="file" />
+                                </label>
+                            </section>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal" >
+                        取消
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="saveidcard6" >
+                        <span class="glyphicon glyphicon-floppy-disk"></span> 确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	pageSetUp();
+	
+	// G7初始化页面 
+	$ips.startup();
+</script>
+
+

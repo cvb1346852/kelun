@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订单签收</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+</head>
+
+<body ontouchstart>
+    <div class="container order-sign">
+        <div class="title-box">
+            <p>订单号:<span>KSD2323233</span></p>
+        </div>
+
+        <div class="detail-box">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text">
+                    <!--<h4 class="weui-media-box__title"> 标题一 </h4>-->
+                    <div class="item-box"><span class="key">要货件数:</span><span class="value">200件</span></div>
+                    <div class="item-box"><span class="key">要货件数:</span><span class="value">200件</span></div>
+                    <div class="item-box"><span class="key">要货件数:</span><span class="value">200件</span></div>
+                    <a class="weui-btn weui-btn_primary btn-detail">详情</a>
+                </div>
+                <div class="weui-media-box weui-media-box_text">
+                    <div class="changeui-list-inner-item">
+                            <span class="text-right text-right-item">运输服务质量：</span>
+                            <span class="star-area">
+                                <i class="c-iconfont"></i>
+                                <i class="c-iconfont"></i>
+                                <i class="c-iconfont"></i>
+                                <span class="half-star">
+                                    <i class="c-iconfont"></i>
+                                    <span class="half-mark"><i class="c-iconfont "></i></span>
+                                </span>
+                                <i class="c-iconfont gray-star"></i>
+                            </span>
+                    </div>
+                    <div class="changeui-list-inner-item">
+                        <span class="text-right text-right-item">基地服务质量：</span>
+                        <span class="star-area">
+                                <i class="c-iconfont"></i>
+                                <i class="c-iconfont"></i>
+                                <i class="c-iconfont"></i>
+                                <span class="half-star">
+                                    <i class="c-iconfont"></i>
+                                    <span class="half-mark"><i class="c-iconfont "></i></span>
+                                </span>
+                                <i class="c-iconfont gray-star"></i>
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="title-box">
+            <p>上传照片</p>
+        </div>
+
+        <div class="detail-box">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text">
+                    <div class="weui-uploader">
+                        <!--<div class="weui-uploader__hd">-->
+                        <!--<p class="weui-uploader__title">图片上传</p>-->
+                        <!--<div class="weui-uploader__info">0/2</div>-->
+                        <!--</div>-->
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files" id="uploaderFiles">
+                            </ul>
+                            <div class="weui-uploader__input-box">
+                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weui-panel__ft link-box">
+            <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link bt-none">
+                <div class="weui-cell__bd bds"> 签收异常上报 </div>
+                <span class="weui-cell__ft arrow-up" id="arrow"></span>
+            </a>
+        </div>
+
+        <div class="detail-box" id="taggle">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text clearfix">
+                    <div class="changui-checkbox-container checkbox-wrap fl-l">
+                        <span class="checkbox-item">
+                            <label>
+                                <input type="checkbox" name="" checked="checked">
+                                <div class="checkbox vl-m">
+                                    <img src="img/checkbox-unchecked.png" class="nochecked">
+                                    <img src="img/checkbox-checked.png" class="checked">
+                                </div>
+                                <span class="vl-m">发迹史迹史</span>
+                            </label>
+                        </span>
+                    </div>
+
+                    <div class="changui-checkbox-container checkbox-wrap fl-l">
+                        <span class="checkbox-item">
+                            <label>
+
+                                <input type="checkbox" name="" checked="checked">
+                                <div class="checkbox vl-m">
+                                    <img src="img/checkbox-unchecked.png" class="nochecked">
+                                    <img src="img/checkbox-checked.png" class="checked">
+                                </div>
+                                <span class="vl-m">发迹史</span>
+                            </label>
+                        </span>
+                    </div>
+
+                    <div class="changui-checkbox-container checkbox-wrap fl-l">
+                        <span class="checkbox-item">
+                            <label>
+                                <input type="checkbox" name="" checked="checked">
+                                <div class="checkbox vl-m">
+                                    <img src="img/checkbox-unchecked.png" class="nochecked">
+                                    <img src="img/checkbox-checked.png" class="checked">
+                                </div>
+                                <span class="vl-m">发迹史</span>
+                            </label>
+                        </span>
+                    </div>
+
+                    <div class="changui-checkbox-container checkbox-wrap fl-l">
+                        <span class="checkbox-item">
+                            <label>
+
+                                <input type="checkbox" name="" checked="checked">
+                                <div class="checkbox vl-m">
+                                    <img src="img/checkbox-unchecked.png" class="nochecked">
+                                    <img src="img/checkbox-checked.png" class="checked">
+                                </div>
+                                <span class="vl-m">发迹史迹史</span>
+                            </label>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="weui-media-box weui-media-box_text clearfix">
+                    <div class="form-input-item form-adj fl-l">
+                        <label><span class="vl-m input-before-font vm-l-large">货物损坏数量</span><input type="text" class="changeui-input input-l-sm" placeholder="输入数量" value=""></label>
+                    </div>
+                    <div class="form-input-item form-adj fl-l">
+                        <label><span class="vl-m input-before-font vm-l-large">金额</span><input type="text" class="changeui-input input-l-sm" placeholder="输入金额" value=""></label>
+                    </div>
+                    <div class="form-input-item form-adj fl-l">
+                        <label><span class="vl-m input-before-font vm-l-large">数量差异金额</span><input type="text" class="changeui-input input-l-sm" placeholder="输入数量" value=""></label>
+                    </div>
+                    <div class="form-input-item form-adj fl-l">
+                        <label><span class="vl-m input-before-font vm-l-large">金额</span><input type="text" class="changeui-input input-l-sm" placeholder="输入金额" value=""></label>
+                    </div>
+                </div>
+
+                <div class="weui-media-box weui-media-box_text clearfix">
+                    <div class="changeui-list-inner-item">
+                        <span class="text-right text-right-item">主观评价500字：</span>
+                    </div>
+                    <textarea class="weui-textarea border-textarea" placeholder="" rows="4"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="sub-btn-box">
+            <a class="weui-btn weui-btn_primary">提交</a>
+        </div>
+    </div>
+
+    <script>
+        $(document).on('click', '.weui-cell_link', function(e){
+            if ( $('#taggle').css("display") == "block" ) {
+                $('#arrow').addClass('arrow-down').removeClass('arrow-up');
+                $('#taggle').hide();
+                $('.sub-btn-box').addClass('area-fold');
+            }
+            else {
+                $('#arrow').addClass('arrow-up').removeClass('arrow-down')
+                $('#taggle').show();
+                $('.sub-btn-box').removeClass('area-fold');
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的车辆</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <style type="text/css">
+        .my-car-area{height: 100%;}
+        .my-car-list-container{height: 100%; overflow: auto; box-sizing: border-box; padding-top: 2.3rem;}
+    </style>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+    <!-- <header class='demos-header' style="background:#101013; color:#fff;">
+        <h1 class="text-title">我的车辆</h1>
+    </header> -->
+    <div class="my-car-area">
+         <div class="weui-search-bar" id="searchBar">
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="" disabled>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+                <label class="weui-search-bar__label" id="searchText">
+                    <i class="weui-icon-search"></i>
+                    <span>搜索车辆</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+        </div>
+        <div class="my-car-list-container" id="tblMain">
+        </div>
+    </div>
+
+    <div class="changeui-fixed-bottom my-cart-fixed">
+        <a href="javascript:;" class="weui-btn weui-btn_primary changeui-weui-btn_primary" onclick="addNewtruck()"  style="width:50%;">添加车辆</a>
+    </div>
+
+</div>
+
+<div class="js_dialog" id="androidDialog2" style="display:none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <!-- <div class="weui-dialog__hd"></div> -->
+        <div class="weui-dialog__bd dia-verify-detail">
+            <strong class="weui-dialog__title">删除车辆<span id="carnum"></span> ?</strong><br/><br/>
+            	
+            <div class="weui-flex content" style="display: none;">
+                <div class="weui-flex__item">
+                    <span class="num">200</span>
+                    <span class="font">运输积分</span>
+                </div>
+                <div class="weui-flex__item">
+                    <span class="num">200</span>
+                    <span class="font">运输质量</span>
+                </div>
+                <div class="weui-flex__item">
+                    <span class="num">0</span>
+                    <span class="font">被投诉量</span>
+                </div>
+            </div>
+        </div>
+        <form id="frmSearch"  role="form" class="smart-form">
+            <table style="margin:0 auto;height:100px;width:90%;text-align:center;display:none;" >
+                <tr><td width="30%"> 司机 </td> <td><input class="weui_input"  name="rid" id="rid" /></td> </tr>
+            </table>
+        </form>
+
+        <div class="weui-dialog__ft">
+        	<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default"  onclick="closeTable();">取消</a>
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="pushCarrier();">删除</a>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script type="text/javascript" src="./js/myTruckSource.js"></script>
+</html>
+
+

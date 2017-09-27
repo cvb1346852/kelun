@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>计算运距</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+</head>
+
+<body ontouchstart>
+<div class="container">
+    <div class="calc-miles-wrap">
+        <div class="text-box">
+            <p>此次运输路程大约为</p>
+            <p><strong class="result-mile">100千米</strong></p>
+        </div>
+        <div class="form-box clearfix">
+            <!--<img class="fl-l  startEnd-icon" src="img/startEnd.png">-->
+            <div class="select-input-box">
+                <div class="select-input">
+                    <span class="changeui-input has-select weui-cell_access none-border mid-sel">
+                        <select class="weui-select" name="start-select">
+                            <option value="0">请选择</option>
+                            <option value="1">中国</option>
+                            <option value="2">美国</option>
+                            <option value="3">英国</option>
+                        </select>
+                        <span class="weui-cell__ft"></span>
+                    </span>
+                    <input type="text" class="changeui-input none-border mid-input" value="" name="start-input" placeholder="输入位置">
+                </div>
+                <div class="select-input">
+                    <span class="changeui-input has-select weui-cell_access none-border mid-sel">
+                        <select class="weui-select" name="end-select">
+                            <option value="0">请选择</option>
+                            <option value="1">中国</option>
+                            <option value="2">美国</option>
+                            <option value="3">英国</option>
+                        </select>
+                        <span class="weui-cell__ft"></span>
+                    </span>
+                    <input type="text" class="changeui-input none-border mid-input" value="" name="end-input" placeholder="输入位置">
+                </div>
+            </div>
+        </div>
+        <div class="button-box">
+            <a class="weui-btn weui-btn_primary" id="btn-calc">开始计算</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>车车竞标</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+    <div class="my-waybill-list-container">
+
+    </div>
+    <input type="hidden" name="openid" id="openid" val="">
+    <script type="text/template" id="orders-tmpl">
+        <% _.each(jdata,function(item){ %>
+    <div class="changeui-weui-panel" onclick="goto('quote.html?id=<%= item.id %>&cooperate_type=<%= item.cooperate_type %>&from=wc')">
+    <p class="changeui-list-title"><%= item.fromlocation+'-'+item.tolocation %></p>
+    <div class="weui-flex">
+        <div class="weui-flex__item">
+            <div class="weui-flex changeui-list-inner-item">
+                <div class="weui-flex__item text-right text-right-item">重量：</div>
+                <div class="weui-flex__item"><%= item.weight %>吨</div>
+            </div>
+            <div class="weui-flex changeui-list-inner-item">
+                <div class="weui-flex__item text-right text-right-item">厢型：</div>
+                <div class="weui-flex__item"><%= item.shipment_method %></div>
+            </div>
+        </div>
+        <div class="weui-flex__item">
+            <div class="weui-flex changeui-list-inner-item">
+                <div class="weui-flex__item text-right text-right-item">招标方式：</div>
+                <div class="weui-flex__item"><%= item.type %></div>
+            </div>
+            <div class="weui-flex changeui-list-inner-item">
+                <div class="weui-flex__item text-right text-right-item">截止时间：</div>
+                <div class="weui-flex__item"><%= item.tendertime %></div>
+            </div>
+        </div>
+    </div>
+</div>
+        <% }); %>
+    </script>
+
+</div>
+<script type="text/javascript" src="./js/bidList.js"></script>
+
+
+</body>
+
+</html>
+

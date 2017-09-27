@@ -1,0 +1,35 @@
+.weui-dialog{border-radius: 10px;}
+.weui-dialog__btn_primary {
+    color: #125dc7;
+}
+.weui-dialog__ft{border-radius: 0 0 10px 10px; overflow: hidden;}
+
+.weui-dialog__bd:first-child{color: #202020;}
+.weui-dialog__bd{color: #202020; font-size: .8rem;}
+
+.dia-font-area{position: relative; text-align: center;}
+.dia-font-area .font-item{font-size: 3.1rem; color: #1ABDA5; margin-bottom: 1rem; margin-top: -.5rem; display: inline-block;}
+
+.dia-font-area .tip-font-ico{margin-top:-1.2rem; font-size:3.6rem; color:#dedede; margin-bottom: .8rem; display: inline-block;}
+
+.dia-font-area .font-bg{display: inline-block;
+    width: 2.4rem;
+    height: 2.4rem;
+    position: absolute;
+    top: -.8rem;
+    left: 50%;
+    z-index: -1;
+    background: #fff;
+    margin-left: -1.2rem;
+    border-radius: 1.2rem;}
+
+ /*半透明的dialog*/
+.opacity-dialog{background: rgba(0,0,0,.8);}
+.opacity-dialog .weui-dialog__bd{color: #fff;}
+
+/*车辆加入审核弹窗*/
+.dia-verify-detail.weui-dialog__bd{padding: 1.7em 20px 2rem};
+.dia-verify-detail .weui-dialog__title{font-size: 1rem; font-weight: bold;}
+.dia-verify-detail .content{border-top: 1px solid #D5D5D6; padding-top: 1rem; margin-top: .7rem;}
+.dia-verify-detail .weui-flex__item .num{display: block; font-size: 1.2rem; color: #125dc7; margin-bottom: .4rem;}
+.dia-verify-detail .weui-flex__item .font{display: block; font-size: .7rem;}

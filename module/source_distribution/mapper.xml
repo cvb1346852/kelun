@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="source_distribution">
+	<!-- 获取承运商关系基地的省的货源信息 -->
+    <select id="selectPage">
+
+        SELECT s.`to_province`,s.`quality`,s.`weight`,s.`shipment_method`,s.`plan_leave_time`,s.id,s.to_city,s.tolocation,s.create_time,cw.warehouse_name FROM `shipment` AS s 
+        LEFT JOIN carrier_warehouse AS cw 
+        ON cw.warehouse_id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c 
+        ON c.id=cw.carrier_id 
+        WHERE c.g7s_orgcode=#orgcode# AND (s.status=1 OR s.status=2) AND s.`deleted`=0 AND s.from_province=#province#  
+        ORDER BY s.`plan_leave_time` DESC 
+    </select>
+    <select id="selectPage_count">
+        SELECT count(*) FROM `shipment` AS s 
+        LEFT JOIN carrier_warehouse AS cw 
+        ON cw.warehouse_id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c 
+        ON c.id=cw.carrier_id  
+        WHERE c.g7s_orgcode=#orgcode# AND (s.status=1 OR s.status=2) AND s.`deleted`=0 AND s.from_province=#province#  
+        ORDER BY s.`plan_leave_time` DESC 
+    </select>
+    <!-- 获取承运商关系基地的省 -->
+    <select id="getProvince">
+        SELECT s.from_province FROM shipment AS s 
+        LEFT JOIN carrier_warehouse AS cw 
+        ON cw.warehouse_id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c 
+        ON c.id=cw.carrier_id 
+        WHERE c.g7s_orgcode=#orgcode# AND (s.status=1 OR s.status=2) AND s.`deleted`=0
+        GROUP BY s.from_province
+    </select>
+    <!-- 获取发标时间 -->
+    <select id="getCreateTime">
+        SELECT create_time FROM `tender` WHERE shipment_id=#shipment_id# AND valid=1;
+    </select>
+    
+</sqlMap>

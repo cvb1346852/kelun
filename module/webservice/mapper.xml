@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="webservice">
+    <!-- 插入记录 -->
+    <insert id="insertWebRequest">
+        INSERT INTO `webservice_request` ( `function`, `params`, `response`, `status`, `times`, `create_time`, `update_time`) VALUES
+        (#function#, #params#, #response#, #status#, #times#, #create_time#, #update_time#)
+        <selectKey resultClass="char" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id;
+        </selectKey>
+    </insert>
+
+    <!-- 修改webservice请求信息 -->
+    <update id="updateWebRequest">
+        UPDATE `webservice_request`
+        SET `status` = #status#
+        <isNotEmpty prepend=", " property="update_time">
+            `update_time` = #update_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="response">
+            `response` = #response#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="times">
+            `times`  = `times` + 1
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="update_time">
+            `update_time`  = #update_time#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+    <select id="selectList">
+        select `id`,`function`,`params`,`times`,`status`
+        from    `webservice_request`
+        where `status` = 0  order by `create_time` asc limit 50
+    </select>
+</sqlMap>

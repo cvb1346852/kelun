@@ -1,0 +1,126 @@
+<section id="widget-grid">
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2> 基地直属车辆</h2>
+                </header>
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <div class="widget-body no-padding">
+                        <div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+                            <form id="frmSearch" role="form" class="smart-form">
+                                <div class="global-search-box">
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">车牌号</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="carnum" name="carnum"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">司机姓名</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="driver_name" name="driver_name"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">司机手机</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="driver_phone" name="driver_phone"/>
+                                        </label>
+                                    </section>
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">厢型</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="carriage_type" name="carriage_type"/>
+                                        </label>
+                                    </section>
+                                    <!-- <section class="pull-left no-padding pull-width180" >
+                                        <label class="">承运商</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="carrier_id" name="carrier_id"/>
+                                        </label>
+                                    </section> -->
+                                    <section class="pull-left no-padding pull-width180" >
+                                        <label class="">车队</label>
+                                        <label class="input">
+                                            <input type="text" class="select2" id="motorcade1" name="motorcade1"/>
+                                        </label>
+                                    </section>
+                                    <div class="global-search-btn" >
+                                        <a id="btnSearch" class="btn btn-primary  btn-sm" type="button"><i class="fa fa-search"></i> 查询</a>
+                                        <a id="btnMoreSearch" class="btn btn-sm btn-link" type="button" state="open">更多条件</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row margin-top-10 margin-bottom-10 dispatch-field" style="margin:0">
+                            <!-- 左侧按钮 -->
+                            <div class="col-xs-8 col-sm-8 operating-button">
+                                <div class="btn-group"><a href="javascript:void(0)" id="delete-button" onclick="del()" class="btn btn-default btn-must-one">删除</a></div>
+                                <div class="btn-group"><a href="javascript:void(0)"  id="exchange" onclick="exChange()"  class="btn btn-default btn-must-one">设置车队</a></div>
+                            </div>
+
+                        </div>
+                        <div class="modal fade" id="remarkListModal" role="dialog" aria-labelledby="myModalLabels" aria-hidden="falde">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="width: 300px;">
+
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabels">设置车队</h4>
+                                    </div>
+                                    <div class="modal-body terms-body"  id="">
+                                        <div class="row">
+                                            <div id="set"></div>
+                                            <section class="" style="width:100%;height:auto!important;">
+                                                <label class="input" >
+                                                    <input type="text" id="motorcade"  placeholder="选择车队">
+                                                    <input type="hidden" id="motorcade_id"  placeholder="">
+                                                    <input type="hidden" id="motorcade_name"  placeholder="">
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button onclick="change()" class="btn btn-default" data-dismiss="modal">
+                                            确定
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="tblMain" class="table table-striped table-bordered table-hover">
+                        </table>
+
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+    </div>
+</section>
+
+
+    <script src="js/city.js"></script>
+    <script src="js/city1.js"></script>
+<script src="js/plugin/date/moment.js"></script>
+<script src="js/plugin/date/daterangepicker.js"></script>
+<script src="js/plugin/jquery.PrintArea.js"></script>
+<script type="text/javascript">
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    pageSetUp();
+    // G7初始化页面
+    $ips.startup();
+</script>

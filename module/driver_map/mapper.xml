@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="driver_map">
+    <select id="driver_selectPage">
+        select t.*, ts.driver_name, ts.car_length, ts.carnum, tst.name AS carriage_type  from history_point AS  t
+        LEFT JOIN truck_source AS ts ON ts.driver_phone = t.phone
+        LEFT JOIN truck_source_type AS tst on tst.id = ts.carriage_type
+        where t.id=(select max(id) from history_point where phone=t.phone)
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carnum">
+            t.carnum = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="lat1">
+            t.lat BETWEEN #lat1# AND #lat2#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="lng1">
+            t.lng BETWEEN #lng1# AND #lng2#
+        </isNotEmpty>
+        <dynamic>
+             ORDER BY t.time DESC
+        </dynamic>
+    </select>
+
+    <select id="driver_selectPage_count">
+        SELECT  count(DISTINCT(t.phone))   FROM  `history_point` t WHERE
+        t.id=(select max(id) from history_point where phone=t.phone)
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="carnum">
+            t.carnum = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="lat1">
+            t.lat BETWEEN #lat1# AND #lat2#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="lng1">
+            t.lng BETWEEN #lng1# AND #lng2#
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY t.time DESC
+        </dynamic>
+    </select>
+
+
+</sqlMap>

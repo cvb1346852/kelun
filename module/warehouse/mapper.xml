@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="warehouse">
+	<!-- RESULT MAPS -->
+	<resultMap id="fullResult">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="type" column="type" />
+        <result property="phone" column="phone" />
+        <result property="province" column="province" />
+        <result property="city" column="city" />
+        <result property="address" column="address" />
+        <result property="lng" column="lng" />
+        <result property="lat" column="lat" />
+        <result property="create_time" column="create_time" />
+        <result property="update_time" column="update_time" />
+        <result property="deleted" column="deleted" />
+        <result property="last_update" column="last_update" />
+        <result property="orgcode" column="orgcode" />
+        <result property="qrcode_info" column="qrcode_info" />
+	</resultMap>
+
+	<!-- QUERIES -->
+	<insert id="insert">
+		INSERT INTO `warehouse` (`id`, `name`, `type`, `phone`,`province`, `city`, `address`,`lng`, `lat`, `create_time`, `update_time`,`platform_code`, `last_update`, `orgcode`, `qrcode_url`, `qrcode_result`,`person`)
+		                    VALUES (#id#, #name#, #type#, #phone#,#province#, #city#, #address#, #lng#, #lat#,    NOW(),   NOW(),  #platform_code#,  #last_update#, #orgcode#, #qrcode_url#, #qrcode_result#,#person#)
+	</insert>
+
+    <update id="update">
+        UPDATE warehouse SET
+        `name` = #name#,
+        `type` = #type#,
+        `phone` = #phone#,
+        `person` = #person#,
+        `province` = #province#,
+        `city` = #city#,
+        `address` = #address#,
+        `lng` = #lng#,
+        `lat` = #lat#,
+        `orgcode` = #orgcode#,
+        `qrcode_result` = #qrcode_result#,
+        `qrcode_url` = #qrcode_url#,
+        `deleted` = #deleted#,
+        `last_update` = #last_update#,
+        `update_time` = NOW(),
+        `platform_code` = #platform_code#
+        WHERE `id`=#id#;
+    </update>
+
+	<select id="selectPage">
+		SELECT  w.`id`,w.`name`,w.`type`,w.`phone`,w.`province`,w.`city`,w.`address`,w.`create_time`,w.`update_time`,w.`last_update`,w.`orgcode`,w.`platform_code`,t.tender_type,t.first_audit_id,t.second_audit_id
+        FROM `warehouse` as w
+        LEFT JOIN `warehouse_tender` as t on t.warehouse_id = w.id
+        WHERE w.`deleted` = 0
+        <include refid="selectPage_where"/>
+        <isNotEmpty property="sortColumns">
+            ORDER BY  $sortColumns$
+        </isNotEmpty>
+	</select>
+
+    <select id="selectPage_count">
+        SELECT count(*) FROM  `warehouse`  WHERE `deleted`=0
+        <include refid="selectPage_where"/>
+    </select>
+
+    <sql id="selectPage_where">
+        <isNotEmpty prepend=" AND" property="id">
+            w.`id`   = #id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="name">
+            `name`   like '%$name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="phone">
+            `phone`   = #phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="type">
+            `type`  =  #type#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="orgcode">
+            w.`orgcode`  =  #orgcode#
+        </isNotEmpty>
+    </sql>
+
+    <select id="getWarehouseUser">
+        select *
+        FROM `warehouse_user` where `deleted`=0
+        <isNotEmpty property="id" prepend=" and">
+            id = #id#
+        </isNotEmpty>
+        <isNotEmpty property="phone" prepend=" and">
+            phone = #phone#
+        </isNotEmpty>
+        <iterate prepend=" and" property="ids" open=" id IN (" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </select>
+
+    <select id="getById">
+        SELECT  `id`,`name`,`type`,`phone`,`person`,`province`,`city`,`address`,`lng`,`lat`,`create_time`,`update_time`,`last_update`,`orgcode`,`platform_code`
+        FROM `warehouse`  WHERE `id` = #id#
+    </select>
+
+    <select id="getByGroup">
+        SELECT   `id` ,`name`  FROM  warehouse  WHERE deleted =0
+        <isNotEmpty prepend=" AND" property="name">
+            `name`   like '%$name$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getRoute">
+        SELECT  *  FROM  warehouse  WHERE 1 = 1
+        <isNotEmpty prepend=" AND" property="from">
+            `from`   = #from#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="to">
+            `to`   = #to#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="phone">
+            `phone`   = #phone#
+        </isNotEmpty>
+    </select>
+
+    <select id="getRouteTruck">
+        SELECT  `carnum`  FROM  shipment  WHERE `route_id` = #route_id#;
+    </select>
+
+    <select id="getRouteTruckById">
+        SELECT  `carnum` ,`driver_name`, `driver_phone`  FROM  truck_source  WHERE  1 = 1;
+        <iterate prepend="   AND  " property="carIN" open=" id  IN (" close=")" conjunction=",">
+            #carIN[]#
+        </iterate>
+    </select>
+
+    <select id="getRouteTruckById_count">
+        SELECT  count(*)  FROM  truck_source  WHERE  1 = 1;
+        <iterate prepend="   AND  " property="carIN" open=" id  IN (" close=")" conjunction=",">
+            #carIN[]#
+        </iterate>
+    </select>
+
+    <select id="getByOrgcode">
+        SELECT `id`,`name`,`province`,`qrcode_url` FROM   `warehouse`  WHERE `deleted`=0 AND `orgcode` = #orgcode#  LIMIT 1
+    </select>
+
+    <!--删除基地-->
+    <update id="deleteWarehouse">
+        update `warehouse` set deleted =1
+        <iterate prepend=" where" property="ids" open=" id IN (" close=")" conjunction=",">
+            #ids[]#
+        </iterate>
+    </update>
+
+    <update id="setOrgCode">
+        update `warehouse` set orgcode = #orgcode#
+        where `id` = #id#
+    </update>
+
+    <insert id="tenderSet">
+        INSERT INTO `warehouse_tender`(`id`,`warehouse_id`,`tender_type`,`first_audit_id`,`second_audit_id`,`create_time`,`update_time`,`deleted`)
+        VALUES(#id#,#warehouse_id#,#tender_type#,#first_audit_id#,#second_audit_id#,#create_time#,#update_time#,#deleted#)
+        ON DUPLICATE KEY UPDATE `tender_type` = #tender_type#, `first_audit_id`=#first_audit_id#,`second_audit_id`=#second_audit_id#,`update_time`=#update_time#
+    </insert>
+
+    <insert id="insertTenderUser">
+        INSERT INTO `warehouse_user`(`id`,`name`,`phone`,`position`,`type`,`warehouse_id`,`update_time`,`update_user`)
+        VALUES(#id#,#name#,#phone#,#position#,#type#,#warehouse_id#,#update_time#,#update_user#)
+        ON DUPLICATE KEY UPDATE `update_time`=#update_time#,`update_user` = #update_user#
+    </insert>
+
+    <update id="updateTenderUser">
+        UPDATE `warehouse_user` set `name`=#name#,`phone`=#phone#,`position`=#position#,`update_time`=#update_time#,`update_user` =#update_user#
+        WHERE id=#id#
+    </update>
+
+    <insert id="addImmediate">
+        REPLACE INTO `truck_source_warehouse` (`warehouse_id`, `truck_source_id`, `create_time`, `update_time`, `last_update`) VALUES $data$
+    </insert>
+
+    <select id="immediateTruck">
+        SELECT tsw.id, mw.name AS motorcade, ts.carnum, ts.car_length, ts.carriage_type, ts.rated_load, ts.driver_name, ts.driver_phone, ts.id AS truck_source_id, ts.type
+        FROM truck_source AS ts 
+        LEFT JOIN truck_source_warehouse AS tsw ON ts.id = tsw.truck_source_id
+        LEFT JOIN truck_source_carrier AS tsc ON ts.id = tsc.truck_source_id
+        LEFT JOIN motorcade_warehouse AS mw ON mw.id = tsw.warehouse_motorcade_id
+        WHERE tsw.deleted = 0 AND tsw.warehouse_id = #warehouse_id#
+        <include refid="immediateTruck_where"/>
+        <dynamic>
+            GROUP BY ts.driver_phone
+        </dynamic>
+    </select>
+
+    <select id="immediateTruck_count">
+        SELECT COUNT(DISTINCT ts.carnum)
+        FROM truck_source AS ts 
+        LEFT JOIN truck_source_warehouse AS tsw ON ts.id = tsw.truck_source_id
+        LEFT JOIN truck_source_carrier AS tsc ON ts.id = tsc.truck_source_id 
+        LEFT JOIN motorcade_warehouse AS mw ON mw.id = tsw.warehouse_motorcade_id
+        WHERE tsw.deleted = 0 AND tsw.warehouse_id = #warehouse_id#
+        <include refid="immediateTruck_where"/>
+    </select>
+
+    <sql id="immediateTruck_where">
+        <isNotEmpty prepend="AND" property="carnum" >
+            ts.carnum = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="driver_name">
+            ts.driver_name = #driver_name#
+        </isNotEmpty>
+        <isNotEmpty property="driver_phone" prepend="AND">
+            ts.driver_phone = #driver_phone#
+        </isNotEmpty>
+        <isNotEmpty property="carriage_type" prepend="AND">
+            ts.carriage_type = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty property="carrier_id" prepend="AND">
+            tsc.carrier_id = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty property="motorcade1" prepend="AND">
+            mw.`name` = #motorcade1#
+        </isNotEmpty>
+        <isNotEmpty property="car_length" prepend="AND">
+          ts.car_length BETWEEN #car_length# AND #car_length1#
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="warehouse_motorcade_id" open=" tsw.warehouse_motorcade_id IN (" close=")" conjunction=",">
+            #warehouse_motorcade_id[]#
+        </iterate>
+
+    </sql>
+
+    <select id="getImmediateSearchCondition">
+        SELECT ts.$name$
+        FROM truck_source AS ts 
+        LEFT JOIN truck_source_warehouse AS tsw ON ts.id = tsw.truck_source_id
+        WHERE tsw.deleted = 0 
+            AND tsw.warehouse_id = #warehouse_id#
+            AND ts.$name$ LIKE '%$value$%'
+        GROUP BY ts.$name$
+    </select>
+
+    <update id="updateImmediate">
+        UPDATE `truck_source_warehouse`
+        SET `update_time` = #update_time#,
+        `last_update` = #last_update#
+        <isNotEmpty prepend="," property="warehouse_id">
+            `warehouse_id` = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="truck_source_id">
+            `truck_source_id` = #truck_source_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="deleted">
+            `deleted` = #deleted#
+        </isNotEmpty>
+        <dynamic>
+            WHERE deleted = 0
+        </dynamic>
+        <iterate prepend="AND" property="idIN" conjunction="," open=" id IN (" close=")">
+            #idIN[]#
+        </iterate>
+    </update>
+
+    <select id="countPhone">
+        select id from `warehouse_user` where `warehouse_id` = #warehouseId# and `type` = #type# and `phone` = #phone#
+    </select>
+
+    <!--基地唯一性判定-->
+    <select id="valid">
+        select id from `warehouse` where (`name` = #name# or `platform_code`=#platform_code#) and `deleted`=0
+    </select>
+
+	<select id ="genOpt">
+		SELECT platform_code,name from warehouse order by platform_code asc
+	</select>
+
+</sqlMap>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>所有静态页面</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<style type="text/css">
+#my-con{overflow: hidden;}
+
+.me-container{margin: 30px; float: left;}
+.me-title{font-size: 14px; color: #333; text-align: center; height: 30px; font-weight: bold;}
+.my-con-item{width: 375px; height: 600px; border: 1px solid #333; background: #fff; }
+iframe{border: 0 none; width: 100%; height: 100%;}
+</style>
+<body ontouchstart>
+    <div id="my-con">
+        <div class="me-container">
+            <p class="me-title">实例</p>
+            <div class="my-con-item">
+                <iframe src="my_demo.html"></iframe>
+            </div>
+        </div>
+        <div class="me-container">
+            <p class="me-title">我的车辆</p>
+            <div class="my-con-item">
+                <iframe src="my_car.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">添加车辆</p>
+            <div class="my-con-item">
+                <iframe src="wo_add_car.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">更改车辆信息</p>
+            <div class="my-con-item">
+                <iframe src="wo_edit_car.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">历史承运</p>
+            <div class="my-con-item">
+                <iframe src="wo_chengyun.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">承运商详情</p>
+            <div class="my-con-item">
+                <iframe src="wo_chengyun_xiangqing.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">弹窗</p>
+            <div class="my-con-item">
+                <iframe src="wo_dialog.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">签收</p>
+            <div class="my-con-item">
+                <iframe src="wo_dingdanqianshou.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">签收-已签收</p>
+            <div class="my-con-item">
+                <iframe src="wo_dingdanqianshou_ok.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">订单未授权</p>
+            <div class="my-con-item">
+                <iframe src="wo_dingdanqianshou_no.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">货源详情</p>
+            <div class="my-con-item">
+                <iframe src="wo_huoyuan_xiangqing.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">价格审批列表_已审核_未审核</p>
+            <div class="my-con-item">
+                <iframe src="wo_jiageshenpi_list.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">价格审批</p>
+            <div class="my-con-item">
+                <iframe src="wo_jiageshenpixiangqing.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">历史任务</p>
+            <div class="my-con-item">
+                <iframe src="wo_lishirenwu.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">登录</p>
+            <div class="my-con-item">
+                <iframe src="wo_login.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">主页</p>
+            <div class="my-con-item">
+                <iframe src="wo_main.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">签收申请</p>
+            <div class="my-con-item">
+                <iframe src="wo_qianshou.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">我的投标</p>
+            <div class="my-con-item">
+                <iframe src="wo_toubiao.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">投标</p>
+            <div class="my-con-item">
+                <iframe src="wo_toubiaolist.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">我的运单</p>
+            <div class="my-con-item">
+                <iframe src="wo_yundan.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">运单详情</p>
+            <div class="my-con-item">
+                <iframe src="wo_yundanxiangqing.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">中标定车</p>
+            <div class="my-con-item">
+                <iframe src="wo_zhongbiao.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">事件上报</p>
+            <div class="my-con-item">
+                <iframe src="wo_report.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">报价</p>
+            <div class="my-con-item">
+                <iframe src="wo_quote_jingjia.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">加入承运商</p>
+            <div class="my-con-item">
+                <iframe src="wo_join.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">我的线路</p>
+            <div class="my-con-item">
+                <iframe src="wo_main_line.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">常跑线路</p>
+            <div class="my-con-item">
+                <iframe src="wo_changyong_line.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">运单</p>
+            <div class="my-con-item">
+                <iframe src="wo_yundan_new.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">运单详情</p>
+            <div class="my-con-item">
+                <iframe src="wo_yundan_new_detail.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">订单授权</p>
+            <div class="my-con-item">
+                <iframe src="wo_dingdanshouquan.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">计算运距</p>
+            <div class="my-con-item">
+                <iframe src="wo_calc_miles.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">订单跟踪</p>
+            <div class="my-con-item">
+                <iframe src="wo_order_track.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">订单签收</p>
+            <div class="my-con-item">
+                <iframe src="wo_order_sign.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">要货计划</p>
+            <div class="my-con-item">
+                <iframe src="wo_yaohuo.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">要货计划详情</p>
+            <div class="my-con-item">
+                <iframe src="wo_yaohuo_detail.html"></iframe>
+            </div>
+        </div>
+
+        <div class="me-container">
+            <p class="me-title">找货源</p>
+            <div class="my-con-item">
+                <iframe src="wo_find.html"></iframe>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

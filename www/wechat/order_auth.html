@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>订单未授权</title>
+	<meta charset="utf-8">
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+	<script src="../jquery_weui/lib/zepto.js"></script>
+	<script src="../js/underscore-min.js"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+	<script src="/wechat/js/wechat.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+	<div class="weui-navbar changeui-weui-navbar">
+		<div class="weui-navbar__item weui-bar__item_on" data="0">
+			未授权
+		</div>
+		<div class="weui-navbar__item" data="1">
+			已授权
+		</div>
+	</div>
+	<div class="weui-search-bar" style="margin-top: 48px;">
+		<form class="weui-search-bar__form">
+			<div class="weui-search-bar__box">
+				<i class="weui-icon-search"></i>
+				<input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+				<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+			</div>
+			<label class="weui-search-bar__label" id="searchText">
+				<i class="weui-icon-search"></i>
+				<span>输入订单号搜索</span>
+			</label>
+		</form>
+		<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+	</div>
+	<div class="express-delivery-list" style="padding-top: 0;">
+
+	</div>
+
+	<script type="text/template" id="orders-tmpl">
+		<% _.each(allOrder,function(item){ %>
+		<div class="changeui-weui-panel" onclick="showDetail(<%= item.id %>)">
+			<div class="left-item">
+				<div class="express-delivery-item">
+					<span><% print(item.from_name.substr(0,2)) %></span>
+					<span><% print(item.from_name.substr(2,2)) %></span>
+				</div>
+			</div>
+			<div class="changeui-list-item right-item">
+				<p class="title">订单号：<%= item.order_code %></p>
+				<div class="changeui-list-inner-item">
+					<span class="text-right-item">出发地：</span>
+					<span class="text-item"><%= item.fromlocation %></span>
+				</div>
+				<div class="changeui-list-inner-item">
+					<span class="text-right-item">目的地：</span>
+					<span class="text-item"><%= item.tolocation %></span>
+				</div>
+				<div class="changeui-list-inner-item">
+					<span class="text-right-item">签收人：</span>
+					<span class="text-item"><%= item.to_name %> <%= item.to_phone %></span>
+				</div>
+			</div>
+			<div class="weui-cell_access">
+				<span class="weui-cell__ft"></span>
+			</div>
+
+		</div>
+		<% }); %>
+	</script>
+
+</div>
+
+</body>
+
+<script type="text/javascript" src="./js/order_auth.js"></script>
+
+</html>
+

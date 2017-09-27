@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="dispatch_set">
+    <select id="dispatch_set_selectPage">
+        SELECT  *
+        FROM  `dispatch_set` WHERE 1
+        <isNotEmpty prepend=" AND" property="user_name">
+            `user_name`    like '%$user_name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="user_id">
+            `user_id` = #user_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="id">
+            `id` = #id#
+        </isNotEmpty>
+    </select>
+
+    <select id="dispatch_set_selectPage_count">
+        SELECT  count(*)   FROM  `dispatch_set`  WHERE 1
+        <isNotEmpty prepend=" AND" property="user_name">
+            `user_name`    like '%$user_name$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="user_id">
+            `user_id` = #user_id#
+        </isNotEmpty>
+    </select>
+
+    <select id="searchWarehouse">
+        SELECT  id,name,orgcode,platform_code FROM  `warehouse` WHERE 1
+        <iterate prepend="   AND  " property="orgcode" open=" orgcode IN (" close=")" conjunction=",">#orgcode[]#</iterate>
+        <iterate prepend="order by field  " property="orgcode" open="(orgcode," close=")" conjunction=",">#orgcode[]#</iterate>
+    </select>
+
+    <insert id="save">
+        INSERT INTO `dispatch_set`
+        (`user_id`, `user_name`, `roleids`, `warehouse`)
+        VALUES
+        (#user_id#, #user_name#, #roleids#, #warehouse#)
+    </insert>
+
+    <delete id="del">
+        DELETE FROM `dispatch_set`
+        WHERE id=#id#
+    </delete>
+
+
+    <update id="update">
+       UPDATE `dispatch_set` SET warehouse = #warehouse#
+        WHERE id=#id#
+
+    </update>
+</sqlMap>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="truckfuture">
+
+    <!-- QUERIES -->
+     <!-- ZHM 2016-7-13 获取运单 -->
+    <select id="getTruckfutrue">
+        select s.*
+        from  `shipment`  AS s
+        where  s.to_province LIKE '$to_province$%' AND  s.to_city LIKE '$to_city$%' AND s.status > 6
+        <isNotEmpty prepend=" AND" property="from_province">
+            s.from_province LIKE '$from_province$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="from_city">
+            s.from_city LIKE '$from_city$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="startTime">
+            unix_timestamp(s.plan_arrive_time) between unix_timestamp(#startTime#) and  unix_timestamp(#endTime#)
+        </isNotEmpty>
+        <isNotEmpty property="group">
+            GROUP BY s.driver_phone
+        </isNotEmpty>
+        <isNotEmpty property="sortColumns">
+            ORDER BY s.$sortColumns$
+        </isNotEmpty>
+    </select>
+    <select id="getTruckfutrue_count">
+        select   COUNT(DISTINCT s.driver_phone)
+        from  `shipment`  AS s
+        where  s.to_province LIKE '$to_province$%' AND  s.to_city LIKE '$to_city$%' AND s.status > 6
+        <isNotEmpty prepend=" AND" property="to_province">
+            s.to_province LIKE '$to_province$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="to_city">
+            s.to_city LIKE '$to_city$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="startTime">
+            unix_timestamp(s.plan_arrive_time) between unix_timestamp(#startTime#) and  unix_timestamp(#endTime#)
+        </isNotEmpty>
+        <isNotEmpty property="sortColumns">
+            ORDER BY s.$sortColumns$
+        </isNotEmpty>
+    </select>
+
+     <select id="getWarehousecity">
+         select city,province from warehouse where id = #id#
+     </select>
+
+    <select id="getWarehouseNameList">
+        SELECT   `id` ,`name`
+        FROM  warehouse
+        WHERE deleted =0
+        <isNotEmpty prepend=" AND" property="warehouse_name">
+            `name`   like '%$warehouse_name$%'
+        </isNotEmpty>
+    </select>
+
+</sqlMap>

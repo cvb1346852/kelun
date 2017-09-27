@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>更改车辆信息</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+    <div class="add-car-area edit-car-area">
+
+        <header class='demos-header' style="background:#101013; color:#fff;">
+            <h1 class="text-title">更改车辆信息</h1>
+        </header>
+
+        <div class="form-input-item">
+            <label><span class="vl-m input-before-font">车牌号</span><input type="text" class="changeui-input" value="川A" /></label>
+        </div>
+        <div class="form-input-item">
+            <label><span class="vl-m input-before-font">车长</span><input type="text" class="changeui-input" value="9.6" /><span class="vl-m input-employer">米</span></label>
+        </div>
+        <div class="form-input-item">
+            <label><span class="vl-m input-before-font">箱型</span>
+            <span class="changeui-input has-select weui-cell_access">
+                <select class="weui-select" name="select2">
+                    <option value="0">请选择</option>
+                    <option value="1">中国</option>
+                    <option value="2">美国</option>
+                    <option value="3">英国</option>
+                </select>
+                <span class="weui-cell__ft"></span>
+            </span>
+            </label>
+        </div>
+
+        <div class="form-input-item">
+            <label><span class="vl-m input-before-font">载重</span><input type="text" class="changeui-input" value="9.6" /><span class="vl-m input-employer">吨</span></label>
+        </div>
+
+
+        <div class="form-input-item" style="padding-top:.5rem;">
+            <span class="vl-m input-before-font"></span>
+
+            <div style="width:65%; overflow:hidden" class="vl-m">
+                <a href="javascript:;" class="weui-btn vl-m fl-l weui-btn_plain-default" style="width:45%; display:inline-block;">恢复默认</a>
+                <a href="javascript:;" class="weui-btn vl-m fl-r weui-btn_primary" style="width:45%; display:inline-block;">保存修改</a>
+            </div>
+        </div>
+
+        <p class="edit-form-tip">信息更改后及时生效，请谨慎操作</p>
+
+    </div>
+
+</div>
+
+
+
+</body>
+
+
+</html>
+

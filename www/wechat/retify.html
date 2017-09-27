@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>价格审批详情</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+
+    <div class="price-check-container">
+    </div>
+    <script type="text/template" id="retify-tmpl">
+        <div class="changeui-weui-panel no-pad-weui-panel bid-car-detail-container">
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">招标名称：</span>
+                <span class="single-right-item item"><%= jdata.tender_name%>（<%= jdata.distance %>公里）</span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">发车时间：</span>
+                <span class="single-right-item item"><%= jdata.plan_leave_time%></span>
+            </div>
+			<div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">货物信息：</span>
+                <span class="single-right-item item"><%= jdata.quality %>件,<%= jdata.weight %>吨,<%= jdata.volume %>方</span>
+            </div>
+
+            <div class="changeui-signle-line" style="margin-left:10px; margin-right:10px;"></div>
+
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">运输方式：</span>
+                <span class="single-right-item item"><%= jdata.trans_type %></span>
+            </div>
+<!--
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">招标方式：</span>
+                <span class="single-right-item item"><%= jdata.cooperate_type == 1 ? "竞价":"一口价" %></span>
+            </div>
+-->
+          
+
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">厢型要求：</span>
+                <span class="single-right-item item"><%= jdata.carriage_type ? jdata.carriage_type : '无要求' %></span>
+            </div>
+
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">温度要求：</span>
+                <span class="single-right-item item"><%= (jdata.carriage_type != "冷藏" && jdata.carriage_type != "冷冻" ) ? '无要求' : (jdata.temperature_from +'-'+ jdata.temperature_to)%></span>
+            </div>
+
+         
+
+            <div class="changeui-signle-line" style="margin-left:10px; margin-right:10px;"></div>
+
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">承运商：</span>
+                <span class="single-right-item item"><%= jdata.quote_carrier %></span>
+            </div>
+<!--
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">司机：</span>
+                <span class="single-right-item item"><%= jdata.driver_name ? jdata.driver_name :'-----' %></span>
+            </div>
+-->
+			 <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">报价方式：</span>
+                <span class="single-right-item item"><%= jdata.price_type == 1 ? "整车":"按吨" %></span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">线路底价：</span>
+                <span class="single-right-item item"><%= jdata.maxprice ? (jdata.maxprice+'元每吨') : '未设置'%>  </span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">含税单价：</span>
+                <!--<span class="single-right-item item"><%= jdata.quote_price != null  ? jdata.quote_price : '&#45;&#45;'+'元'%>元每吨 (总价：<%= jdata.total_price %>元) </span>-->
+                <span class="single-right-item item"><%= parseFloat(jdata.unit_price).toFixed(2) +'元'%> 每吨 (总价：<%= parseFloat(jdata.totalPrice).toFixed(2) +'元' %>) </span>
+            </div>
+			<div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">超额率：</span>
+                <span class="single-right-item item"><%= jdata.push_price <= 0 ? '未超额' : jdata.push_price.toFixed(2)+'%' %></span>
+            </div>
+			<div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">提交人：</span>
+                <span class="single-right-item item"><%= jdata.submitter %></span>
+            </div>
+   			<div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">超标说明：</span>
+                <span class="single-right-item item"><%= jdata.plan_remark %></span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">上期参考价：</span>
+                <span class="single-right-item item"><%= jdata.lastQuote? jdata.lastQuote.quote_price  : '暂无报价'%>&nbsp;&nbsp;<%= jdata.lastQuote? jdata.lastQuote.price_type==1 ? '每车':'每吨'  : ''%></span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">同期参考价：</span>
+                <span class="single-right-item item"><%= jdata.lastYear? jdata.lastYear.quote_price  : '暂无报价'%>&nbsp;&nbsp;<%= jdata.lastYear? jdata.lastYear.price_type==1 ? '每车':'每吨'  : ''%></span>
+            </div>
+
+            <%if(auditStatus == 3){%>
+            <div class="changeui-signle-line" style="margin-left:10px; margin-right:10px;"></div>
+            <div class="changeui-list-inner-item single wo_report">
+                <span class="text-right text-right-item item">审批备注：</span>
+                <span class="single-right-item item"><textarea class="weui-textarea" id="audit_remark" placeholder="备注" rows="2"></textarea></span>
+            </div>
+            <% }%>
+        </div>
+      <div id="handle">
+          <script type="text/template" id="t-tmpl">
+              <%
+              if(auditStatus == 3){
+              %>
+              <a href="javascript:;" class="weui-btn weui-btn_plain-default" onclick="retifyOk('no')" style="width:80%; color:#125dc7;">不批准</a>
+
+              <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="retifyOk('ok')" style="width:80%;">批准</a>
+
+              <% } %>
+    </script>
+      </div>
+
+
+   </script>
+</div>
+
+<script type="text/javascript" src="./js/retify.js"></script>
+</body>
+
+</html>

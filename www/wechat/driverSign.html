@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>打卡结果页</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+
+<header class='demos-header'>
+</header>
+<div >
+    <div id="full" class='weui-popup-container'>
+        <div class="weui_msg">
+            <div class="weui_icon_area"><i class="weui_icon_msg"><img id="result_image" src="../jquery_weui/images/smiling_face.png"></i></div>
+            <div class="weui_text_area">
+                <h2 class="weui_msg_title" id="check_result"></h2>
+                <p class="weui_msg_desc" id="check_result_desc" style="display:inline-block;height:30px;"></p>
+                <p>签到成功!恭喜你获得信用积分+1，积分越多物流公司和货主更容易找到你哦!获取更多运输任务。</p>
+                <br>
+                <a href="#" onclick="gotoUrl()" id="urlInfo"></a>
+            </div>
+            <input name="address" id="address" value="" type="hidden" >
+            <input name="lng" id="lng" value="" type="hidden" >
+            <input name="lat" id="lat" value="" type="hidden" >
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="/wechat/js/driverSign.js"></script>

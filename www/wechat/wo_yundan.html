@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的运单</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+<!--     <header class='demos-header' style="background:#101013; color:#fff;">
+        <h1 class="text-title">我的运单</h1>
+    </header> -->
+
+    <div class="weui-navbar changeui-weui-navbar">
+        <div class="weui-navbar__item weui-bar__item_on">
+            全部
+        </div>
+        <div class="weui-navbar__item">
+            在途
+        </div>
+        <div class="weui-navbar__item">
+            历史
+        </div>
+    </div>
+
+    <div class="my-waybill-list-container">
+        <div class="changeui-weui-panel">
+            <p class="changeui-list-title">目的地：四川</p>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item">整车</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">件数：</div>
+                        <div class="weui-flex__item">100</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">重量：</div>
+                        <div class="weui-flex__item">3吨</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                        <div class="weui-flex__item">2016-09-02</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="changeui-weui-panel">
+            <p class="changeui-list-title">目的地：四川</p>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item">整车</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">件数：</div>
+                        <div class="weui-flex__item">100</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">重量：</div>
+                        <div class="weui-flex__item">3吨</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                        <div class="weui-flex__item">2016-09-02</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="changeui-weui-panel">
+            <p class="changeui-list-title">目的地：四川</p>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item">整车</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">件数：</div>
+                        <div class="weui-flex__item">100</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">重量：</div>
+                        <div class="weui-flex__item">3吨</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                        <div class="weui-flex__item">2016-09-02</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="changeui-weui-panel">
+            <p class="changeui-list-title">目的地：四川</p>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item">整车</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">件数：</div>
+                        <div class="weui-flex__item">100</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">重量：</div>
+                        <div class="weui-flex__item">3吨</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                        <div class="weui-flex__item">2016-09-02</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="changeui-weui-panel">
+            <p class="changeui-list-title">目的地：四川</p>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item">整车</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">件数：</div>
+                        <div class="weui-flex__item">100</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">重量：</div>
+                        <div class="weui-flex__item">3吨</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                        <div class="weui-flex__item">2016-09-02</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="changeui-weui-panel">
+            <p class="changeui-list-title">目的地：四川</p>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item">整车</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">件数：</div>
+                        <div class="weui-flex__item">100</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">重量：</div>
+                        <div class="weui-flex__item">3吨</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                        <div class="weui-flex__item">2016-09-02</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="changeui-weui-panel">
+            <p class="changeui-list-title">目的地：四川</p>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item">整车</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">件数：</div>
+                        <div class="weui-flex__item">100</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">重量：</div>
+                        <div class="weui-flex__item">3吨</div>
+                    </div>
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">计划发车：</div>
+                        <div class="weui-flex__item">2016-09-02</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- <script src="./js/pickUp.js"></script> -->
+
+
+</body>
+<script type="text/javascript">
+
+    $(function(){
+        $('.weui-navbar__item').on('click', function () {
+            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+        });
+    });
+
+</script>
+
+</html>
+

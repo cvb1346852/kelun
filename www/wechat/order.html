@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>订单签收</title>
+    <link rel="stylesheet" href="./css/wechat.css">
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+</head>
+<body ontouchstart style="background-color:#f0f0f2">
+<div class="weui_navbar tabbar">
+    <div class="weui_navbar_item tab weui_bar_item_on" tab="1">
+        未签收
+    </div>
+    <div class="weui_navbar_item tab" tab="2">
+        已签收
+    </div>
+</div>
+<div class="weui_tab_bd order-list">
+    <!-- 未签收 -->
+    <div class="tab-1 order-tab"></div>
+    <!-- 已签收 -->
+    <div class="tab-2 order-tab hide"></div>
+
+    <div class="weui-infinite-scroll">
+        <div class="infinite-preloader"></div>
+        正在加载
+    </div>
+</div>
+<script type="text/javascript" src="./js/order.js"></script>
+</body>
+</html>

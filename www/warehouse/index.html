@@ -1,0 +1,221 @@
+<section id="widget-grid" class="">
+	<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2> 基地/片区列表 </h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+	
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<!-- 自定义搜索区 -->
+						<!--<div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+							<form id="frmSearch" role="form" class="smart-form">
+								<div style="margin-left:10px">
+									<div class="row">
+                                        <section class="pull-left  col pull-width200" >
+                                            <label class="">基地/片区名称</label>
+                                            <label class="input">
+                                                <input type="text" name="name" placeholder="" class="input-sm" id="name">
+                                            </label>
+                                        </section>
+                                        <section class="pull-left  col pull-width200" >
+                                            <label class="">手机号</label>
+                                            <label class="input">
+                                                <input type="text" name="phone" placeholder="" class="input-sm" id="phone">
+                                            </label>
+                                        </section>
+                                        <section class="pull-left no-padding col pull-width120" >
+                                            <label class="model_cla">仓库类型</label>
+                                            <label class="select">
+                                                <select class="input-sm" id="type" name="type">
+                                                    <option value="0">全部</option>
+                                                    <option value="1">基地</option>
+                                                    <option value="2">片区</option>
+                                                </select> <i></i>
+                                            </label>
+                                        </section>
+									</div>
+								</div>
+								<div class="" style="width: 120px; position: absolute; top: 0px; right: 0px;">
+                                    <a id="btnSearch" class="btn btn-primary  btn-sm" type="button" style="margin-top:16px;">搜索</a>
+                                    <a id="btnMoreSearch" class="btn btn-sm btn-link" type="button" style="margin-top:16px;">更多条件</a>
+							    </div>
+							</form>
+						</div>-->
+						
+					  <div class="row padding-10">
+					  		<!-- 左侧按钮 -->
+							<div class="col-xs-8 col-sm-8">
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)"  id="add"  data-button-resource="AFDE73294E437CBEC42D98EA714D397F" class="btn btn-default">基地添加</a>
+									<a href="javascript:void(0)"  id="edit"  data-button-resource="AFDE73294E437CBEC42D98EA714D397F" class="btn btn-default btn-only-one">基地修改</a>
+									<a href="javascript:void(0)"  id="delete"  data-button-resource="AFDE73294E437CBEC42D98EA714D397F" class="btn btn-default btn-must-one">删除基地</a>
+                                </div>
+								<div class="btn-group">
+									<a href="javascript:void(0)"  id="tender_btn"  data-button-resource="AFDE73294E437CBEC42D98EA714D397F" class="btn btn-default btn-only-one">招标设置</a>
+								</div>
+								<div class="btn-group">
+									<a href="javascript:void(0)"  id="g7s_set" class="btn btn-default btn-only-one">设置G7S机构</a>
+								</div>
+								<div class="btn-group">
+									<a href="javascript:void(0);" class="btn btn-default"  id="export">导出</a>
+								</div>
+							</div>
+						</div>
+						<table id="tblMain" class="table table-striped table-bordered table-hover has-tickbox">
+						</table>
+	
+					</div>
+					<!-- end widget content -->
+	
+				</div>
+				<!-- end widget div -->
+	
+			</div>
+			<!-- end widget -->
+	
+	
+		</article>
+		<!-- WIDGET END -->
+	
+	</div>
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+<!-- g7机构设置 -->
+<div class="modal fade" id="orgcode_set" tabindex="-1" role="dialog" aria-labelledby="设置G7机构" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel" langlanguage="bindICCard">设置G7机构</h4>
+			</div>
+			<div class="modal-body">
+				<fieldset class="no-padding">
+					<div class="col  col-xs-12 no-padding">
+						<div class="row">
+							<section class="col col-sm-4">
+								<label class="input state">
+									机构编码：
+								</label>
+							</section>
+							<section class="col col-sm-8">
+								<label class="input state">
+									<input type="text" class="form-control" id="orgcode" placeholder="" value=""/>
+								</label>
+							</section>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-sm" id="saveOrgCode"> <span class="glyphicon glyphicon-floppy-disk"></span> 保存 </button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" langlanguage="cancel"> 取消 </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- g7机构设置 -->
+<div class="modal fade" id="tender_set" tabindex="-1" role="dialog" aria-labelledby="招标设置" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title"  langlanguage="bindICCard">招标设置</h4>
+			</div>
+			<div class="modal-body">
+				<fieldset class="no-padding">
+					<div class="col  col-xs-12 no-padding">
+						<div class="row">
+							<div class="col col-sm-4">
+								<label class="input state">
+									评标方式：
+								</label>
+							</div>
+							<div class="col col-sm-8">
+								<label class="radio">
+									<input type="radio" checked="checked" class="skip" id="fist_type" name="tender_type" value="1">
+									<i></i><span langlanguage="skip">显示最低报价</span>
+								</label>
+								<label class="radio">
+									<input type="radio" class="skip" id="second_type" name="tender_type" value="2">
+									<i></i><span langlanguage="cover">显示所有的报价</span>
+								</label>
+							</div>
+						</div>
+
+						<div class="row">
+							<section class="col col-sm-4">
+								<label class="input state">
+									一级审核人：
+								</label>
+							</section>
+							<section class="col col-sm-8">
+								<label class="input state">
+									<input type="hidden" class="form-control" id="first_audit_id" placeholder="" value=""/>
+									<input type="text" class="form-control" id="first_audit_name" placeholder="姓名" value=""/>
+								</label>
+								<label class="input state">
+									<input type="text" class="form-control" id="first_audit_position" placeholder="职位" value=""/>
+								</label>
+								<label class="input state">
+									<input type="text" class="form-control" id="first_audit_phone" placeholder="手机号" value=""/>
+								</label>
+							</section>
+						</div>
+
+						<div class="row">
+							<section class="col col-sm-4">
+								<label class="input state">
+									二级审核人：
+								</label>
+							</section>
+							<section class="col col-sm-8">
+								<label class="input state">
+									<input type="hidden" class="form-control" id="second_audit_id" placeholder="" value=""/>
+									<input type="text" class="form-control" id="second_audit_name" placeholder="姓名" value=""/>
+								</label>
+								<label class="input state">
+									<input type="text" class="form-control" id="second_audit_position" placeholder="职位" value=""/>
+								</label>
+								<label class="input state">
+									<input type="text" class="form-control" id="second_audit_phone" placeholder="手机号" value=""/>
+								</label>
+							</section>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-sm" id="saveTender"> <span class="glyphicon glyphicon-floppy-disk"></span> 保存 </button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" langlanguage="cancel"> 取消 </button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal REMARK -->
+<script type="text/javascript">
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	pageSetUp();
+	
+	// G7初始化页面 
+	$ips.startup();
+</script>

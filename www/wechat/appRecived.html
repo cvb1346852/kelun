@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>签收申请</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dialog.css">
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <script src="js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+    <div id="consigneeList" style="height:100%; padding-bottom:60px; box-sizing:border-box; overflow:auto;">
+
+    </div>
+        <div class="changeui-fixed-bottom changeui-sign_apply">
+            <div class="cfb-check-area fl-l">
+                <label><input type="checkbox" name="checkbox style-0" id="checkAll"/>全选</label>
+            </div>
+            <a href="javascript:;" id="btn" onclick="apply()" class="weui-btn weui-btn_primary changeui-weui-btn_primary" style="width:30%;">申请签收</a>
+        </div>
+        <input type="hidden" name="address" id="address" value=""/>
+        <input type="hidden" name="carnum" id="carnum" value=""/>
+        <input type="hidden" name="driver_name" id="driver_name" value=""/>
+        <input type="hidden" name="order_code" id="order_code" value=""/>
+        <input type="hidden" name="shipment_id" id="shipment_id" value=""/>
+        <input type="hidden" name="order_id" id="order_id" value=""/>
+        <input type="hidden" name="lng" id="lng" value=""/>
+        <input type="hidden" name="lat" id="lat" value=""/>
+
+</div>
+<div class="js_dialog" id="androidDialog1" style="display:none">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd">
+            <!--<div class="dia-font-area"><i class="weui-icon-success weui-icon_msg font-item"></i></div>
+            申请签收成功！-->
+        </div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="iKnow()">知道了</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="./js/appRecived.js"></script>
+</body>
+
+</html>

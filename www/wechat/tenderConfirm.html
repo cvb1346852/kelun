@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>中标定车</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dialog.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/smartadmin-production.css">
+
+
+
+    <script src="/jquery_weui/lib/jquery-2.1.4.js"></script>
+    <script src="/wechat/js/wechat.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+    <script src="../js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+    <script src="../jquery_weui/lib/zepto.js"></script>
+
+    <script src="../js/plugin/select2/select2.min.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+    <div class="bid-car-detail-container">
+
+
+        <div class="changeui-weui-panel no-pad-weui-panel">
+            <div id="tblMain">
+
+            </div>
+            <div id="tender_name">
+
+            </div>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item" id="trans_type"></div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">车长要求：</div>
+                        <div class="weui-flex__item" id="car_length">无要求</div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">厢型要求：</div>
+                        <div class="weui-flex__item" id="carriage_type">无要求</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">温度要求：</div>
+                        <div class="weui-flex__item" id="temperature">无要求</div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">货物重量：</div>
+                        <div class="weui-flex__item"><span id="weight"></span><span class="vl-m input-employer">吨</span></div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">货物体积：</div>
+                        <div class="weui-flex__item"><span id="volume"></span><span class="vl-m input-employer">立方米</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item-3 item">要求到场时间：</span>
+
+                <span class="single-right-item-4 item">
+                   <span class=" weui-cell_access" id="package_time"  ></span>
+                </span>
+
+            </div>
+
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">备注：</span>
+                <span class="single-right-item item" id="remark"></span>
+            </div>
+
+            <div class="changeui-signle-line"></div>
+
+            <form id="frmSearch_ok_driver">
+                <div class="form-input-item">
+                    <label style="padding-left: 15px"><span class="vl-m input-before-font">装车车牌号</span><input type="text"  readonly  class="changeui-input" name="carnum" id="carnum" value="" /></label>
+                </div>
+            </form>
+
+            <input type="hidden" name="shipment_id" id="shipment_id"/>
+            <input type="hidden" name="tender_id" id="tender_id"/>
+            <input type="hidden" name="plat_form_code" id="plat_form_code"/>
+
+            <form id="frmSearch_ok_carrier">
+                <div class="form-input-item-showSize">
+                    <label style="padding-left: 15px"><span class="vl-m input-before-font">司机手机</span>
+                    </label>
+                    <label class="input">
+                        <input type="text" class="select2" id="driver_phone"  name="driver_phone" style="width: 150px;"/>
+                    </label>
+                </div>
+                <div class="form-input-item-showSize">
+                    <label style="padding-left: 15px"><span class="vl-m input-before-font">司机姓名</span>
+                        <input type="text" class="changeui-input" id="driver_name"  name="driver_name" style="width: 150px;"/>
+                    </label>
+                </div>
+                <div class="form-input-item-showSize">
+                    <label style="padding-left: 15px"><span class="vl-m input-before-font">身份证号</span>
+                        <input type="text" class="changeui-input" id="id_card"  name="id_card" style="width: 150px;"/>
+                    </label>
+                </div>
+                <div class="form-input-item-showSize">
+                    <label style="padding-left: 15px"><span class="vl-m input-before-font">车&nbsp;牌&nbsp;&nbsp;号</span>
+                        <input type="text" class="changeui-input" id="carrier_carnum"  name="carrier_carnum" style="width: 150px;"/>
+                    </label>
+                </div>
+            </form>
+            <div style="margin-left: 30px">
+                <a href="javascript:;"  onclick="confirmOk()" id="confirmOk" class="weui-btn vl-m weui-btn_primary changeui-weui-btn_primary" style="   width:80%; margin-left: 6px; display:inline-block;">派车</a>
+                <a href="javascript:;" id="gotoAddtruck" onclick="gotoAddtruck()" class="weui-btn vl-m weui-btn_default" style="width:80%; margin-left: 6px; display:inline-block;display: none;">添加车辆</a>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+<div class="js_dialog" id="androidDialog2" style="display:none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd dia-verify-detail">
+            <strong class="weui-dialog__title">商品详情</strong><br/>
+            <div class="weui-flex content">
+                <span id="order_detail"></span>
+            </div>
+
+        </div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="closeDiv()">知道了</a>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="./js/tenderConfirm.js"></script>
+</body>
+
+
+</html>
+
+

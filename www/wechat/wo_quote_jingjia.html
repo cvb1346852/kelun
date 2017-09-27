@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>报价</title>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/wechat.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/weui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/font.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/changeui.css">
+
+    <script src="../jquery_weui/lib/zepto.js"></script>
+    <!-- <script src="js/wechat.js"></script> -->
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="js/echarts.min.js"></script>
+</head>
+
+<body ontouchstart>
+
+<div class="container">
+
+    <div class="bid-car-detail-container wo_quote">
+
+
+        <div class="changeui-weui-panel no-pad-weui-panel wo_quote_header">
+
+            <!--竞价-->
+            <div class="wo_quote_header_top">
+                <div class="wo_quote_l">
+                    <div>倒计时</div>
+                    <div class="my_time">12:56:32</div>
+                </div>
+                <div class="wo_quote_r">
+                    <div>总报价</div>
+                    <div class="wo_text_color_ wo_price">2100元</div>
+                </div>
+
+            </div>
+            <!--竞价end-->
+
+            <!--一口价-->
+            <div class="wo_quote_header_top">
+                <div class="wo_quote_l">
+                    <div>倒计时</div>
+                    <div class="my_time">12:56:32</div>
+                </div>
+                <div class="wo_quote_r">
+                    <div>一口价</div>
+                    <div style="color:#FF9234">2100元</div>
+                </div>
+            </div>
+            <!--一口价END-->
+
+
+            <div class="wo_quote_header_bottom">
+                <!-- 竞价按吨 -->
+                <div class="form-input-item">
+                    <label>
+                        <span class="vl-m input-before-font wo_text_color_1">按每吨</span>
+                        <input type="text"
+                               class="changeui-input wo_input"
+                               placeholder="请输入数字">
+                        <a href="javascript:;"
+                           class="weui-btn vl-m weui-btn_primary changeui-weui-btn_primary"
+                           style="width:18%; margin-left: 6px; display:inline-block;">确定</a>
+                    </label>
+                </div>
+                <!-- 竞价按吨 END-->
+
+                <!-- 竞价整车 -->
+                <div class="form-input-item">
+                    <label>
+                        <span class="vl-m input-before-font wo_text_color_1">按每车</span>
+                        <input type="text"
+                               class="changeui-input wo_input"
+                               placeholder="请输入数字">
+                        <a href="javascript:;"
+                           class="weui-btn vl-m weui-btn_primary changeui-weui-btn_primary"
+                           style="width:18%; margin-left: 6px; display:inline-block;">确定</a>
+                    </label>
+                </div>
+                <!-- 竞价整车 END-->
+
+                <!-- 一口价 -->
+                <div class="form-input-item text-center">
+                    <label>
+                        <a href="javascript:;"
+                           class="weui-btn vl-m changeui-weui-btn_primary"
+                           style="width:8rem; height:2.2rem; margin-right:10px; display:inline-block;background: #f6f6f6 ; border-radius: 5px; color: #202020">放弃</a>
+                        <a href="javascript:;"
+                           class="weui-btn vl-m weui-btn_primary changeui-weui-btn_primary"
+                           style="width:8rem; height:2.2rem;  margin-left:10px; display:inline-block;background: #FF9234;
+border-radius: 5px; border: 0">抢单</a>
+                    </label>
+                </div>
+                <!-- 一口价 END-->
+
+
+            </div>
+        </div>
+
+        <div class="changeui-weui-panel no-pad-weui-panel">
+            <p class="changeui-list-title" style="margin-bottom:10px;">上海到广州线路 <span
+                    style="color:#125dc7">(1500)公里</span></p>
+            <p class="changeui-list-title"><em class="ci-font-ico">1</em>上海 - 广州</p>
+            <p class="changeui-list-title"><em class="ci-font-ico">2</em>上海 - 广州</p>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">运输方式：</div>
+                        <div class="weui-flex__item">整车</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">车场要求：</div>
+                        <div class="weui-flex__item">9-14米</div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">箱型要求：</div>
+                        <div class="weui-flex__item">箱式</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">温度要求：</div>
+                        <div class="weui-flex__item">2-8度</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">总件数：</span>
+                <span class="single-right-item item"><span class="open-dia-mark weui-cell_access">青霉素30/红霉素30<span
+                        class="weui-cell__ft"></span></span></span>
+            </div>
+
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">货物重量：</div>
+                        <div class="weui-flex__item">3吨</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">货物体积：</div>
+                        <div class="weui-flex__item">50立方米</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="weui-flex">
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">要求到场时间：</div>
+                        <div class="weui-flex__item">08/09 12:03</div>
+                    </div>
+                </div>
+                <div class="weui-flex__item">
+                    <div class="weui-flex changeui-list-inner-item">
+                        <div class="weui-flex__item text-right text-right-item">基地名称：</div>
+                        <div class="weui-flex__item">新都基地</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">备注：</span>
+                <span class="single-right-item item">这是备注ini该上课就更深刻工商局，给谁看规划搜狗科技。个烧烤公交三国快打，给谁看两个就。</span>
+            </div>
+
+            <div class="changeui-signle-line" style="margin-left:10px; margin-right:10px;"></div>
+
+
+        </div>
+        <div id="echartBox"></div>
+    </div>
+
+
+</div>
+
+
+</body>
+<script>
+    function getTime(endtime) {
+        var nowtime = Date.parse(new Date()) / 1000
+        var time = endtime - nowtime
+        if (time > 0) {
+            var s = time % 60;
+            var m = parseInt(time / 60 % 60);
+            var h = parseInt(time / 60 / 60);
+            var time = h + ":" + m + ":" + s;
+            return time
+        } else {
+            return false
+        }
+    }
+    $(function () {
+        $(document).on('input', '.wo_input', function () {
+            var self = this;
+            var reg = /^[0-9]*$/
+            if(reg.test(self.value)){
+                $('.wo_price').html(self.value)
+            }else{
+                self.value = $('.wo_price').html()
+            }
+        })
+        setInterval(function () {
+            $('.my_time').html(getTime(1477859266))
+        }, 1000)
+
+        var option = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['邮件营销', '联盟广告']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {}
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['1', '2', '3', '4', '5', '6', '7']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name: '邮件营销',
+                    type: 'line',
+                    stack: '总量',
+                    data: [120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name: '联盟广告',
+                    type: 'line',
+                    stack: '总量',
+                    data: [220, 182, 191, 234, 290, 330, 310]
+                }
+            ]
+        };
+        var e = echarts.init(document.getElementById('echartBox'));
+        e.setOption(option);
+    })
+</script>
+
+</html>
+

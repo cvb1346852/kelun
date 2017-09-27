@@ -1,0 +1,108 @@
+<section id="widget-grid" class="">
+	<!-- row -->
+	<div class="row">
+		<!-- NEW WIDGET START -->
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-0" data-widget-sortable="true" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+					<h2> 自有车辆查询 </h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+					</div>
+					<!-- end widget edit box -->
+	
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<!-- 自定义搜索区 -->
+						<div class="widget-body-toolbar" style="height:70px;overflow:hidden;">
+							<form id="frmSearch" role="form" class="smart-form">
+								<div>
+									<div class="row">
+                                        <section class="pull-left  col pull-width200" >
+                                            <label class="">车牌号</label>
+                                            <label class="input">
+                                                <input type="text" name="carnum" placeholder="" class="input-sm" id="carnum">
+                                            </label>
+                                        </section>
+									</div>
+								</div>
+								<div class="" style="width: 120px; position: absolute; top: 0px; right: 0px;">
+                                    <a id="btnSearch" class="btn btn-primary  btn-sm" type="button" style="margin-top:16px;">搜索</a>
+							    </div>
+							</form>
+						</div>
+						
+					  <div class="row padding-10">
+					  		<!-- 左侧按钮 -->
+							<div class="col-xs-8 col-sm-8">
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)"  id="add"  data-button-resource="F62019A54DC447B7B852B1CAFA57A8D8" class="btn btn-default" onclick="save()">批量新增</a>
+                                </div>
+							</div>
+						</div>
+						<table id="tblMain" class="table table-striped table-bordered table-hover has-tickbox">
+						</table>
+	
+					</div>
+					<!-- end widget content -->
+	
+				</div>
+				<!-- end widget div -->
+	
+			</div>
+			<!-- end widget -->
+	
+	
+		</article>
+		<!-- WIDGET END -->
+	
+	</div>
+	<!-- end row -->
+
+</section>
+
+
+<div class="modal fade" id="remarkListModal" role="dialog" aria-labelledby="myModalLabels" aria-hidden="falde">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 300px;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabels">设置车队</h4>
+            </div>
+            <div class="modal-body terms-body"  id="">
+                    <div class="row">
+                        <div id="set"></div>
+                        <section class="" style="width:100%;height:auto!important;">
+                            <label class="input" >
+                                <input type="text" id="motorcade"  placeholder="选择车队">
+                                <input type="hidden" id="motorcade_id"  placeholder="">
+                                <input type="hidden" id="motorcade_name"  placeholder="">
+                            </label>
+                        </section>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="change()" class="btn btn-default" data-dismiss="modal">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	pageSetUp();
+	
+	// G7初始化页面 
+	$ips.startup();
+</script>

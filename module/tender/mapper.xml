@@ -1,0 +1,1330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="tender">
+
+    <!-- ZHM 2016-7-13 获取运单 -->
+    <select id="getShipments">
+        SELECT s.id, s.shipment_code,s.price, (s.from_province = s.to_province) as business_type, s.shipment_method, s.fromlocation, s.tolocation, s.carnum, s.distance, s.status, s.driver_name, ts.driver_phone,ts.car_length,ts.carriage_type,ts.rated_load, s.quality, s.weight, s.volume, s.plan_leave_time, s.plan_arrive_time,s.from_city,s.to_city, cc.carrier_name, t.status AS tender_status, t.tender_limit, t.create_time, s.arrivewh_time,s.leavewh_time,s.arrival_date,t.bid_time
+        FROM `shipment` AS `s`
+        LEFT JOIN `carrier` AS `cc` ON s.carrier_id = cc.id
+        LEFT JOIN `truck_source` AS `ts` ON s.driver_phone = ts.driver_phone
+        LEFT JOIN (select * from `tender` where valid = 1 order by id desc) AS `t` ON t.shipment_id = s.id
+        $role_condition$
+        AND s.deleted = 0
+        <isNotEmpty prepend="AND" property="carrier_name">
+            cc.carrier_name = #carrier_name#
+        </isNotEmpty>
+        <include refid="getShipments_where" />
+        <dynamic>
+            GROUP BY  s.id
+            <isNotEmpty prepend="," property="sortColumns">
+                ORDER BY $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getShipments_count">
+        SELECT count(1)
+        FROM `shipment` AS `s`
+<!--        LEFT JOIN `truck_source` AS `ts` ON s.driver_phone = ts.driver_phone-->
+        $role_condition$
+        AND s.deleted = 0
+        <include refid="getShipments_where" />
+    </select>
+    <sql id="getShipments_where">
+        <isNotEmpty prepend="AND" property="shipment_code">
+            s.shipment_code = #shipment_code#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="fromlocation">
+            s.fromlocation LIKE '$fromlocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="tolocation">
+            s.tolocation LIKE '$tolocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlProvince">
+            s.from_province LIKE '$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlCity">
+            s.from_city LIKE '$ddlCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloProvince">
+            s.to_province LIKE '$toloProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloCity">
+            s.to_city LIKE '$toloCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="driver">
+            s.driver_name = #driver#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carnum">
+            s.carnum = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_id">
+            s.carrier_id = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            s.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="business_type">
+            (s.from_province = s.to_province) = $business_type$
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="shipment_method">
+            s.shipment_method = #shipment_method#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="arrival">
+            s.status IN (8,9,10)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="pickup">
+            s.status IN (4,5,6,7)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="invalid">
+            s.status IN (1,2,3)
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="shipment_id" open=" s.id IN (" close=")" conjunction=",">
+            #shipment_id[]#
+        </iterate>
+        <isNotEmpty prepend="AND" property="status">
+            s.status =  #status#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="gtstatus">
+            s.status &gt; #gtstatus#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="check_shipStatus">
+            s.status = $check_shipStatus$
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="keywords">
+            s.shipment_code  LIKE '%$keywords$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="is_tender">
+            s.is_tender =  #is_tender#
+        </isNotEmpty>
+
+    </sql>
+
+    <!-- 检查运单的招标状态-->
+    <select id="checkTenderStatus">
+        SELECT s.status, s.id, s.shipment_method, s.shipment_code, s.from_province, s.from_city,s.fromlocation, s.to_province, s.to_city,s.tolocation, s.carnum,s.remark as s_remark,t.id as tender_id,t.status AS tender_status,t.cooperate_type,t.price,t.price_type,t.car_length,t.carriage_type,t.temperature_from,t.temperature_to,t.tender_limit,t.remark,t.package_time,t.bidder_select,t.create_time  FROM `shipment` AS s
+        LEFT JOIN (SELECT id,status,shipment_id,cooperate_type,price,price_type,car_length,carriage_type,temperature_from,temperature_to,tender_limit,remark,package_time,bidder_select,create_time FROM `tender` WHERE 1 ORDER BY id DESC ) AS t ON t.shipment_id = s.id
+        WHERE 1
+        <isNotEmpty prepend="AND" property="id">
+            s.id=#id#
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="shipment_ids" open=" s.id IN (" close=")" conjunction=",">
+            #shipment_ids[]#
+        </iterate>
+    </select>
+
+    <!-- 保存发标信息-->
+    <insert id="saveTender">
+        INSERT INTO `tender` (shipment_id, shipment_code, trans_type, cooperate_type, price, price_type, car_length, carriage_type,temperature_from,temperature_to,tender_limit,remark,status,package_time,valid,create_time,bidder_select ) VALUES
+        (#shipment_id#, #shipment_code#, #trans_type#, #cooperate_type#, #price#, #price_type#, #car_length#, #carriage_type#, #temperature_from#, #temperature_to#, #tender_limit#, #remark#, #status#, #package_time#, #valid#, #create_time#, #bidder_select#)
+        <selectKey resultClass="char" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id;
+        </selectKey>
+    </insert>
+
+    <select id = "getTenderInfo">
+        SELECT t.*,tst.name as car_name
+        FROM  tender   t
+        LEFT JOIN truck_source_type tst on t.carriage_type = tst.id
+        WHERE shipment_id = #shipmentId# AND valid = 1
+    </select>
+
+    <!--更新订单状态-->
+    <update id="updateStatus">
+        update `shipment` set
+        status = #status#
+        <isNotEmpty prepend="," property="arrivewh_time">
+            arrivewh_time = #arrivewh_time#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="leavewh_time">
+            leavewh_time = #leavewh_time#
+        </isNotEmpty>
+        <dynamic>
+            where id = #id# AND deleted = 0
+        </dynamic>
+    </update>
+
+    <!-- 查询符合发标条件的车辆-->
+    <select id="selectTenderCarrier">
+        SELECT c.carrier_name AS to_name, c.id AS user_id, wc.openid, c.relation_phone AS user_phone FROM  `carrier` AS c
+        LEFT JOIN  `wechat_connect` AS wc ON  wc.phone = c.relation_phone
+        WHERE  1=1 AND (wc.user_type = 4 || wc.user_type IS NULL)
+        <iterate prepend="   AND  " property="relation_phone" open=" c.relation_phone IN (" close=")" conjunction=",">
+            #relation_phone[]#
+        </iterate>
+        <iterate prepend="   AND  " property="not_in_openid" open=" wc.openid NOT IN (" close=")" conjunction=",">
+            #not_in_openid[]#
+        </iterate>
+    </select>
+
+
+    <!-- 查询线路车辆-->
+    <select id="selectRouteTruck">
+        SELECT tsr.truck_source_id FROM `route` AS r
+        LEFT JOIN   `truck_source_route` AS tsr ON tsr.route_id = r.id
+        WHERE 1
+        <isNotEmpty prepend=" AND" property="from_province">
+            r.from_province=#from_province#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="from_city">
+            r.from_city=#from_city#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="to_province">
+            r.to_province=#to_province#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="to_city">
+            r.to_city=#to_city#
+        </isNotEmpty>
+
+    </select>
+
+    <!-- 查询历史承运车辆-->
+    <select id="selectHistoryTruck">
+        SELECT ts.id AS truck_source_id FROM `shipment` AS s
+        LEFT JOIN   `truck_source` AS ts ON ts.driver_phone = s.driver_phone
+        WHERE s.from_province=#from_province# AND s.from_city=#from_city# AND s.to_province=#to_province# AND s.to_city=#to_city#
+    </select>
+
+
+    <!-- 查询符合发标条件的车辆-->
+    <select id="selectTenderTruck">
+        SELECT ts.driver_name AS to_name, wc.openid, ts.driver_phone AS user_phone, ts.id AS user_id FROM `truck_source` AS ts
+        LEFT JOIN   `wechat_connect` AS wc ON wc.phone = ts.driver_phone
+        WHERE  1
+        <iterate prepend="   AND  " property="truck_source_id" open=" ts.id IN (" close=")" conjunction=",">
+            #truck_source_id[]#
+        </iterate>
+        <isNotEmpty property="carriage_type" prepend="AND">
+            ts.carriage_type = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty property="car_length" prepend="AND">
+            ts.car_length BETWEEN #car_length# AND #car_length1#
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="not_in_openid" open=" wc.openid IN (" close=")" conjunction=",">
+            #not_in_openid[]#
+        </iterate>
+    </select>
+
+    <select id="selectAuditId">
+        SELECT  wt.*  FROM `warehouse` AS w
+        LEFT JOIN `warehouse_tender` AS wt ON wt.warehouse_id  = w.id
+        WHERE  1
+        <isNotEmpty property="orgcode" prepend="AND">
+            w.orgcode =#orgcode#
+        </isNotEmpty>
+        <isNotEmpty property="warehouse_user_id" prepend="AND">
+            wt.`first_audit_id` =#warehouse_user_id#
+        </isNotEmpty>
+    </select>
+    <select id="getauditName">
+        SELECT  id,name  FROM `warehouse_user`
+        WHERE  id = #id#
+    </select>
+
+
+    <!--获取审批人信息-->
+    <select id="getAuditUser">
+        select u.`name`,u.`phone`,c.`openid`
+        FROM `warehouse_user` as u
+        inner join `wechat_connect` as c on c.`phone` = u.`phone`
+        where u.id = #id#
+    </select>
+
+    <!-- 预中标的保存到审批表-->
+    <insert id="insertTenderAudit">
+        INSERT INTO `tender_audit` (tender_id, quote_id, quote_price, warehouse_user_id, plan_remark, submitter, status, create_time) VALUES
+        (#tender_id#, #quote_id#, #quote_price#, #warehouse_user_id#, #plan_remark#, #submitter#, '3', NOW())
+        <selectKey resultClass="char" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id;
+        </selectKey>
+    </insert>
+
+
+    <!-- 取消中标的信息保存到取消记录表-->
+    <insert id="insertTender_cancel_history">
+        INSERT INTO `tender_cancel_history`
+        (shipment_id, tender_quote_id, tender_id, responsible_party, remark,create_time) VALUES
+        (#shipment_id#, #tender_quote_id#, #tender_id#, #responsible_party#, #remark#, #create_time# )
+
+        <selectKey resultClass="char" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id;
+        </selectKey>
+
+    </insert>
+
+    <!--记录改标信息-->
+    <insert id="insertTenderChangeHistory">
+        INSERT INTO `tender_change_history` (shipment_id,tender_id,old_creat_time,old_tender_limit,tender_limit,create_time) VALUES
+        (#shipment_id#,#tender_id#,#old_creat_time#,#old_tender_limit#,#tender_limit#,NOW())
+    </insert>
+
+    <!--更新tender_quote状态-->
+    <update id="updateTenderQuote">
+        update `tender_quote` set status = #status#, update_time = NOW() where id = #id#
+    </update>
+
+
+    <!--评标列表1-->
+    <select id="tenderQuoteListFirst">
+        SELECT if(tq.price_type = '1',tq.quote_price,tq.quote_price* s.weight) as tallage_price, s.status AS shipmentStatus, s.id AS shipment_id, s.shipment_code, t.valid, t.tender_limit, t.history, t.status AS tender_status, tq.*, c.carrier_name,c.relation_phone, ts.driver_name,ts.driver_phone,<!--tr.price AS maxprice, tr.price, tr.over_rate,--> s.from_city, s.to_city,s.fromlocation as from_location, s.tolocation as to_location,s.`weight` AS s_weight
+        ,if(s.volume/s.weight > 4,'泡货','重货') AS density
+        FROM `shipment` AS s
+        LEFT JOIN  `tender` AS t ON t.shipment_id = s.id
+        LEFT JOIN  `tender_quote` AS tq ON tq.tender_id = t.id
+        LEFT JOIN  `carrier` AS c ON c.id = tq.quote_carrier
+        LEFT JOIN  `truck_source` AS ts ON ts.id = tq.relation_id
+        <!--LEFT JOIN `truck_source_type` AS tst on t.carriage_type = tst.id
+        LEFT JOIN  `tender_route` as tr ON tr.from_location = s.fromlocation AND tr.to_location = s.tolocation  AND s.shipment_method = tr.ship_method AND MONTH(NOW())=tr.`months` AND density = tr.density AND tst.name=tr.carriage_type
+       --> WHERE s.id=#id# AND t.valid = 1 AND tq.is_cancel = 0
+
+        <isNotEmpty property="tender_id" prepend="AND">
+            t.id = #tender_id#
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY tallage_price ASC LIMIT 0,1
+        </dynamic>
+    </select>
+
+    <!--评标列表-->
+   <!-- <select id="tenderQuoteList">
+        SELECT s.status AS shipmentStatus, s.id AS shipment_id, s.shipment_code,s.weight as tender_weight, t.valid, t.tender_limit, t.history, t.status AS tender_status,  t.price_type, tq.*, c.carrier_name,c.relation_phone,c.carrier_name_s, ts.driver_name,ts.driver_phone,tr.price AS maxprice, tr.price, tr.over_rate, s.from_city, s.to_city,s.fromlocation as from_location, s.tolocation as to_location,s.`weight` AS s_weight
+        ,if(s.volume/s.weight > 4,'泡货','重货') AS density
+        FROM `shipment` AS s
+        LEFT JOIN  `tender` AS t ON t.shipment_id = s.id
+        LEFT JOIN  `tender_quote` AS tq ON tq.tender_id = t.id
+        LEFT JOIN  `carrier` AS c ON c.id = tq.quote_carrier
+        LEFT JOIN  `truck_source` AS ts ON ts.id = tq.relation_id
+        LEFT JOIN `truck_source_type` AS tst on t.carriage_type = tst.id
+        LEFT JOIN  `tender_route` as tr ON tr.from_location = s.fromlocation AND tr.to_location = s.tolocation  AND s.shipment_method = tr.ship_method AND MONTH(NOW())=tr.`months` AND density = tr.density AND tst.name=tr.carriage_type
+        WHERE s.id=#id# AND t.valid = 1
+        <isNotEmpty property="tender_id" prepend="AND">
+            t.id = #tender_id#
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY tq.tallage_price ASC
+        </dynamic>
+    </select>-->
+    <!--评标列表-->
+    <select id="tenderQuoteList">
+        SELECT if(tq.price_type = '1',tq.quote_price,tq.quote_price* s.weight) as tallage_price,s.status AS shipmentStatus, s.id AS shipment_id, s.shipment_code,s.weight as tender_weight, t.valid,
+        t.tender_limit, t.history, t.status AS tender_status,  t.price_type, tq.*, c.carrier_name,c.relation_phone,c.carrier_name_s,
+        ts.driver_name,ts.driver_phone,s.from_city, s.to_city,s.fromlocation as from_location, s.tolocation as to_location,s.`weight` AS s_weight,s.shipment_method,t.carriage_type,s.volume,if(s.volume/s.weight > 4,'泡货','重货') AS density,s.weight as tender_weight
+        FROM `shipment` AS s
+        LEFT JOIN  `tender` AS t ON t.shipment_id = s.id
+        LEFT JOIN  `tender_quote` AS tq ON tq.tender_id = t.id
+        LEFT JOIN  `carrier` AS c ON c.id = tq.quote_carrier
+        LEFT JOIN  `truck_source` AS ts ON ts.id = tq.relation_id
+        WHERE s.id=#id# AND t.valid = 1
+        <isNotEmpty property="tender_id" prepend="AND">
+            t.id = #tender_id#
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY tq.quote_price ASC
+        </dynamic>
+    </select>
+    <!-- 推送模板消息-->
+    <select id="selectTenderQuote">
+        SELECT  * FROM `tender_quote`
+        WHERE  1
+        <isNotEmpty prepend=" AND  " property="id">
+            `id` = #id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="tender_id">
+            `tender_id` = #tender_id#
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="status" open=" status IN (" close=")" conjunction=",">
+            #status[]#
+        </iterate>
+    </select>
+
+
+    <!-- 保存发标推送信息-->
+    <insert id="saveTenderPush">
+        INSERT  IGNORE  INTO `tender_push` (tender_id, from_user, to_type, relation_id, phone, to_name, openid, status, type, content, create_time ) VALUES
+        (#tender_id#, #from_user#, #to_type#, #relation_id#, #phone#, #to_name#, #openid#, #status#, #type#, #content#, #create_time#)
+    </insert>
+
+    <!-- 推送模板消息-->
+    <select id="sendTenderPush">
+        SELECT tp.id AS tender_push_id, tp.openid, tp.push_lengh, tp.openid, tp.content, t.tender_limit, t.car_length, t.package_time, t.remark, t.id AS tender_id, t.cooperate_type, s.from_province, s.tolocation, s.weight, s.volume, s.plan_arrive_time, s.id AS shipment_id, s.plat_form_name,s.to_province, s.remark AS sremark  FROM `tender_push` AS tp
+        LEFT JOIN `tender` AS t ON t.id = tp.tender_id
+        LEFT JOIN `shipment` AS s ON s.id = t.shipment_id
+        WHERE   (tp.status=1 OR tp.status=2) AND tp.push_lengh <![CDATA[ <= 2 ]]> AND tp.openid != '' AND t.valid = 1
+        order by tp.create_time asc limit 60
+    </select>
+
+
+    <select id="searchById_tender">
+        SELECT  $field$  FROM  tender AS t
+        LEFT JOIN shipment AS s ON s.id = t.shipment_id
+        WHERE t.valid = '1'
+        <isNotEmpty property="id" prepend="AND">
+            t.id = #id#
+        </isNotEmpty>
+        <isNotEmpty property="shipment_id" prepend="AND">
+            t.shipment_id = #shipment_id#
+        </isNotEmpty>
+        <isNotEmpty property="evaluation" prepend="AND">
+            t.status IN ('2','3')
+        </isNotEmpty>
+        <isNotEmpty property="isSendTender" prepend="AND">
+            t.status IN ('1','2','3')
+        </isNotEmpty>
+        <isNotEmpty property="notSendTender" prepend="AND">
+            t.status != '1' AND t.status != '2' AND t.status != '3'
+        </isNotEmpty>
+        <isNotEmpty property="isTendering" prepend="AND">
+            t.status =1
+        </isNotEmpty>
+        <isNotEmpty property="now" prepend="AND">
+            t.tender_limit &gt; #now#
+        </isNotEmpty>
+        <isNotEmpty property="over_price" prepend="AND">
+            t.over_price = #over_price#
+        </isNotEmpty>
+        <isNotEmpty property="status" prepend="AND">
+            t.status = #status#
+        </isNotEmpty>
+        <isNotEmpty property="s_status" prepend="AND">
+            s.status = #s_status#
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="shipment_ids" open=" t.shipment_id IN (" close=")" conjunction=",">
+            #shipment_ids[]#
+        </iterate>
+
+    </select>
+
+    <select id="search_wechat">
+        select tq.quote_price,tq.create_time,s.from_city,s.to_city,s.fromlocation,s.tolocation,tq.status,t.status AS tenderStatus,t.id,s.status  AS shipmentStatus,t.price_type,tq.id AS tender_quote_id
+        from  `tender_quote`  AS tq
+        LEFT  join `tender` AS t on  tq.tender_id = t.id
+        LEFT  join `shipment` AS s on  t.shipment_id = s.id
+        where tq.relation_id = #relation_id# AND tq.is_cancel=0
+        <isNotEmpty prepend=" AND" property="fromlocation">
+            s.fromlocation LIKE '$fromlocation$%' and s.tolocation LIKE '$tolocation$%'
+        </isNotEmpty>
+
+            ORDER BY tq.create_time desc
+
+    </select>
+    <select id="search_wechat_count">
+        select count(*)
+        from  `tender_quote`  AS tq
+        LEFT  join `tender` AS t on  tq.tender_id = t.id
+        LEFT  join `shipment` AS s on  t.shipment_id = s.id
+        where tq.relation_id = #relation_id# AND tq.is_cancel=0
+        <isNotEmpty prepend=" AND" property="fromlocation">
+            s.fromlocation LIKE '$fromlocation$%' and s.tolocation LIKE '$tolocation$%'
+        </isNotEmpty>
+    </select>
+
+    <select id="getApproveList">
+        select ta.*,s.from_city,s.to_city,s.plan_leave_time,s.shipment_code,if(tq.price_type = '1',tq.quote_price,tq.quote_price* s.weight) as tallage_price,s.fromlocation,s.tolocation,if(s.volume/s.weight > 4,'泡货','重货') AS density,s.shipment_method,t.carriage_type
+        from  `tender_audit`  AS ta
+        LEFT  join `tender` AS t on  ta.tender_id = t.id
+        LEFT  join `shipment` AS s on  t.shipment_id = s.id
+        LEFT  join `tender_quote` AS tq on  ta.quote_id = tq.id
+        where 1=1  AND t.valid = 1 AND ta.create_time > #create_time#
+        
+        <iterate prepend=" AND" property="warehouse_user_ids" open=" ta.warehouse_user_id IN (" close=")" conjunction=",">
+            #warehouse_user_ids[]#
+        </iterate>
+        
+        <iterate prepend=" AND" property="checkoutIn" open=" ta.status IN (" close=")" conjunction=",">
+            #checkoutIn[]#
+        </iterate>
+        <isNotEmpty prepend=" AND" property="endcheckout">
+            ta.update_time > #create_time#
+        </isNotEmpty>
+        <dynamic>
+            order by ta.create_time DESC
+        </dynamic>
+    </select>
+    <select id="getApproveList_count">
+        select count(*)
+        from  `tender_audit`  AS ta
+        LEFT  join `tender` AS t on  ta.tender_id = t.id
+        LEFT  join `shipment` AS s on  t.shipment_id = s.id
+        LEFT  join `tender_quote` AS tq on  ta.quote_id = tq.id
+        where ta.warehouse_user_id = #warehouse_user_id# AND t.valid = 1 AND ta.create_time > #create_time#
+        <iterate prepend=" AND" property="checkoutIn" open=" ta.status IN (" close=")" conjunction=",">
+            #checkoutIn[]#
+        </iterate>
+        <isNotEmpty prepend=" AND" property="endcheckout">
+            ta.update_time > #create_time#
+        </isNotEmpty>
+    </select>
+
+    <select id="getTenderById">
+        select t.*,s.`from_city`,s.`fromlocation`,s.`tolocation`,s.`to_city`,s.`warehouse_id`,s.`status` as s_status,s.`carnum`,s.`driver_phone`,s.`distance`,s.`weight`,s.`volume`,s.plat_form_code,ts.id_card,s.driver_name,s.remark AS ship_remark 
+        from  `tender`  AS t
+        LEFT  join `shipment` AS s on  t.shipment_id = s.id
+        LEFT  join `truck_source` AS ts on  s.driver_phone = ts.driver_phone
+        where t.id = #tender_id#
+
+    </select>
+
+    <select id="getWuIdByOpenid">
+        SELECT wu.id
+        FROM  `wechat_connect` AS wc
+        LEFT JOIN `warehouse_user` AS wu on wc.phone = wu.phone
+        inner join tender_audit ta on ta.warehouse_user_id = wu.id and ta.id = #tender_audit_id#
+        WHERE   wu.deleted = 0   AND wc.user_type = 6   AND wc.openid = #openid#
+    </select>
+
+    <select id="getRetifyinfo">
+        select ta.*,
+        s.from_city,s.to_city,s.plan_leave_time,s.distance,s.quality,s.weight,s.volume,s.fromlocation,s.tolocation,
+        t.trans_type,t.cooperate_type,tq.price_type,t.car_length,t.shipment_id,t.shipment_code,t.carriage_type,t.temperature_from,t.temperature_to,t.aband_remark,t.package_time,
+        t.history,tq.quote_type,tq.relation_id,tq.quote_carrier,if(tq.price_type = '1',tq.quote_price,tq.quote_price* s.weight) as tallage_price,tq.total_price<!--,tr.price AS maxprice,tr.over_rate-->,if(s.volume/s.weight > 4,'泡货','重货') AS density,s.shipment_method
+        from  `tender_audit`  AS ta
+        LEFT  join `tender` AS t on  ta.tender_id = t.id
+        LEFT  join `shipment` AS s on  t.shipment_id = s.id
+        LEFT  join `tender_quote` AS tq on  ta.quote_id = tq.id
+        where ta.tender_id = #tender_id# AND ta.quote_id = #quote_id#
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            ta.`warehouse_user_id` = #warehouse_id#
+        </isNotEmpty>
+
+    </select>
+    <select id="getWu_name">
+        select wu.name,wu.id
+        from  `warehouse_user`  AS wu
+        LEFT  join `tender_audit` AS ta on  wu.id = ta.warehouse_user_id
+        where ta.id = #tender_audit_id#
+
+    </select>
+
+    <select id="getWu_type">
+        SELECT wt.first_audit_id,wu.id
+        FROM  `wechat_connect` AS wc
+        LEFT JOIN `warehouse_user` AS wu on wc.phone = wu.phone
+        LEFT JOIN `warehouse_tender` AS wt ON wu.id = wt.first_audit_id
+        WHERE   wu.deleted = 0   AND wt.deleted = 0   AND wc.openid = #openid#
+    </select>
+
+    <update id="update_tender_quote">
+        UPDATE tender_quote SET
+        status = #status#
+        <isNotEmpty prepend="," property="relation_id">
+            relation_id = #relation_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="quote_type">
+            quote_type = #quote_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="tender_id">
+            tender_id = #tender_id#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+
+    </update>
+    <update id="update_tender">
+        UPDATE tender SET
+        status = #status#
+        <isNotEmpty prepend="," property="quote_id">
+            quote_id = #quote_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="over_price">
+            over_price = #over_price#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="valid">
+            valid = #valid#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="history">
+            history = #history#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bid_time">
+            bid_time = NOW()
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="audit_level">
+            audit_level = #audit_level#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+
+    </update>
+
+    <update id="update_tender_audit">
+        UPDATE tender_audit SET
+        status = #status#
+        <isNotEmpty prepend="," property="update_time">
+            update_time = #update_time#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="warehouse_user_id">
+            warehouse_user_id = #warehouse_user_id#
+        </isNotEmpty>
+        <dynamic>
+           where id = #tender_audit_id#
+        </dynamic>
+
+    </update>
+
+    <select id="selectById">
+        SELECT  $field$  FROM  $form_name$  WHERE $condition$;
+    </select>
+
+<!--
+    <select id="searchById_tender">
+        SELECT  $field$  FROM  tender  WHERE id = #id#
+    </select>
+-->
+
+    <!-- 更新运单数据 -->
+    <update id="updateShipment" >
+        UPDATE `shipment`
+        SET `update_time` = #update_time#
+        <isNotEmpty prepend=", " property="serial_num">
+            `serial_num` = #serial_num#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plat_form_code">
+            `plat_form_code` = #plat_form_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plat_form_name">
+            `plat_form_name` = #plat_form_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="shipment_method">
+            `shipment_method` = #shipment_method#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="fromlocation">
+            `fromlocation` = #fromlocation#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="tolocation">
+            `tolocation` = #tolocation#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="carnum">
+            `carnum` = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="distance">
+            `distance` = #distance#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="quality">
+            `quality` = #quality#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="weight">
+            `weight` = #weight#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="volume">
+            `volume` = #volume#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plan_leave_time">
+            `plan_leave_time` = #plan_leave_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plan_arrive_time">
+            `plan_arrive_time` = #plan_arrive_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="status">
+            `status` = #status#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="remark">
+            `remark` = #remark#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="vehicle_type">
+            `vehicle_type` = #vehicle_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="warehouse_id">
+            `warehouse_id` = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="carrier_id">
+            `carrier_id` = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="deleted">
+            `deleted` = #deleted#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="arrivewh_time">
+            `arrivewh_time` = #arrivewh_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="leavewh_time">
+            `leavewh_time` = #leavewh_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="dispatch_time">
+            `dispatch_time` = #dispatch_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="leave_time">
+            `leave_time` = #leave_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="origin_status">
+            `origin_status` = #origin_status#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_province">
+            `from_province` = #from_province#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_province">
+            `to_province` = #to_province#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_city">
+            `from_city` = #from_city#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_city">
+            `to_city` = #to_city#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_address">
+            `from_address` = #from_address#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_lnglat">
+            `from_lnglat` = #from_lnglat#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_address">
+            `to_address` = #to_address#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_lnglat">
+            `to_lnglat` = #to_lnglat#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="serial_num">
+            `serial_num` = #serial_num#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="vehicle_type">
+            `vehicle_type` = #vehicle_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="ship_type">
+            `ship_type` = #ship_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="price">
+            `price` = #price#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="dispatch_count">
+            `dispatch_count` = #dispatch_count# + 1
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="dispatch_count_clear">
+            `dispatch_count` = 0
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="price_type">
+            `price_type` = #price_type#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+
+    <select id="searchByOpenId">
+        SELECT  wc.openid
+          $filed$
+        FROM  wechat_connect AS wc
+        $left_where$
+    </select>
+
+     <select id="getQuoteByIdList">
+         SELECT  tq.relation_id,tq.quote_type,tq.quote_price,tq.status,tq.id
+         FROM  tender_quote AS tq
+         where tq.tender_id = #tender_id# AND tq.is_cancel = 0
+         <isNotEmpty prepend=" AND" property="quote_id">
+             tq.id = #quote_id#
+         </isNotEmpty>
+     </select>
+
+    <select id="getQuoteById">
+        SELECT  $filed$
+        FROM  tender_quote
+        where id = #tender_quote_id#
+    </select>
+
+    <select id="getTender_cancel_history">
+        SELECT *
+        FROM  tender_cancel_history
+        where id = #id#
+    </select>
+
+    <select id="getAuditStatus">
+        SELECT  $filed$
+        FROM  tender_audit
+        where id = #id#
+    </select>
+
+    <select id="defaultCarrier">
+        SELECT  cw.carrier_id
+        FROM  carrier_warehouse cw
+        LEFT JOIN shipment AS s on cw.warehouse_id = s.warehouse_id
+        WHERE s.warehouse_id = #warehouse_id# AND cw.is_default = 1
+    </select>
+
+    <select id="searchEchart_count">
+        SELECT  count($field$) as count
+        FROM  $form_name$
+        WHERE $condition$
+    </select>
+
+    <select id="searchEchart_count_quote">
+        SELECT  count(*) as tender,count(if(status = 3,true,null)) as tenderOk
+        FROM  tender_quote
+        WHERE relation_id = #relation_id#
+    </select>
+    <!-- 获取竞标列表 Ivan-->
+    <select id="getBidList">
+        SELECT s.from_city,s.to_city,s.fromlocation,s.tolocation,s.weight,s.shipment_method,t.tender_limit,t.status,t.cooperate_type,t.id FROM shipment AS s
+        LEFT JOIN `tender` AS t         ON t.shipment_id=s.id
+        LEFT JOIN tender_push AS tp         ON tp.tender_id=t.id
+        WHERE s.deleted=0 AND t.status=1 AND s.status=2 AND tp.phone=#phone# AND t.valid=1 AND t.tender_limit>=now() 
+        GROUP BY tp.tender_id 
+        ORDER BY t.create_time
+    </select>
+    <!-- 获取微信角色 Ivan-->
+    <select id="getWchetUsertype">
+        SELECT user_type,phone FROM `wechat_connect` WHERE openid=#openid# AND deleted=0
+    </select>
+    <!-- 获取历史中标信息 Ivan-->
+    <select id="historyTender">
+        SELECT t.create_time,tq.quote_price FROM shipment AS s LEFT JOIN `tender` AS t
+        ON t.shipment_id=s.id
+        LEFT JOIN `tender_quote` AS tq
+        ON tq.tender_id=t.id
+        WHERE tq.status=3 AND s.deleted=0 AND t.cooperate_type=#cooperate_type# AND t.price_type=#price_type# AND t.valid=1
+        <isNotEmpty prepend=" AND" property="from_city">
+            s.from_city LIKE '$from_city$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="to_city">
+            s.to_city LIKE '$to_city$%'
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY t.create_time DESC
+            LIMIT 0, 3
+        </dynamic>
+    </select>
+    <!-- 查看是否报过价 Ivan-->
+    <select id="checkTenderQuote">
+        SELECT tq.id,t.price_type,tq.quote_price,tq.total_price,tq.status,tq.tender_id FROM tender_quote AS tq
+        LEFT JOIN `tender` AS t 
+        ON t.id=tq.tender_id 
+        WHERE tq.tender_id=#tender_id# AND tq.relation_id=#relation_id# AND tq.is_cancel=0 order by tq.id desc limit 1
+    </select>
+    <!-- 查看是否报过价 Ivan-->
+     <update id="updateQuote">
+        UPDATE tender_quote SET
+        is_cancel = 1 WHERE id=#id#
+    </update>
+    <update id="updateQuote2">
+        UPDATE tender_quote tq SET
+        tq.is_cancel = 1 WHERE tq.tender_id=#tender_id# AND tq.relation_id=#relation_id# AND tq.is_cancel=0
+    </update>
+    <!-- 获取定单线路 Ivan-->
+    <select id="getOrderRoute">
+        SELECT `fromlocation`,`tolocation`,`weight`,`volume`,`quality` FROM `order` WHERE shipment_id=#shipment_id#
+    </select>
+
+    <!-- 获取基地名称 Ivan-->
+    <select id="getWareName">
+        SELECT `name` FROM `warehouse` WHERE id=#warehouse_id#
+    </select>
+     <!-- 承运商查找票点数 Ivan-->
+    <select id="getRate">
+        SELECT invoice_rate FROM `carrier` WHERE id=#id#
+    </select>
+    <!-- 司机获取默认结算承运商下的信息 Ivan-->
+    <select id="getCarrier">
+        SELECT c.id,c.invoice_rate FROM `carrier` AS c LEFT JOIN `carrier_warehouse` AS cw
+        ON cw.carrier_id=c.id
+        LEFT JOIN warehouse AS w
+        ON w.id=cw.warehouse_id
+        LEFT JOIN shipment AS s
+        ON s.warehouse_id=w.id
+        LEFT JOIN `tender` AS t
+        ON t.shipment_id=s.id
+        WHERE t.id=#id# AND cw.is_default=1
+    </select>
+     <!-- 司机获取当前省下绑定承运商的票点 Ivan-->
+    <select id="getBandCarrier">
+        SELECT c.id,c.invoice_rate FROM `carrier` AS c 
+        LEFT JOIN `truck_source_carrier` AS tsc 
+        ON tsc.carrier_id=c.id 
+        LEFT JOIN `warehouse` AS w 
+        ON w.province=tsc.province 
+        LEFT JOIN `shipment` AS s 
+        ON s.warehouse_id=w.id 
+        LEFT JOIN `tender` AS t 
+        ON t.shipment_id=s.id 
+        WHERE t.id=#id# AND tsc.truck_source_id=#truck_source_id#
+    </select>
+<!-- 获取竞标截止时间 Ivan-->
+    <select id="getTenderLimit">
+        SELECT tender_limit,status,audit_level FROM `tender` WHERE id=#tender_id#
+    </select>
+
+    <!-- 添加报价 Ivan-->
+    <insert id="addQoute">
+        INSERT INTO `tender_quote` ( `tender_id`, `quote_type`, `relation_id`, `carnum`, `quote_price`, `quote_carrier`,`invoice_rate`,`tallage_price`,`create_time`,`total_price`,`tender_weight`,`price_type`,`quote_remark`)
+             VALUES (#tender_id#,#quote_type#,#relation_id#,#carnum#,#quote_price#,#quote_carrier#,#invoice_rate#,#tallage_price#,#create_time#,#total_price#,#tender_weight#,#price_type#,#quote_remark#)
+    </insert>
+    <!-- 更新阅读字段 Ivan-->
+    <update id="updatePush">
+        UPDATE tender_push SET is_read=1,read_time=#read_time# WHERE openid=#openid# AND tender_id=#tender_id#
+    </update>
+    <!-- 获取阅读时间 Ivan-->
+    <select id="getReadTime">
+        SELECT is_read FROM tender_push  WHERE openid=#openid# AND tender_id=#tender_id#
+    </select>
+    <!-- 更新阅读字段 Ivan-->
+    <select id="checkAband">
+        SELECT id FROM `tender` WHERE id=#tender_id# AND status=4 AND valid=0
+    </select>
+    <!-- 获取发标通知 Ivan-->
+    <select id="tenderMsg">
+        SELECT t.id,tp.to_type,tp.to_name,tp.openid,tp.status,tp.is_read,tp.read_time,tp.push_time,tp.phone FROM `tender_push` AS tp
+        LEFT JOIN `tender` AS t
+        ON tp.tender_id=t.id
+        WHERE t.shipment_id=#shipmentid# AND t.valid=1 
+        ORDER BY tp.create_time DESC
+    </select>
+    <select id="tenderMsg_count">
+        SELECT count(*) FROM `tender_push` AS tp
+        LEFT JOIN `tender` AS t
+        ON tp.tender_id=t.id
+        WHERE t.shipment_id=#shipmentid# AND t.valid=1
+    </select>
+    <select id="driverId">
+        SELECT id,driver_name FROM `truck_source` WHERE driver_phone=#phone#
+    </select>
+    <select id="carrierId">
+        SELECT id,carrier_name FROM `carrier` WHERE relation_phone=#phone#
+    </select>
+    <select id="getQuoteTime">
+        SELECT id,create_time FROM `tender_quote` WHERE tender_id=#tender_id# AND relation_id=#relation_id#
+    </select>
+    <!-- 查询该运单是否中标 Ivan-->
+    <select id="checkTender">
+        SELECT tq.id FROM `tender_quote` AS tq
+        LEFT JOIN `tender` AS t
+        ON tq.`tender_id`=t.id
+        WHERE t.shipment_id=#shipmentid# AND tq.status=3 AND t.valid=1
+    </select>
+    <!-- tongg opend查code-->
+    <select id="getCarrierCode">
+        SELECT c.`g7s_orgcode`
+        FROM `carrier` AS c
+        LEFT JOIN `wechat_connect` AS wc ON wc.`phone`= c.`relation_phone`
+        WHERE wc.user_type = 4 AND wc.deleted = 0 AND c.deleted = 0 AND wc.`openid`= #openid#
+    </select>
+
+    <!-- 查看该标是否废除 Ivan-->
+    <select id="getAbandMsg">
+        SELECT id FROM `tender` WHERE shipment_id=#shipmentid# AND valid=1
+    </select>
+    <!-- 更新tender表状态 废标 Ivan-->
+    <update id="abandTender">
+        UPDATE tender SET status=4,valid=0,aband_remark=#aband_remark#,aband_time=#aband_time# WHERE shipment_id=#shipmentid# AND valid=1
+    </update>
+    <!-- 更新shipment 表状态 废标 Ivan-->
+    <update id="updateShipmentStatus">
+        UPDATE shipment SET status=1,dispatch_count=0 WHERE id=#shipmentid#
+    </update>
+
+    <!-- 获取废标列表 Ivan-->
+    <select id="getAbandTender">
+        SELECT t.id,s.shipment_method,(s.from_province = s.to_province) as business_type,s.from_city,s.formlocation,s.to_city,s.tolocation,s.shipment_code,t.aband_time,t.aband_remark FROM `tender` AS t
+        LEFT JOIN `shipment` AS s
+        ON s.id=t.shipment_id
+        LEFT JOIN `warehouse` AS w
+        ON w.id=s.warehouse_id
+        WHERE t.valid=0 AND t.status=4 AND s.deleted=0 AND w.orgcode=#orgcode#
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.aband_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="shipment_code">
+            t.shipment_code = #shipment_code#
+        </isNotEmpty>
+    </select>
+
+    <!-- 获取废标列表 Ivan-->
+    <select id="getAbandTender_count">
+        SELECT count(*) FROM `tender` AS t
+        LEFT JOIN `shipment` AS s
+        ON s.id=t.shipment_id
+        LEFT JOIN `warehouse` AS w
+        ON w.id=s.warehouse_id
+        WHERE t.valid=0 AND t.status=4 AND s.deleted=0 AND w.orgcode=#orgcode#
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.aband_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="shipment_code">
+            t.shipment_code = #shipment_code#
+        </isNotEmpty>
+    </select>
+    <!--评标列表-->
+    <select id="abandTenderQuoteList">
+        SELECT q.`tender_id`,q.`carnum`,q.`quote_price`,q.`relation_id`,q.`quote_type`,q.`tallage_price`,q.`status`,c.`carrier_name`,q.create_time
+         FROM `tender_quote` AS q
+        LEFT JOIN  `carrier` AS c
+        ON c.id = q.quote_carrier
+        WHERE q.tender_id = #tender_id#
+        ORDER BY  q.`create_time` desc
+    </select>
+
+    <!--评标列表-->
+    <select id="getLoadingInfo">
+        SELECT   t.package_time,s.from_address,s.from_city,s.to_city,s.fromlocation,s.tolocation,s.shipment_code,c.carrier_name,c.relation_phone,s.carnum,c.carrier_name_s
+        FROM `tender` AS t
+        LEFT JOIN  `shipment` AS s ON s.id = t.shipment_id
+        LEFT JOIN  `carrier` AS c ON s.carrier_id = c.id
+        WHERE t.id = #tender_id#
+    </select>
+    <!--获取司机openid-->
+    <select id="getOpenidByPhone">
+        SELECT   wc.openid,wc.phone,ts.driver_name
+        FROM `wechat_connect` AS wc
+        LEFT JOIN  `truck_source` AS ts ON wc.phone = ts.driver_phone
+        WHERE ts.driver_phone = #driver_phone# AND wc.user_type = 3
+    </select>
+
+
+    <select id="selectDriver">
+        SELECT `driver_name`
+        FROM `truck_source`
+        WHERE id = #relation_id#
+    </select>
+    <select id="selectHistory">
+        SELECT `history`
+        FROM `tender`
+        WHERE id = #tender_id#
+    </select>
+    <!--获取运单号-->
+    <select id="getShipmentCodes">
+        SELECT DISTINCT s.shipment_code
+        FROM `tender` AS t
+        LEFT JOIN `shipment` AS s
+        ON s.id=t.shipment_id
+        LEFT JOIN `warehouse` AS w
+        ON w.id=s.warehouse_id
+        WHERE t.valid=0 AND s.deleted = 0 AND t.status=4 AND w.orgcode=#orgcode#
+        <isNotEmpty prepend="AND" property="shipment_code">
+            s.shipment_code LIKE '%$shipment_code$%'
+        </isNotEmpty>
+    </select>
+
+    <!--更新tender状态-->
+    <update id="updateTender">
+        update `tender` set status = #status#
+        <isNotEmpty prepend=", " property="over_price">
+            `over_price` = #over_price#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="quote_id">
+            `quote_id` = #quote_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="history">
+            `history` = #history#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="tender_limit">
+            `tender_limit` = #tender_limit#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="package_time">
+            `package_time` = #package_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="update_time">
+            `update_time` = #update_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="aband_remark">
+            `aband_remark` = #aband_remark#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="bidder_select">
+            `bidder_select` = #bidder_select#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="car_length">
+            `car_length` = #car_length#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="temperature_from">
+            `temperature_from` = #temperature_from#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="temperature_to">
+            `temperature_to` = #temperature_to#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="carriage_type">
+            `carriage_type` = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="remark">
+            `remark` = #remark#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="bid_time">
+            `bid_time` = #bid_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="audit_level">
+            `audit_level` = #audit_level#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+    <!--批量修改未推送消息状态-->
+    <update id="updateAllTenderPush">
+        update `tender_push` set status = #status#
+        <isNotEmpty prepend=", " property="push_time">
+            `push_time` = #push_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="push_lengh">
+            `push_lengh` = #push_lengh#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="push_error">
+            `push_error` = #push_error#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="is_read">
+            `is_read` = #is_read#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="read_time">
+            `read_time` = #read_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="content">
+            `content` = #content#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `tender_id` = #tender_id# AND status!=3
+        </dynamic>
+    </update>
+
+
+    <!--改标已推送消息的opentid-->
+    <select id="getSendTenderOpenid">
+        select GROUP_CONCAT(t.`phone`) as stringphone
+        FROM `tender_push` as t
+        where t.tender_id = #id#
+    </select>
+
+
+    <select id="getWarehouseByUser">
+        select `id`,`platform_code`
+        from `warehouse`
+        where `deleted` =0 and `orgcode`=#orgcode#
+    </select>
+
+    <select id="getAuditList">
+        select t.id,ta.`quote_price`,ta.`status`,ta.`create_time`,ta.`update_time`,t.shipment_code
+        from `tender_audit` ta
+        left join `tender` t on t.id=ta.tender_id
+        where ta.status != 3
+        <isNotEmpty prepend=" and" property="shipment_code">
+            t.shipment_code = #shipment_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and" property="update_time">
+            ta.update_time >= #update_time#
+        </isNotEmpty>
+        <isNotEmpty prepend="" property="orderBy">
+            order by ta.update_time desc
+        </isNotEmpty>
+        <isNotEmpty prepend=" and" property="warehouse_id">
+            ta.warehouse_user_id  = #warehouse_id#
+        </isNotEmpty>
+    </select>
+
+    <select id="getAuditList_count">
+        select count(ta.id) as count
+        from `tender_audit` ta
+        left join `tender` t on t.id=ta.tender_id
+        left join `shipment` s on s.id = t.shipment_id and s.warehouse_id =#warehouse_id#
+        where ta.status != 3
+        <isNotEmpty prepend=" and" property="shipment_code">
+            s.shipment_code = #shipment_code#
+        </isNotEmpty>
+        <isNotEmpty prepend="" property="orderBy">
+            order by ta.update_time desc
+        </isNotEmpty>
+    </select>
+    <!-- 获取承运商电话 -->
+    <select id="getCarrierPhone">
+        select `id`,`relation_phone`,invoice_rate 
+        from `carrier`
+        where `deleted` =0 and `g7s_orgcode`=#orgcode#
+    </select>
+    <!-- 获取投标列表 -->
+    <select id="getBidTenderList">
+        SELECT s.id AS s_id,s.status AS s_status,s.shipment_code,s.fromlocation,s.tolocation,s.weight,s.quality,s.volume,s.shipment_method,t.tender_limit,t.status,t.cooperate_type,t.id,t.car_length,t.carriage_type,t.price_type,t.package_time,tp.phone
+        FROM `tender` AS t
+        LEFT JOIN `tender_push` AS tp      ON tp.tender_id=t.id
+        LEFT JOIN `shipment` AS s         ON t.shipment_id=s.id
+        WHERE s.deleted=0  AND tp.phone=#phone#
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.tender_limit BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="status">
+            $status$
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            s.warehouse_id=#warehouse_id#
+        </isNotEmpty>
+        <dynamic>
+            group BY tp.tender_id
+        </dynamic>
+        
+    </select>
+    <select id="getBidTenderList_count">
+        SELECT count(distinct t.id)
+        FROM `tender` AS t
+        LEFT JOIN  `tender_push` AS tp       ON tp.tender_id=t.id
+        LEFT JOIN  `shipment` AS s        ON t.shipment_id=s.id
+        WHERE s.deleted=0  AND tp.phone=#phone#
+        <isNotEmpty prepend="AND" property="statistic_date">
+            t.tender_limit BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="warehouse_id">
+            s.warehouse_id=#warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="status">
+            $status$
+        </isNotEmpty>
+    </select>
+    <!-- 获取承运商电话 -->
+    <select id="getQuoteMsg">
+        SELECT tq.quote_price,tq.create_time,tq.relation_id FROM tender_quote AS tq 
+        LEFT JOIN `carrier` AS c 
+        ON c.id=tq.relation_id 
+        WHERE c.relation_phone=#phone# AND tq.tender_id=#tender_id# AND tq.is_cancel=0
+    </select>
+    <!-- 获取订单详细 -->
+    <select id="getorderMsg">
+        SELECT id,order_code,weight,volume,quality,fromlocation,tolocation FROM `order` WHERE shipment_id=#shipment_id#
+    </select>
+    <!-- 获取订单详细 -->
+    <select id="getHistoryQuote">
+        SELECT create_time,quote_price,price_type FROM `tender_quote` WHERE tender_id=#tender_id# AND relation_id=#relation_id# 
+        ORDER BY create_time DESC 
+    </select>
+    <!-- 获取标的信息 -->
+    <select id="getTenderMsg">
+        SELECT t.*,s.weight FROM `tender` AS t 
+        LEFT JOIN shipment AS s 
+        ON s.id=t.shipment_id 
+        WHERE t.id=#tender_id#
+    </select>
+    
+    <!-- 获取标的信息 -->
+    <select id="getCarrierRate">
+        SELECT invoice_rate,carrier_name FROM `carrier` WHERE id=#id#
+    </select>
+    <!-- web获取投标列表 -->
+    <select id="getMyTenderList">
+        select tq.quote_price,tq.create_time,s.fromlocation,s.tolocation,tq.status,t.status AS tenderStatus,t.id,s.status  AS shipmentStatus,tq.id AS tender_quote_id,s.shipment_method,s.weight,s.volume,tq.price_type,s.quality,s.shipment_code,t.car_length,t.carriage_type  
+        from  `tender_quote`  AS tq
+        LEFT  join `tender` AS t on  tq.tender_id = t.id
+        LEFT  join `shipment` AS s on t.shipment_id = s.id
+        where tq.relation_id = #relation_id# AND tq.is_cancel=0 
+        <isNotEmpty prepend="AND" property="statistic_date">
+            tq.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="status">
+            $status$
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY tq.create_time DESC
+        </dynamic>
+    </select>
+    <select id="getMyTenderList_count">
+        select count(*)
+        from  `tender_quote`  AS tq
+        LEFT  join `tender` AS t on  tq.tender_id = t.id
+        LEFT  join `shipment` AS s on  t.shipment_id = s.id
+        where tq.relation_id = #relation_id# AND tq.is_cancel=0 
+        <isNotEmpty prepend="AND" property="statistic_date">
+            tq.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="status">
+            $status$
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY tq.create_time DESC
+        </dynamic>
+    </select>
+
+    <!--根据报价的relation_id查询司机信息-->
+    <select id="getDriverBuQuote">
+        select t.`id`,t.`driver_name`,t.`driver_phone`,t.`carnum`,t.`id_card`
+        from `truck_source` as t
+        inner join `tender_quote` as q on q.`relation_id` = t.id
+        where q.id = #tender_quote_id#
+    </select>
+    <!--依据openid获取承运商id-->
+    <select id="getCarrierId">
+        SELECT c.id FROM `carrier` AS c 
+        LEFT JOIN wechat_connect AS wc 
+        ON wc.phone=c.relation_phone 
+        WHERE wc.openid=#openid#
+    </select>
+    <!--检查运单是否发标-->
+    <select id="getShipmentMsg">
+        SELECT ship_type FROM shipment WHERE id =#shipment_id#
+    </select>
+    <!--检查运单是车车招标还是固定运价-->
+    <select id="getTenderMessage">
+        SELECT * FROM `tender` WHERE shipment_id=#shipment_id# AND valid=1
+    </select>
+
+    <!--根据电话更新司机信息 -->
+    <update id="updateTruckSource">
+        update `truck_source` set carnum = #carnum#
+        <isNotEmpty prepend=", " property="driver_name">
+            `driver_name` = #driver_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="id_card">
+            `id_card` = #id_card#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="lbs_register">
+            `lbs_register` = #lbs_register#
+        </isNotEmpty>
+        <dynamic>
+            where driver_phone =#driver_phone#
+        </dynamic>
+    </update>
+
+    <select id="getCarrierById">
+        select c.carrier_name,c.relation_phone,wc.openid
+        from `carrier` as c
+        left join `wechat_connect` as wc on c.relation_phone = wc.phone
+        where c.id = #carrier_id# and wc.deleted =0 and wc.user_type =4
+    </select>
+
+    <select id="getShipmentWithWarehouse">
+        select s.shipment_code,s.fromlocation,s.tolocation,w.phone,w.address,name
+        from shipment as s
+        left join `warehouse` as w on s.`warehouse_id` = w.`id`
+        where s.id = #id#
+    </select>
+    <select id="getLastQuote">
+        SELECT tq.quote_price,tq.price_type
+        FROM shipment AS s
+        LEFT JOIN `tender` AS t ON t.shipment_id=s.id 
+        LEFT JOIN `tender_quote` AS tq ON tq.tender_id =t.id 
+        WHERE s.fromlocation=#fromlocation# AND s.tolocation=#tolocation# AND t.valid=1 AND s.deleted=0
+         AND tq.status=3
+        <isNotEmpty prepend="AND" property="lastdate">
+            s.create_time LIKE '$lastdate$%' 
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="lastyear">
+            s.create_time LIKE '$lastyear$%' 
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY tq.quote_price
+        </dynamic>
+    </select>
+    <select id="getShipType">
+        SELECT s.ship_type,s.is_reader,c.carrier_name FROM shipment AS s 
+        LEFT JOIN `carrier` AS c ON c.id=s.carrier_id  
+        WHERE s.id=#shipmentid#
+    </select>
+    <select id="getSignMsg">
+        SELECT $getColumn$ FROM $tablename$   
+        WHERE id=#id#
+    </select>
+    <select id="getWareHouse">
+        SELECT w.name,w.id FROM warehouse AS w 
+        LEFT JOIN carrier_warehouse AS cw ON cw.warehouse_id=w.id 
+        LEFT JOIN `carrier` AS c ON c.id=cw.carrier_id 
+        WHERE c.g7s_orgcode=#orgcode#
+        <isNotEmpty prepend="AND" property="warehouse_name">
+            w.name LIKE '%$warehouse_name$%' 
+        </isNotEmpty>
+    </select>
+    <select id="getRoutePrice">
+        SELECT tr.`price`,tr.over_rate FROM `tender_route` tr
+        LEFT JOIN `truck_source_type` AS tst on tr.carriage_type = tst.name
+        WHERE from_location=#from_location# AND to_location=#to_location#
+       AND   tr.density = #density# AND tr.ship_method= #shipment_method# AND  MONTH(NOW())=tr.`months`
+        <isNotEmpty prepend="AND" property="carriage_type">
+            tst.id = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carriage_type_no">
+            tr.carriage_type = #carriage_type_no#
+        </isNotEmpty>
+
+    </select>
+</sqlMap>

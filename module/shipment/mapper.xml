@@ -1,0 +1,1299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="shipment">
+
+    <!-- QUERIES -->
+
+    <!-- ZHM 2016-7-13 获取运单-->
+    <select id="getShipments">
+        SELECT s.id, s.shipment_code, (s.from_province = s.to_province) as business_type, s.shipment_method, s.fromlocation, s.tolocation, s.carnum, s.distance, s.status, s.driver_name, s.driver_phone,ts.car_length,ts.carriage_type,ts.rated_load, s.quality, s.weight, s.volume, s.plan_leave_time,date(s.plan_leave_time) as plan_leave_date, s.plan_arrive_time,s.from_city,s.to_city, cc.carrier_name, t.status AS tender_status, t.tender_limit,t.price_type,s.arrivewh_time,s.leavewh_time,s.arrival_date,s.price,s.create_time,s.serial_num  
+        FROM `shipment` AS `s`
+        LEFT JOIN `carrier` AS `cc` ON s.carrier_id = cc.id
+        LEFT JOIN `truck_source` AS `ts` ON s.driver_phone = ts.driver_phone
+        LEFT JOIN (select * from `tender` where valid=1) AS `t` ON t.shipment_id = s.id
+        $role_condition$
+        AND s.deleted = 0
+        <include refid="getShipments_where" />
+        <dynamic>
+            GROUP BY  s.id
+            <isNotEmpty property="sortColumns">
+                ORDER BY  $sortColumns$
+            </isNotEmpty>
+            <isNotEmpty  prepend="  " property="isPickUp">
+                ORDER BY s.create_time DESC
+            </isNotEmpty>
+
+            <!-- <isNotEmpty prepend="," id="sortColumns">
+              ORDER BY $sortColumns$
+            </isNotEmpty> -->
+        </dynamic>  
+    </select>
+    <select id="getShipments_count">
+        SELECT count(DISTINCT(s.id))
+        FROM `shipment` AS `s`
+        LEFT JOIN `truck_source` AS `ts` ON s.driver_phone = ts.driver_phone
+        $role_condition$
+        AND s.deleted = 0
+        <include refid="getShipments_where" />
+    </select>
+    <sql id="getShipments_where">
+    	<isNotEmpty prepend="AND" property="check_shipStatus">
+            s.status = $check_shipStatus$
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="shipment_code">
+            s.shipment_code = #shipment_code#
+        </isNotEmpty> 
+        <isNotEmpty prepend="AND" property="fromlocation"> 
+             s.fromlocation LIKE '%$fromlocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="tolocation">
+            s.tolocation LIKE '%$tolocation$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlProvince">
+            s.from_province LIKE '$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ddlCity">
+            s.from_city LIKE '$ddlCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloProvince">
+            s.to_province LIKE '$toloProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="toloCity">
+            s.to_city LIKE '$toloCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="driver">
+            s.driver_name = #driver#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carnum">
+            s.carnum = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="carrier_id">
+            s.carrier_id = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            s.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date_s">
+            s.plan_leave_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="business_type">
+            (s.from_province = s.to_province) = $business_type$
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="shipment_method">
+            s.shipment_method = #shipment_method#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="arrival">
+            s.status IN (8,9,10)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="pickup">
+            s.status IN (4,5,6,7)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="invalid">
+            s.status IN (1,2,3)
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="shipment_id" open=" s.id IN (" close=")" conjunction=",">
+            #shipment_id[]#
+        </iterate>
+        <isNotEmpty prepend="AND" property="status">
+            s.status =  #status#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="gtstatus">
+            s.status &gt; #gtstatus#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="keywords">
+            s.shipment_code  LIKE '%$keywords$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="is_tender">
+            s.is_tender =  #is_tender#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="serial_num">
+            s.serial_num =  #serial_num#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="shipId">
+            s.id =  #shipId#
+        </isNotEmpty>
+    </sql>
+
+    <!-- ZHM 2016-7-13 获取运单号列表 -->
+    <select id="getShipmentCodes">
+        SELECT DISTINCT s.shipment_code
+        FROM shipment AS s
+        $role_condition$
+        AND s.deleted = 0
+        <isNotEmpty prepend="AND" property="shipment_code">
+            s.shipment_code LIKE '%$shipment_code$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="is_tender">
+            s.is_tender = '1'
+        </isNotEmpty>
+    </select>
+
+    <!-- ZHM 2016-7-13 获取司机列表 -->
+    <select id="getDrivers">
+        SELECT DISTINCT s.driver_name
+        FROM shipment AS s
+        $role_condition$
+        AND s.deleted = 0
+        <isNotEmpty prepend="AND" property="driver_name">
+            s.driver_name LIKE '%$driver_name$%'
+        </isNotEmpty>
+    </select>
+
+    <!-- ZHM 2016-7-13 获取车牌号列表 -->
+    <select id="getCarnums" >
+        SELECT DISTINCT s.carnum
+        FROM shipment AS s
+        $role_condition$
+        AND s.deleted = 0
+        <isNotEmpty prepend="AND" property="carnum">
+            s.carnum LIKE '%$carnum$%'
+        </isNotEmpty>
+    </select>
+
+    <!-- ZHM 2016-7-13 获取司机手机号列表 -->
+    <select id="getDriver_phone" >
+        SELECT DISTINCT tr.driver_phone
+        FROM shipment AS s
+        left join truck_source AS tr on s.driver_phone = tr.driver_phone
+        $role_condition$
+        AND s.deleted = 0
+        <isNotEmpty prepend="AND" property="getDriver_phone">
+            tr.driver_phone LIKE '%$getDriver_phone$%'
+        </isNotEmpty>
+    </select>
+
+    <!-- ZHM 2016-7-27 获取承运商车辆 -->
+    <select id="getCarrierCarnums">
+        SELECT DISTINCT ts.carnum
+        FROM truck_source AS ts
+        LEFT JOIN truck_source_carrier AS tsc ON ts.id = tsc.truck_source_id
+        WHERE tsc.carrier_id = #carrier_id#
+    </select>
+
+    <!-- ZHM 2016-7-27 获取承运商车辆 -->
+    <select id="getOrderDetail">
+        SELECT $field$
+        FROM order_detail AS od
+        LEFT JOIN `order` AS o ON od.order_id = o.id
+        WHERE o.shipment_id = #shipment_id#
+    </select>
+
+    <!-- ZHM 2016-7-13 获取订单列表 -->
+    <select id="getOrderList">
+        SELECT o.id, o.order_code, o.checkout, o.quality as order_quality, o.weight, o.shipment_id,
+                o.remark, o.volume, o.to_address, o.first_business,o.from_name,o.from_phone,
+                o.to_name,o.to_phone,o.distance,o.fromlocation,o.tolocation,o.from_address,
+                s.carrier_id, s.quality AS total_quality, s.weight AS total_weight,
+                s.volume AS total_volume, s.carnum, s.shipment_method, s.plat_form_code,
+                s.plat_form_name, s.serial_num, c.carrier_name,c.relation_phone,
+                od.product_name,ts.rated_load,od.quality,od.unit_name
+        FROM `shipment` AS s
+        LEFT JOIN `order` AS o ON o.shipment_id = s.id
+        LEFT JOIN `truck_source` AS ts ON s.driver_phone = ts.driver_phone
+        LEFT JOIN `order_detail` AS od ON o.id = od.order_id
+        LEFT JOIN `carrier` AS c ON s.carrier_id = c.id
+        WHERE s.id = #shipmentId# AND o.deleted=0 group by o.id
+    </select>
+
+    <!-- sunjie 2017-1-12 运单相关订单列表打印运输凭证专用 -->
+    <select id="getOrderListPrint">
+        SELECT o.id, o.order_code, o.checkout, o.quality, o.weight, o.shipment_id,
+        o.remark, o.volume, o.to_address, o.first_business,o.from_name,o.from_phone,
+        o.to_name,o.to_phone,o.distance,o.fromlocation,o.tolocation,o.from_address,
+        s.carrier_id, s.quality AS total_quality, s.weight AS total_weight,
+        s.volume AS total_volume, s.carnum, s.shipment_method, s.plat_form_code,
+        s.plat_form_name, s.serial_num, c.carrier_name,c.relation_phone,
+        od.product_name,ts.rated_load,od.quality,od.unit_name,o.quality AS orderquality,
+        s.driver_phone,s.driver_name,s.originator 
+        FROM `shipment` AS s
+        LEFT JOIN `order` AS o ON o.shipment_id = s.id
+        LEFT JOIN `truck_source` AS ts ON s.driver_phone = ts.driver_phone
+        LEFT JOIN `order_detail` AS od ON o.id = od.order_id
+        LEFT JOIN `carrier` AS c ON s.carrier_id = c.id
+        WHERE s.id = #shipmentId# AND o.deleted=0 group by o.id
+		order by o.create_time asc
+    </select>
+
+
+    <!-- Ivan 2016-9-18 获取订单列表 -->
+    <select id="getOrderListById">
+        SELECT o.id, o.order_code, o.checkout, o.quality, o.weight, o.shipment_id, o.remark, o.volume, o.to_address, o.first_business,o.from_name,o.from_phone,o.to_name,o.to_phone,o.distance,o.fromlocation,o.tolocation,o.from_address,s.carrier_id 
+        FROM `order` AS o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
+        WHERE s.id = #shipmentId# AND o.deleted=0
+    </select>
+
+    <!-- ZHM 2016-7-14 插入转包上报事件 -->
+    <insert id="subcontracting">
+        INSERT INTO `report` (shipment_id, order_id, report_type, report_desc, address, lng, lat, images, carnum, open_id, create_time) VALUES
+        (#shipment_id#, #order_id#, #report_type#, #type#, #position#, #lng#, #lat#, #images#, #carnum#, #open_id#, #time#)
+    </insert>
+
+    <!--查询基地信息-->
+    <select id="getWarehouse">
+        select `id`,`name`,`type`,`phone`,`province`,`city`
+        from `warehouse`
+        <include refid="warehouse_where"></include>
+    </select>
+    <sql id="warehouse_where">
+        where deleted = 0
+        <isNotEmpty prepend=" and" property="qrcode_result">
+            qrcode_result = #qrcode_result#
+        </isNotEmpty>
+    </sql>
+
+    <!--查询车源信息-->
+    <select id="getTruckSource">
+        select source.`id`,source.`carnum`,source.`driver_name`,source.`driver_phone`,source.`type`
+        from `truck_source` as source
+        left join `wechat_connect` as connect on connect.`phone` = source.`driver_phone`
+        <include refid="truckSource_where"></include>
+    </select>
+    <sql id="truckSource_where">
+        where source.deleted =0
+        <isNotEmpty prepend=" and" property="openid">
+            connect.`openid` = #openid#
+        </isNotEmpty>
+    </sql>
+    <!-- 通过carnum 查找 openid getOPenid -->
+    <select id="getOpenid">
+        select openid  from   `wechat_connect`
+        where  `phone` = #driver_phone# and `user_type` = 3
+    </select>
+    <!--计算运单数-->
+    <select id="getShipment">
+        select $field$
+        from `shipment`
+        <include refid="getShipment_where"></include>
+    </select>
+    <sql id="getShipment_where">
+        where deleted = 0
+        <isNotEmpty prepend=" and" property="warehouse_id">
+            `warehouse_id` = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and" property="shipment_id">
+            `id` = #shipment_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and" property="carnum">
+            `carnum` = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and" property="driver_phone">
+            `driver_phone` = #driver_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and" property="code">
+            `shipment_code` = #code#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and" property="status">
+            `status` = #status#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and" property="maxStatus">
+            `status` &lt;= #maxStatus#
+        </isNotEmpty>
+        <isNotEmpty prepend=" and" property="minStatus">
+            `status` >= #minStatus#
+        </isNotEmpty>
+    </sql>
+
+    <!--更新订单状态-->
+    <update id="updateStatus">
+        update `shipment` set
+        status = #status#
+        <isNotEmpty prepend="," property="arrivewh_time">
+            arrivewh_time = #arrivewh_time#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="leavewh_time">
+            leavewh_time = #leavewh_time#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="arrival_date">
+            arrival_date = #arrival_date#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="status">
+            status = #status#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="update_time">
+            update_time = #update_time#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="dispatch_count">
+            dispatch_count = #dispatch_count#
+        </isNotEmpty>
+        <dynamic>
+            where id = #id# AND deleted = 0
+        </dynamic>
+    </update>
+
+    <!--更新订单状态-->
+    <update id="updateShipment_tender">
+        update `shipment` set
+         status = #status#,
+        carrier_id = #carrier_id#
+        <isNotEmpty prepend="," property="carnum">
+            carnum = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="ship_type">
+            `ship_type` = #ship_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="tallage_price">
+            `price` = #tallage_price#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="dispatch_time">
+            `dispatch_time` = #dispatch_time#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+    <!-- 获取司机最新位置 -->
+    <select id="getDriverPoint">
+        SELECT carnum, phone, address, city, province,id
+        FROM `history_point`
+        WHERE phone = #phone#
+        <isNotEmpty prepend="AND" property="type">
+            `type` = #type#
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY time DESC
+            LIMIT 0, 1
+        </dynamic>
+    </select>
+
+    <update id="updatePoint" >
+        UPDATE `history_point`
+        SET `time` = NOW()
+        <isNotEmpty prepend=", " property="lng">
+            `lng` = #lng#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="lat">
+            `lat` = #lat#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="address">
+            `address` = #address#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+    <!-- 同步运单数据 -->
+    <insert id="insertShipment">
+        INSERT INTO `shipment`
+        (`shipment_code`, `plat_form_code`, `plat_form_name`, `warehouse_id`, `shipment_method`, `fromlocation`, `tolocation`, `from_province`,`from_city`, `to_province`,`to_city`, `distance`, `carrier_id`, `carnum`, `quality`, `weight`, `volume`, `plan_leave_time`, `plan_arrive_time`, `origin_status`, `create_time`, `deleted`, `update_time`, `from_address`, `to_address`, `from_lnglat`, `to_lnglat`, `is_tender`, `remark`, `vehicle_type`, `serial_num`,`year_month`,`originator`)
+        VALUES
+        (#code#, #plat_form_code#, #plat_form_name#, #warehouse_id#, #shipment_method#, #fromlocation#, #tolocation#, #from_province#, #from_city#,#to_province#,#to_city#, #distance#, #carrier_id#, #carnum#, #quality#, #weight#, #volume#, #plan_leave_time#, #plan_arrive_time#, #status#, #create_time#, #deleted#, #update_time#, #from_address#, #to_address#, #from_lnglat#, #to_lnglat#, #is_tender#, #remark#, #vehicle_type#, #serial_num#,#year_month#,#originator#)
+        <selectKey resultClass="char" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id;
+        </selectKey>
+    </insert>
+
+    <!-- 根据运单号获取id -->
+    <select id="getShipmentId">
+        SELECT `id`,`shipment_code`,`carnum`,`fromlocation`,`tolocation`,`plan_leave_time`,`from_city`,`to_city`,`driver_phone`,`driver_name`,`carrier_id`,`plat_form_code`,`dispatch_count`,`shipment_method`,`status`
+        FROM `shipment`
+        WHERE 1
+          <isNotEmpty prepend=" AND" property="shipment_code">
+            `shipment_code` = #shipment_code#
+         </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="shipment_id">
+            `id` = #shipment_id#
+        </isNotEmpty>
+    </select>
+
+    <delete id="deleteShipment">
+        delete from `shipment` where shipment_code = '$code$' and deleted = 0
+    </delete>
+    <!-- 更新运单数据 -->
+    <update id="updateShipment" >
+        UPDATE `shipment`
+        SET `update_time` = #update_time#
+        <isNotEmpty prepend=", " property="serial_num">
+            `serial_num` = #serial_num#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plat_form_code">
+            `plat_form_code` = #plat_form_code#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plat_form_name">
+            `plat_form_name` = #plat_form_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="shipment_method">
+            `shipment_method` = #shipment_method#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="fromlocation">
+            `fromlocation` = #fromlocation#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="tolocation">
+            `tolocation` = #tolocation#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="carnum">
+            `carnum` = #carnum#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="driver_phone">
+            `driver_phone` = #driver_phone#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="driver_name">
+            `driver_name` = #driver_name#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="distance">
+            `distance` = #distance#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="quality">
+            `quality` = #quality#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="weight">
+            `weight` = #weight#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="volume">
+            `volume` = #volume#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plan_leave_time">
+            `plan_leave_time` = #plan_leave_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="plan_arrive_time">
+            `plan_arrive_time` = #plan_arrive_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="status">
+            `status` = #status#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="remark">
+            `remark` = #remark#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="vehicle_type">
+            `vehicle_type` = #vehicle_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="warehouse_id">
+            `warehouse_id` = #warehouse_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="carrier_id">
+            `carrier_id` = #carrier_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="deleted">
+            `deleted` = #deleted#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="arrivewh_time">
+            `arrivewh_time` = #arrivewh_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="leavewh_time">
+            `leavewh_time` = #leavewh_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="dispatch_time">
+            `dispatch_time` = #dispatch_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="leave_time">
+            `leave_time` = #leave_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="origin_status">
+            `origin_status` = #origin_status#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_province">
+            `from_province` = #from_province#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_province">
+            `to_province` = #to_province#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_city">
+            `from_city` = #from_city#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_city">
+            `to_city` = #to_city#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_address">
+            `from_address` = #from_address#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="from_lnglat">
+            `from_lnglat` = #from_lnglat#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_address">
+            `to_address` = #to_address#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="to_lnglat">
+            `to_lnglat` = #to_lnglat#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="serial_num">
+            `serial_num` = #serial_num#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="vehicle_type">
+            `vehicle_type` = #vehicle_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="ship_type">
+            `ship_type` = #ship_type#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="price">
+            `price` = #price#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="dispatch_count">
+            `dispatch_count` = #dispatch_count# + 1
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="originator">
+            `originator` = #originator#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="year_month">
+            `year_month` = #year_month#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+    <!-- 同步运单接口如果是修改则先清空订单表的关系 -->
+    <update id="clearOrders">
+        UPDATE `order`
+        SET `shipment_code` = '',`shipment_id` = '' WHERE shipment_id = #id#
+    </update>
+    <!-- 同步运单接口如果是修改则先清空订单表的关系 -->
+    <update id="updateShipmentAssignRemark">
+        UPDATE `shipment`
+        SET `assign_remark` = #assign_remark#,`carrier_id` = #carrier_id#,`ship_type`=#ship_type# WHERE id = #id#
+    </update>
+    
+    <!-- 验证身份 -->
+    <select id="checkRole" >
+        SELECT `id`
+        FROM $table$
+        WHERE $condition$ = #orgcode#
+    </select>
+
+    <!-- ZHM 2016.7.27 获取基地关联承运商列表 -->
+    <select id="getBaseCarriers">
+        SELECT DISTINCT c.`id`, c.`carrier_name`
+        FROM `carrier` AS `c`
+        LEFT JOIN `carrier_warehouse` AS `cw` ON c.id = cw.carrier_id
+        LEFT JOIN `warehouse` AS `w` ON cw.warehouse_id = w.id
+        WHERE w.orgcode = #orgcode# AND `carrier_name` LIKE '%$carrier$%' AND cw.deleted = 0 AND w.deleted = 0
+    </select>
+
+    <!-- ZHM 2016-7-28 查询车辆承运商 -->
+    <select id="carrierCheck">
+        SELECT `id`
+        FROM `carrier`
+        WHERE `carrier_name` = #carrier_name#
+    </select>
+
+    <!-- ZHM 2016-8-5 查询基地片区id -->
+    <select id="getWarehouseId">
+        SELECT `id`
+        FROM `warehouse`
+        WHERE `platform_code` = #platform_code#
+    </select>
+
+    <!-- ZHM 2016-8-10 获取出发地列表 -->
+    <select id="getFromlocation">
+        SELECT DISTINCT s.fromlocation
+        FROM shipment AS s
+        $role_condition$
+        AND s.deleted = 0
+        <isNotEmpty prepend="AND" property="fromlocation">
+            s.fromlocation LIKE '%$fromlocation$%'
+        </isNotEmpty>
+    </select>
+
+    <!-- ZHM 2016-8-10 获取目的地列表 -->
+    <select id="getTolocation">
+        SELECT DISTINCT s.tolocation
+        FROM shipment AS s
+        $role_condition$
+        AND s.deleted = 0
+        <isNotEmpty prepend="AND" property="tolocation">
+            s.tolocation LIKE '%$tolocation$%'
+        </isNotEmpty>
+    </select>
+
+    <!-- 运单详情-->
+    <select id="getShipmentInfo">
+        SELECT s.id, s.shipment_code, s.fromlocation, s.tolocation,s.from_city,s.to_city, s.plan_leave_time, s.plan_arrive_time, s.carnum, s.shipment_method, s.arrivewh_time, s.leavewh_time,s.volume,s.weight, s.remark,s.assign_remark,ts.type,s.driver_phone AS ship_driver_phone,s.driver_name AS ship_driver_name,s.carnum AS ship_carnum,ts.driver_phone,  ts.driver_name,ts.id_card, ts.gpsno, ts.id AS truck_source_id, c.carrier_name,c.id AS carrier_id, w.name, w.lng, w.lat,w.address 
+        FROM `shipment` AS s
+        LEFT JOIN  `truck_source` AS ts ON ts.driver_phone = s.driver_phone
+        LEFT JOIN  `carrier` AS c ON c.id = s.carrier_id
+        LEFT JOIN  `warehouse` AS w ON w.id = s.warehouse_id
+        WHERE s.shipment_code = #shipment_code#
+    </select>
+
+    <!-- 运单详情-->
+    <select id="getShipmentInfoForID">
+        SELECT s.id, s.shipment_code,(s.from_province = s.to_province) as business_type, s.fromlocation, s.tolocation,s.from_city,s.to_city,s.quality, s.plan_leave_time, s.plan_arrive_time,s.arrivewh_time,s.leavewh_time,s.status, s.carnum, s.shipment_method, s.arrivewh_time, s.leavewh_time,s.volume,s.weight,s.remark,s.assign_remark, s.create_time, s.update_time, s.arrival_date,ts.type,ts.driver_name, ts.driver_phone, ts.gpsno, ts.id AS truck_source_id,t.status as tender_status, ts.drive_license, ts.run_owner
+        FROM `shipment` AS s
+        LEFT JOIN  `truck_source` AS ts ON ts.driver_phone = s.driver_phone
+        LEFT JOIN  `tender` AS t ON t.id = s.carrier_id
+        WHERE s.id = #id#
+    </select>
+    <!-- 运单事件-->
+    <select id="getShipmentReport">
+        SELECT * FROM  `report` WHERE shipment_id = #shipment_id# AND report_type != '0'
+    </select>
+
+    <!-- 获取车辆orgcode-->
+    <select id="getTruckCode">
+        SELECT c.g7s_orgcode FROM  `truck_source_carrier` AS tsc
+        LEFT JOIN `carrier` AS c ON c.id = tsc.carrier_id
+        WHERE tsc.truck_source_id = #truck_source_id# AND tsc.from=1
+
+    </select>
+
+    <!-- 获取当前省货源信息-司机 Ivan-->
+    <select id="getOrderSource">
+        SELECT `id`,`status`,`from_city`,`to_city`,`fromlocation`,`tolocation`,`quality`,`weight`,`shipment_method`,`plan_leave_time`,`warehouse_id`
+        FROM `shipment` WHERE
+        `from_province`=#address# AND deleted=0
+        ORDER BY `create_time` DESC
+    </select>
+    <!-- 获取当前省货源信息-司机 Ivan-->
+    <select id="getOrderSource">
+        SELECT count(*) FROM `shipment` WHERE
+        `from_province`=#address# AND deleted=0
+        ORDER BY `create_time` DESC
+    </select>
+    <!-- 获取当前省老货源信息-司机 -->
+    <select id="getOldOrderSource">
+        SELECT `from_province`,`to_province`,`quality`,`weight`,`shipment_method`,`plan_leave_time` FROM `shipment` WHERE 
+        `from_province` =#address# AND status!=1 AND status!=2 AND deleted=0
+        ORDER BY `plan_leave_time` DESC 
+        LIMIT 0,10
+    </select>
+     <!-- 获取承运商关系基地的省份 通过openid -->
+    <select id="getProvince">
+        SELECT s.from_province FROM `shipment` AS s 
+        LEFT JOIN carrier_warehouse AS cw 
+        ON cw.warehouse_id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c 
+        ON c.id=cw.carrier_id 
+        LEFT JOIN wechat_connect AS wc 
+        ON wc.phone=c.relation_phone 
+        WHERE wc.openid=#openid# AND s.deleted=0 and s.create_time > #create_time#
+        GROUP BY s.from_province
+    </select>
+    <!-- 获取承运商关系基地的省份的老货源 -->
+    <select id="getOldCarrierSource">
+        SELECT  s.id,s.`from_province`,s.`to_province`,s.`quality`,s.`weight`,s.`shipment_method`,s.`plan_leave_time` FROM `shipment` AS s 
+        LEFT JOIN carrier_warehouse AS cw 
+        ON cw.warehouse_id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c 
+        ON c.id=cw.carrier_id 
+        LEFT JOIN wechat_connect AS wc 
+        ON wc.phone=c.relation_phone 
+        WHERE wc.openid=#openid# AND s.status!=1 AND s.status!=2 AND s.deleted=0 
+        ORDER BY s.`plan_leave_time` DESC 
+        LIMIT 0,10
+    </select>
+    <!-- 获取承运商关系基地的省的货源信息 -->
+    <select id="getSourceByProvince">
+        SELECT  s.id,s.status,s.`from_city`,s.fromlocation,s.`to_city`,s.tolocation,s.`quality`,s.`weight`,s.`shipment_method`,s.`plan_leave_time`,s.warehouse_id FROM `shipment` AS s
+        LEFT JOIN carrier_warehouse AS cw 
+        ON cw.warehouse_id=s.warehouse_id 
+        LEFT JOIN `carrier` AS c 
+        ON c.id=cw.carrier_id 
+        LEFT JOIN wechat_connect AS wc 
+        ON wc.phone=c.relation_phone 
+        WHERE wc.openid=#openid# AND s.deleted=0 AND s.from_province=#province# and s.create_time > #create_time#
+        ORDER BY s.`create_time` DESC 
+    </select>
+    <select id="getSourceByProvince_count">
+        SELECT  count(*) FROM `shipment` AS s
+        LEFT JOIN carrier_warehouse AS cw
+        ON cw.warehouse_id=s.warehouse_id
+        LEFT JOIN `carrier` AS c
+        ON c.id=cw.carrier_id
+        LEFT JOIN wechat_connect AS wc
+        ON wc.phone=c.relation_phone
+        WHERE wc.openid=#openid# AND s.status IN (1,2) AND s.deleted=0 AND s.from_province=#province# and s.create_time > #create_time#
+    </select>
+    <!-- 获取该运单对应的基地联系人及电话 -->
+    <select id="getWareHouseMsg">
+       SELECT w.person,w.phone,w.address FROM warehouse AS w
+       LEFT JOIN shipment AS s 
+       ON w.id=s.warehouse_id 
+       WHERE s.id=#id#
+    </select>
+    <!-- 获取基地名称 Ivan -->
+    <select id="getWareName">
+        SELECT `name` FROM warehouse WHERE id=#id#
+    </select>
+    <!-- 获取运单相关招标信息 Ivan-->
+    <select id="getTenderMsg">
+       SELECT id,cooperate_type,tender_limit,car_length,carriage_type,temperature_from,temperature_to FROM `tender` WHERE shipment_id=#id# AND valid=1 AND status!=4
+    </select>
+    <!-- 司机查看货源详细信息 -->
+    <select id="getOrderSourceDetail">
+       SELECT s.warehouse_id,s.status,s.shipment_code,s.shipment_method,s.quality,s.weight,s.plan_leave_time,o.order_code,o.from_address,o.to_address,o.fromlocation,o.tolocation,o.weight AS order_weight,o.volume AS order_volume FROM shipment AS s
+       LEFT JOIN `order` AS o 
+       ON o.shipment_code=s.shipment_code 
+       WHERE s.id=#id# AND o.deleted=0
+    </select>
+    <!-- 获取运单下的所有订单 o.id,w.openid,w.phone,o.order_code,o.to_address,s.carnum,s.shipment_code-->
+    <select id="selectOrder">
+        SELECT o.id,o.to_phone,o.order_code,o.to_name,o.to_address,s.carnum,s.shipment_code,s.id AS shipment_id
+        FROM `order` AS o LEFT JOIN shipment AS s 
+        ON o.shipment_code=s.shipment_code
+        WHERE s.driver_phone=#driver_phone# AND s.deleted=0 AND o.deleted=0 AND o.checkout=1
+
+         <!-- WHERE s.carnum=(SELECT carnum FROM `truck_source` WHERE driver_phone=(SELECT phone FROM `wechat_connect` WHERE openid=#openid# AND deleted=0) AND deleted=0) AND s.deleted=0 -->
+        
+    </select>
+
+    <!-- 获取运单下的所有订单 o.id,w.openid,w.phone,o.order_code,o.to_address,s.carnum,s.shipment_code-->
+    <select id="getRecivedMsg">
+        SELECT o.id,w.openid,o.to_phone,o.order_code
+        FROM `order` AS o
+        LEFT JOIN wechat_connect AS w
+        ON w.phone=o.to_phone
+        WHERE o.id=#order_id# AND o.deleted=0 AND o.checkout=1
+
+        <!-- WHERE s.carnum=(SELECT carnum FROM `truck_source` WHERE driver_phone=(SELECT phone FROM `wechat_connect` WHERE openid=#openid# AND deleted=0) AND deleted=0) AND s.deleted=0 -->
+
+    </select>
+    <!-- 获取司机姓名及司机司机车牌号 -->
+    <select id="getDriverName">
+        SELECT carnum,driver_name,driver_phone FROM `truck_source` WHERE driver_phone=(SELECT phone FROM `wechat_connect` WHERE openid=#openid# AND deleted=0) AND deleted=0
+    </select>
+    <select id="selectPhoneByShipCode">
+        SELECT to_phone FROM `order` WHERE `shipment_code`=#shipment_code#
+    </select>
+    <!-- 更新order表中的申请签收时间字段 -->
+    <update id="updateOrderAppTime">
+        UPDATE `order` SET `apply_checkout_time` = #applytime# WHERE id=$order_id$
+    </update>
+    <!-- 更新签收申请事件在report-->
+    <insert id="insertReport">
+        INSERT INTO `report` (shipment_id,order_id,report_type,address,report_desc,lng, lat,open_id,create_time,carnum) VALUES
+        (#shipment_id#,#orderId#,#report_type#,#address#,#report_desc#,#lng#,#lat#,#openid#,#create_time#,#carnum#)
+    </insert>
+    <!-- 获取shipment_id 依据shipment_code -->
+    <select id="getshipment_id">
+        SELECT s.id,s.shipment_method,s.carnum,s.carrier_id,s.driver_phone,ts.id AS truck_source_id
+        FROM shipment AS s
+        LEFT JOIN `wechat_connect` AS w  ON w.phone=s.driver_phone
+        LEFT JOIN truck_source AS ts ON ts.driver_phone=s.driver_phone 
+        WHERE w.openid=#openid# AND w.deleted=0 AND s.deleted=0 AND s.status IN (4,5,6,7) 
+        ORDER BY s.dispatch_time DESC 
+    </select>
+    <!-- 获取司机车牌号，依据openid -->
+    <select id="getCarnum">
+        SELECT carnum FROM `truck_source` WHERE `driver_phone`=(SELECT phone FROM `wechat_connect` WHERE openid=#openid# AND deleted=0) AND deleted=0
+    </select>
+    <!-- 事件上报 -->
+     <insert id="saveEventReport">
+        INSERT INTO `report` (shipment_id, report_type,address,report_desc,lng, lat, images, open_id, create_time,carnum) VALUES
+        (#shipment_id#, #report_type#, #address#,#report_desc#, #lng#, #lat#, #images#, #openid#, #time#,#carnum#)
+    </insert>
+    <!-- 事件上报时，在history_point里添加定位信息 -->
+     <insert id="saveReportLbs">
+        INSERT INTO `history_point` (type,address,carrier_id,lng, lat,truck_source_id, phone, time,carnum) VALUES
+        (#type#, #address#,#carrier_id#, #lng#, #lat#, #truck_source_id#, #phone#, #time#,#carnum#)
+    </insert>
+    <!-- 微信端平台车源信息 -->
+    <select id="getTruckSourceByOpenid">
+        SELECT ts.`id` AS ts_id, ts.`carnum`,ts.`car_length`,ts.`carriage_type`,ts.`rated_load`,ts.`driver_name`,ts.`driver_phone`,ts.`type`
+        FROM `truck_source` AS ts
+        LEFT JOIN `truck_source_route` AS tsr
+        ON tsr.truck_source_id=ts.id
+        LEFT JOIN `route` AS r
+        ON r.id=tsr.route_id
+        WHERE ts.deleted=0
+        <isNotEmpty prepend=" AND" property="from_province">
+                r.`from_province` like '%$from_province$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="to_province">
+                r.`to_province` like '%$to_province$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="from_city">
+            r.`from_city` like '%$from_city$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="to_city">
+            r.`to_city` like '%$to_citye$%'
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY  ts.`driver_phone`
+        </dynamic>
+    </select>
+
+    <!-- 获取箱型类型-->
+
+    <select id="getCarriageType">
+        SELECT name FROM `truck_source_type` WHERE `id`=#id#
+    </select>
+    <select id="getOrgcodeByOpenid">
+       SELECT g7s_orgcode FROM `carrier` WHERE `relation_phone`=(SELECT phone FROM wechat_connect WHERE openid=#openid# AND deleted=0) AND deleted=0
+    </select>
+    <select id="getDriverMsg">
+       SELECT id,driver_name,driver_phone,carnum,type FROM `truck_source` WHERE id=#id# AND deleted=0
+    </select>
+    <select id="getPhoneByOpenid">
+        SELECT phone FROM `wechat_connect` WHERE `openid`=#openid# AND deleted=0
+    </select>
+    <!-- 司机获取长跑路线列表-->
+    <select id="getRouteList">
+        SELECT r.id,r.`from_city`,r.`to_city`,ts.id AS ts_id FROM `route` AS r 
+        LEFT JOIN `truck_source_route` AS tsr 
+        ON r.id=tsr.route_id 
+        LEFT JOIN `truck_source` AS ts 
+        ON ts.id=tsr.truck_source_id 
+        WHERE ts.driver_phone=#phone#
+    </select>
+    <!-- 获取turck_source_id-->
+    <select id="getTruckSourceId">
+        SELECT ts.id FROM `truck_source` AS ts 
+        LEFT JOIN `wechat_connect` AS wc 
+        ON wc.phone=ts.driver_phone 
+        WHERE wc.openid=#openid#
+    </select>
+    <!-- 查询添加的线路是否重复-->
+    <select id="getRid">
+        SELECT route_id FROM `truck_source_route` 
+        WHERE route_id=#route_id# AND truck_source_id =#truck_source_id#
+    </select>
+    <!-- 查看司机线路是否在route表中并返回id-->
+    <select id="getRouteId">
+        SELECT id FROM `route` 
+        WHERE 1=1 
+        <isNotEmpty prepend=" AND" property="ddlProvince">
+                `from_province` like '%$ddlProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="ddlCity">
+                `from_city` like '%$ddlCity$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="toloProvince">
+                `to_province` like '%$toloProvince$%'
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND" property="toloCity">
+                `to_city` like '%$toloCity$%'
+        </isNotEmpty>
+    </select>
+    <!-- 司机添加长跑路线 -->
+     <insert id="saveTruckRoute">
+        INSERT INTO `truck_source_route` (route_id, truck_source_id) VALUES
+        (#route_id#, #truck_source_id#)
+    </insert>
+    <!-- 司机添加长跑路线 -->
+     <insert id="saveDriverRoute">
+        INSERT INTO `route` (id,from_province, from_city,to_province,to_city,create_time) VALUES
+        (#id#,#ddlProvince#, #ddlCity#, #toloProvince#,#toloCity#,#create_time#)
+
+    </insert>
+    <!-- 司机删除长跑路线 -->
+    <delete id="delDriverRoute">
+        DELETE FROM `truck_source_route` WHERE `route_id`=#route_id# AND `truck_source_id`=#truck_source_id#
+    </delete>
+
+    <!-- 检查运单的招标状态-->
+    <select id="checkTenderStatus">
+        SELECT s.status, s.id, s.shipment_method, s.shipment_code, s.from_province, s.from_city, s.to_province, s.to_city, s.carnum, s.carrier_id, s.price AS old_price,s.assign_remark,s.weight, t.id as tender_id,t.status AS tender_status,t.cooperate_type,t.price,t.price_type,t.car_length,t.carriage_type,t.temperature_from,t.temperature_to,t.tender_limit,t.remark,t.package_time,t.bidder_select  FROM `shipment` AS s
+        LEFT JOIN (SELECT id,status,shipment_id,cooperate_type,price,price_type,car_length,carriage_type,temperature_from,temperature_to,tender_limit,remark,package_time,bidder_select FROM `tender` WHERE 1 ORDER BY id DESC ) AS t ON t.shipment_id = s.id
+        WHERE s.id=#id#
+    </select>
+    <!-- 保存发标信息-->
+    <insert id="saveTender">
+        INSERT INTO `tender` (shipment_id, shipment_code, trans_type, cooperate_type, price, price_type, car_length, carriage_type,temperature_from,temperature_to,tender_limit,remark,status,package_time,valid,create_time,bidder_select ) VALUES
+        (#shipment_id#, #shipment_code#, #trans_type#, #cooperate_type#, #price#, #price_type#, #car_length#, #carriage_type#, #temperature_from#, #temperature_to#, #tender_limit#, #remark#, #status#, #package_time#, #valid#, #create_time#, #bidder_select#)
+        <selectKey resultClass="char" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id;
+        </selectKey>
+    </insert>
+
+    <!-- 查询线路车辆-->
+    <select id="selectRouteTruck">
+       SELECT tsr.truck_source_id FROM `route` AS r
+        LEFT JOIN   `truck_source_route` AS tsr ON tsr.route_id = r.id
+        WHERE r.from_province=#from_province# AND r.from_city=#from_city# AND r.to_province=#to_province# AND r.to_city=#to_city#
+    </select>
+
+    <!-- 查询历史承运车辆-->
+    <select id="selectHistoryTruck">
+        SELECT ts.id AS truck_source_id FROM `shipment` AS s
+        LEFT JOIN   `truck_source` AS ts ON ts.driver_phone = s.driver_phone
+        WHERE s.from_province=#from_province# AND s.from_city=#from_city# AND s.to_province=#to_province# AND s.to_city=#to_city#
+    </select>
+
+    <!-- 查询符合发标条件的车辆-->
+    <select id="selectTenderTruck">
+        SELECT ts.driver_name AS to_name, wc.openid, ts.driver_phone AS user_phone, ts.id AS user_id FROM `truck_source` AS ts
+        LEFT JOIN   `wechat_connect` AS wc ON wc.phone = ts.driver_phone
+        WHERE  1
+        <iterate prepend="   AND  " property="truck_source_id" open=" ts.id IN (" close=")" conjunction=",">
+            #truck_source_id[]#
+        </iterate>
+        <isNotEmpty property="carriage_type" prepend="AND">
+            ts.carriage_type = #carriage_type#
+        </isNotEmpty>
+        <isNotEmpty property="car_length" prepend="AND">
+            ts.car_length BETWEEN #car_length# AND #car_length1#
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="not_in_openid" open=" wc.openid IN (" close=")" conjunction=",">
+            #not_in_openid[]#
+        </iterate>
+    </select>
+
+    <!-- 查询符合发标条件的承运商-->
+    <select id="selectTenderCarrier">
+        SELECT c.carrier_name AS to_name, c.id AS user_id, wc.openid, c.relation_phone AS user_phone FROM  `wechat_connect` AS wc
+        LEFT JOIN  `carrier` AS c ON c.relation_phone = wc.phone
+        WHERE  1
+        <iterate prepend="   AND  " property="relation_phone" open=" wc.phone IN (" close=")" conjunction=",">
+            #relation_phone[]#
+        </iterate>
+        <iterate prepend="   AND  " property="not_in_openid" open=" wc.openid NOT IN (" close=")" conjunction=",">
+            #not_in_openid[]#
+        </iterate>
+    </select>
+
+    <!-- 保存发标推送信息-->
+    <insert id="saveTenderPush">
+        INSERT   INTO `tender_push` (tender_id, from_user, to_type, relation_id, phone, to_name, openid, status, type, create_time ) VALUES
+        (#tender_id#, #from_user#, #to_type#, #relation_id#, #phone#, #to_name#, #openid#, #status#, #type#, #create_time#)
+    </insert>
+
+    <!-- 推送模板消息-->
+    <select id="sendTenderPush">
+        SELECT tp.id AS tender_push_id, tp.openid, tp.push_lengh, tp.openid, tp.content, t.tender_limit, t.car_length, t.package_time, t.remark, t.id AS tender_id, t.cooperate_type, s.from_province, s.tolocation, s.weight, s.volume, s.plan_arrive_time, s.id AS shipment_id, s.plat_form_name,s.to_province  FROM `tender_push` AS tp
+        LEFT JOIN `tender` AS t ON t.id = tp.tender_id
+        LEFT JOIN `shipment` AS s ON s.id = t.shipment_id
+        WHERE   (tp.status=1 OR tp.status=2) AND tp.push_lengh <![CDATA[ <= 2 ]]> AND tp.openid != '' AND t.valid = 1 LIMIT 30
+    </select>
+
+    <!--更新tenderpush状态-->
+    <update id="updateTenderPush">
+        update `tender_push` set status = #status#
+        <isNotEmpty prepend=", " property="push_time">
+            `push_time` = #push_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="push_lengh">
+            `push_lengh` = #push_lengh#+1
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="push_error">
+            `push_error` = #push_error#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="quote_id">
+            `quote_id` = #quote_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="update_time">
+            `update_time` = #update_time#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+    <!--评标列表-->
+    <select id="tenderQuoteList">
+        SELECT s.status AS shipmentStatus, s.id AS shipment_id, s.shipment_code, t.valid, t.tender_limit, t.history, t.status AS tender_status,  t.price_type, tq.*, c.carrier_name,c.relation_phone, ts.driver_name,ts.driver_phone, tr.price, tr.over_rate, s.from_city, s.to_city  FROM `shipment` AS s
+        LEFT JOIN  `tender` AS t ON t.shipment_id = s.id
+        LEFT JOIN  `tender_quote` AS tq ON tq.tender_id = t.id
+        LEFT JOIN  `carrier` AS c ON c.id = tq.quote_carrier
+        LEFT JOIN  `truck_source` AS ts ON ts.id = tq.relation_id
+        LEFT JOIN  `tender_route` as tr ON tr.from_province = s.from_province AND tr.from_city = s.from_city AND tr.to_province = s.to_province AND tr.to_city = s.to_city
+        WHERE s.id=#id# AND t.valid = 1 ORDER BY tq.tallage_price ASC
+    </select>
+
+    <!--评标列表1-->
+    <select id="tenderQuoteListFirst">
+        SELECT s.status AS shipmentStatus, s.id AS shipment_id, s.shipment_code, t.valid, t.tender_limit, t.history, t.status AS tender_status, tq.*, c.carrier_name,c.relation_phone, ts.driver_name,ts.driver_phone, tr.price, tr.over_rate, s.from_city, s.to_city  FROM `shipment` AS s
+        LEFT JOIN  `tender` AS t ON t.shipment_id = s.id
+        LEFT JOIN  `tender_quote` AS tq ON tq.tender_id = t.id
+        LEFT JOIN  `carrier` AS c ON c.id = tq.quote_carrier
+        LEFT JOIN  `truck_source` AS ts ON ts.id = tq.relation_id
+        LEFT JOIN  `tender_route` as tr ON tr.from_province = s.from_province AND tr.from_city = s.from_city AND tr.to_province = s.to_province AND tr.to_city = s.to_city
+        WHERE s.id=#id# AND t.valid = 1 AND tq.is_cancel = 0 ORDER BY tq.tallage_price ASC LIMIT 0,1
+    </select>
+
+    <!-- 推送模板消息-->
+    <select id="selectTenderQuote">
+        SELECT  * FROM `tender_quote`
+        WHERE  1
+        <isNotEmpty prepend=" AND  " property="id">
+            `id` = #id#
+        </isNotEmpty>
+        <isNotEmpty prepend=" AND " property="tender_id">
+            `tender_id` = #tender_id#
+        </isNotEmpty>
+        <iterate prepend="   AND  " property="status" open=" status IN (" close=")" conjunction=",">
+            #status[]#
+        </iterate>
+    </select>
+
+    <!--更新tender_quote状态-->
+    <update id="updateTenderQuote">
+        update `tender_quote` set status = #status# where id = #id#
+    </update>
+
+    <!--更新tender状态-->
+    <update id="updateTender">
+        update `tender` set status = #status#
+        <isNotEmpty prepend=", " property="over_price">
+            `over_price` = #over_price#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="quote_id">
+            `quote_id` = #quote_id#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="history">
+            `history` = #history#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="tender_limit">
+            `tender_limit` = #tender_limit#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="package_time">
+            `package_time` = #package_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="update_time">
+            `update_time` = #update_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="aband_remark">
+            `aband_remark` = #aband_remark#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="bidder_select">
+            `bidder_select` = #bidder_select#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `id` = #id#
+        </dynamic>
+    </update>
+
+
+
+    <select id="selectAuditId">
+        SELECT  wt.*  FROM `warehouse` AS w
+        LEFT JOIN `warehouse_tender` AS wt ON wt.warehouse_id  = w.id
+        WHERE   w.orgcode =#orgcode#
+    </select>
+
+    <!-- 预中标的保存到审批表-->
+    <insert id="insertTenderAudit">
+        INSERT INTO `tender_audit` (tender_id, quote_id, quote_price, warehouse_user_id, status, create_time) VALUES
+        (#tender_id#, #quote_id#, #quote_price#, #warehouse_user_id#, '3', #create_time#)
+        <selectKey resultClass="char" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id;
+        </selectKey>
+    </insert>
+
+    <select id="searchById_tender">
+        SELECT  $field$  FROM  tender  WHERE 1
+        <isNotEmpty property="id" prepend="AND">
+            id = #id#
+        </isNotEmpty>
+        <isNotEmpty property="shipment_id" prepend="AND">
+            shipment_id = #shipment_id#
+        </isNotEmpty>
+        <isNotEmpty property="evaluation" prepend="AND">
+            status IN ('2','3')
+        </isNotEmpty>
+        <isNotEmpty property="isSendTender" prepend="AND">
+            status IN ('1','2','3')
+        </isNotEmpty>
+        <isNotEmpty property="isTendering" prepend="AND">
+            status =1
+        </isNotEmpty>
+        <isNotEmpty property="now" prepend="AND">
+            tender_limit &gt; #now#
+        </isNotEmpty>
+        <isNotEmpty property="over_price" prepend="AND">
+            over_price = #over_price#
+        </isNotEmpty>
+        <isNotEmpty property="status" prepend="AND">
+            status = #status#
+        </isNotEmpty>
+
+    </select>
+    <!-- 通过orgcode查看是否为承运商-->
+    <select id="checkeCarrier">
+        SELECT id FROM `carrier` WHERE g7s_orgcode=#orgcode#
+    </select>
+    <!--批量修改未推送消息状态-->
+    <update id="updateAllTenderPush">
+        update `tender_push` set status = #status#
+        <isNotEmpty prepend=", " property="push_time">
+            `push_time` = #push_time#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="push_lengh">
+            `push_lengh` = #push_lengh#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="push_error">
+            `push_error` = #push_error#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="is_read">
+            `is_read` = #is_read#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="read_time">
+            `read_time` = #read_time#
+        </isNotEmpty>
+        <dynamic>
+            WHERE `tender_id` = #tender_id# AND status!=3
+        </dynamic>
+    </update>
+
+    <!--获取审批人信息-->
+    <select id="getAuditUser">
+        select u.`name`,u.`phone`,c.`openid`
+        FROM `warehouse_user` as u
+        inner join `wechat_connect` as c on c.`phone` = u.`phone`
+        where u.id = #id#
+    </select>
+
+    <!--改标已推送消息的opentid-->
+    <select id="getSendTenderOpenid">
+        select GROUP_CONCAT(t.`openid`) as stringopenid
+        FROM `tender_push` as t
+        where t.tender_id = #id#
+    </select>
+
+    <!--查询运单车辆-->
+    <select id="checkGpsCar">
+        select t.`type`,t.`id`,s.`carnum`,s.`leavewh_time`,s.`update_time`,s.`arrival_date`,s.`create_time`
+        from `shipment` as s
+        left join `truck_source` as t on s.driver_phone = t.driver_phone
+        where s.id = #id#
+    </select>
+
+    <!--检查自有车-->
+    <select id="checkCarrier">
+        select c.`g7s_orgcode`,c.`app_key`,c.`app_secret`
+        from `carrier` as c
+        left join `truck_source_carrier` as tsc on tsc.carrier_id = c.id
+        where tsc.`truck_source_id` = #truck_source_id# and tsc.`from` = 1
+    </select>
+    <!--检查是否已经存在进厂事件-->
+    <select id="getReport">
+        SELECT id FROM `report` WHERE shipment_id=#shipmentid# AND report_type=10 
+    </select>
+    <!--获取运单信息-->
+    <select id="getShipmentMsg">
+        SELECT s.shipment_method,s.quality,s.weight,s.ship_type,s.price,s.shipment_code,s.carnum,s.status,s.carrier_id,s.warehouse_id,s.from_province,s.to_province,c.carrier_name,c.organizing_code,c.g7s_orgcode,s.plan_leave_time,s.plan_arrive_time,s.driver_phone,s.driver_name,s.price_type,ts.type,ts.id,ts.carriage_type,tst.name AS carriagetype FROM `shipment` AS s
+        LEFT JOIN `truck_source` AS ts ON ts.driver_phone=s.driver_phone
+        left join `carrier` as c on c.id = s.carrier_id
+        LEFT JOIN `truck_source_type` AS tst ON tst.id = ts.carriage_type
+        WHERE s.id=#shipmentid#  
+    </select>
+    <!--获取司机openid-->
+    <select id="getOpenidByPhone">
+        SELECT openid FROM `wechat_connect` WHERE phone=#phone# AND deleted=0  
+    </select>
+    <!--获取中标报价id及中标价-->
+    <select id="getQuoteId">
+         SELECT tq.id,tq.quote_price,tq.price_type FROM `tender` AS t 
+         LEFT JOIN `tender_quote` AS tq ON tq.id=t.quote_id 
+         WHERE t.shipment_id=#shipmentid# AND t.valid=1 
+    </select>
+    
+    <update id="updateTenderQuoteById">
+        update `tender_quote` set `tallage_price` =#tallage_price#,`tender_weight`=#tender_weight#,`total_price`=#total_price#
+        where `id`=#id#
+    </update>
+    <update id="updateShipmentPrice">
+        update `shipment` set `price`=#price# where `id`=#id#
+    </update>
+    <!--获取司机openid-->
+    <select id="getReportOut">
+        SELECT id FROM `report` WHERE shipment_id=#shipmentid# AND report_type=11 
+    </select>
+    <!--获取中标相关信息-->
+    <select id="getTenderMessage">
+        SELECT tq.price_type,tq.quote_price,tq.tallage_price,tq.tender_weight FROM `tender` AS t
+        LEFT JOIN `tender_quote` AS tq 
+        ON tq.id=t.quote_id
+        WHERE t.shipment_id=#shipmentid# AND t.valid=1 
+    </select>
+    
+    <select id="getShipmentsByIds">
+        select `id`,`shipment_code`,`create_time`,`update_time`,`carnum`,`arrival_date`,`status`,`carnum`
+        from `shipment` where deleted =0
+        <iterate prepend="   AND  " property="id" open=" id IN (" close=")" conjunction=",">
+            #id[]#
+        </iterate>
+    </select>
+
+    <!-- 保存一口价记录 -->
+    <insert id="saveMaintain_price">
+        INSERT  INTO `maintain_price` (shipment_id, carrier_id, price, old_price, remark, create_time,price_type,unit_price ) VALUES
+        (#shipment_id#, #carrier_id#, #price#,  #old_price#, #remark#,  #create_time#,#price_type#,#unit_price#)
+    </insert>
+    <!-- 获取承运商下司机电话 -->
+    <select id="getDriverPhones">
+        SELECT ts.driver_phone FROM truck_source AS ts 
+        LEFT JOIN truck_source_carrier AS tsc 
+        ON tsc.truck_source_id=ts.id 
+        WHERE tsc.carrier_id=#carrier_id#
+    </select>
+    <!-- 获取司机信息依据电话 -->
+    <select id="getDriverMessage">
+        SELECT * FROM truck_source WHERE driver_phone=#driver_phone#
+    </select>
+
+    <!--删除运单的承运信息（司机和承运商）-->
+    <update id="cancelShipmentCarriage">
+        update `shipment` set `driver_phone` ='',`driver_name`='',`carnum`='',`carrier_id`=''
+        where `id`=#shipment_id#
+    </update>
+    <!-- 获取订单信息 -->
+    <select id="getOrderMsg">
+        SELECT od.* FROM `order` AS o 
+        LEFT JOIN order_detail AS od ON od.order_id=o.id 
+        WHERE o.shipment_id=#shipmentid# AND o.deleted=0
+    </select>
+    <!-- 获取openid -->
+    <select id="getOpenidByOrgcode">
+        SELECT wc.openid FROM wechat_connect AS wc 
+        LEFT JOIN warehouse AS w ON w.phone=wc.phone 
+        WHERE w.orgcode=#orgcode#
+    </select>
+    <!--更新固定运价是否阅读-->
+    <update id="updateIsReader">
+        update `shipment` set `is_reader` =1 where `shipment_code`=#shipment_code#
+    </update>
+    <select id="getOrderSum">
+        SELECT count(id) AS orderSum FROM `order` 
+        WHERE shipment_id=#shipment_id#
+    </select>
+    <select id="getOrderIDs">
+        SELECT GROUP_CONCAT(order_code) as ids FROM `order` 
+        WHERE shipment_id=#shipment_id#
+    </select>
+    <select id="getOrderCheckSum">
+        SELECT count(id) AS orderCheckSum FROM `order`   
+        WHERE shipment_id=#shipment_id# AND `receipt_status` = 1
+    </select>
+    <select id="getCarrierByOpenid">
+        SELECT c.g7s_orgcode FROM `carrier` AS c 
+        LEFT JOIN wechat_connect AS wc ON wc.phone=c.relation_phone 
+        WHERE wc.openid=#openid#
+    </select>
+    <select id="getOrderCodes">
+        SELECT o.id,o.order_code FROM `warehouse` AS w
+        LEFT JOIN shipment AS s ON s.warehouse_id=w.id  
+        LEFT JOIN `order` AS o ON o.shipment_id=s.id 
+        WHERE o.deleted=0 AND w.orgcode=#orgcode# AND w.deleted=0 AND s.deleted=0
+        <isNotEmpty property="order_code" prepend="AND">
+            order_code LIKE '%$order_code$%'
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY o.order_code 
+        </dynamic>
+    </select>
+    <select id="getShipmentIdByOrderCode">
+        SELECT shipment_id FROM `order` WHERE order_code=#order_code#
+    </select> 
+    <select id="getShipmentIdByRe">
+        SELECT shipment_id FROM `order` WHERE relateBill=#relateBill#
+    </select> 
+    <!-- 获取连续号 -->
+    <select id="getSerialNum">
+        SELECT s.id,s.serial_num FROM `shipment` AS s 
+        LEFT JOIN warehouse AS w ON w.id=s.warehouse_id 
+        WHERE s.deleted=0 AND w.orgcode=#orgcode# AND w.deleted=0
+        <isNotEmpty property="serial_num" prepend="AND">
+            s.serial_num LIKE '%$serial_num$%'
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY s.serial_num 
+        </dynamic>
+    </select>
+    <!-- 获取相关单据号 -->
+    <select id="getRelateBill">
+        SELECT o.id,o.relateBill FROM `warehouse` AS w
+        LEFT JOIN shipment AS s ON s.warehouse_id=w.id  
+        LEFT JOIN `order` AS o ON o.shipment_id=s.id 
+        WHERE o.deleted=0 AND w.orgcode=#orgcode# AND w.deleted=0 AND s.deleted=0
+        <isNotEmpty property="relateBill" prepend="AND">
+            o.relateBill LIKE '%$relateBill$%'
+        </isNotEmpty>
+        <dynamic>
+            GROUP BY o.relateBill 
+        </dynamic>
+    </select>   
+</sqlMap>

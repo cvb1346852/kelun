@@ -1,0 +1,36 @@
+
+<div class="row"><br /></div>
+
+<div class="well no-padding well-light">
+    <form action="" class="smart-form" novalidate="novalidate" id="frmInfo" method="post">
+	<div id="inbox-content" class="inbox-body">
+            <div id="div1" style="text-align:center;width:100%;">
+
+            </div>
+    </div>
+        <footer>
+            <a class="btn btn-primary" id="print-btn"   href="javascript:preview();" >打印</a>
+        </footer>
+    </form>
+</div>
+<script type="text/javascript">
+    function preview() {
+        var html=window.document.body.innerHTML;//获取当前页的html代码
+        window.document.body.innerHTML=$('#inbox-content').html();
+        window.print();
+        window.document.body.innerHTML=html;
+    }
+    $(function(){
+        $ips.lockPage();
+        $ips.load("warehouse", "_print", {}, function(result){
+            $ips.unLockPage();
+            if(result) {
+                $('#div1').html('<img  src="'+result+'"/>');
+            } else {
+                $ips.error("获取图片失败，请稍后再试");
+            }
+        });
+    });
+</script>
+
+

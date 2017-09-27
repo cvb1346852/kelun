@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="bidding">
+    <select id="getShipments">
+        SELECT s.id, s.shipment_code,s.price, (s.from_province = s.to_province) as business_type, s.shipment_method, s.fromlocation, s.tolocation, s.carnum, s.distance, s.status, s.driver_name, ts.driver_phone,ts.car_length,ts.carriage_type,ts.rated_load, s.quality, s.weight, s.volume, s.plan_leave_time, s.plan_arrive_time,s.from_city,s.to_city, cc.carrier_name, t.status AS tender_status, t.tender_limit, t.create_time, t.over_price, t.price_type, t.id AS tender_id, s.arrivewh_time,s.leavewh_time,s.arrival_date
+        FROM `tender` AS `t`
+        LEFT JOIN `shipment` AS `s` ON  s.id = t.shipment_id
+        LEFT JOIN `carrier` AS `cc` ON s.carrier_id = cc.id
+        LEFT JOIN `truck_source` AS `ts` ON s.driver_phone = ts.driver_phone
+        $role_condition$
+        AND s.deleted = 0
+        and t.`status` in ('3','4')
+        <include refid="getShipments_where" />
+
+        <dynamic>
+            GROUP BY t.id
+            <isNotEmpty prepend="," id="sortColumns">
+                ORDER BY $sortColumns$
+            </isNotEmpty>
+        </dynamic>
+    </select>
+    <select id="getShipments_count">
+        SELECT count(DISTINCT(t.id))
+        FROM `tender` AS `t`
+        LEFT JOIN `shipment` AS `s` ON  s.id = t.shipment_id
+        <!--        LEFT JOIN `truck_source` AS `ts` ON s.driver_phone = ts.driver_phone-->
+        $role_condition$
+        AND s.deleted = 0
+        and t.`status` in ('3','4')
+
+        <include refid="getShipments_where" />
+    </select>
+    <sql id="getShipments_where">
+        <isNotEmpty prepend="AND" property="shipment_code">
+            s.shipment_code LIKE '%$shipment_code$%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="statistic_date">
+            s.create_time BETWEEN #start# AND #end#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="status">
+            t.status =  #status#
+        </isNotEmpty>
+        <isNotEmpty  prepend="AND" property="over_price">
+            t.over_price = #over_price#
+        </isNotEmpty>
+
+
+    </sql>
+
+<select id="searchById_tender">
+    SELECT  $field$  FROM  tender  WHERE 1
+    <isNotEmpty property="id" prepend="AND">
+        id = #id#
+    </isNotEmpty>
+    <isNotEmpty property="shipment_id" prepend="AND">
+        shipment_id = #shipment_id#
+    </isNotEmpty>
+    <isNotEmpty property="evaluation" prepend="AND">
+        status IN ('2','3')
+    </isNotEmpty>
+    <isNotEmpty property="isSendTender" prepend="AND">
+        status IN ('1','2','3')
+    </isNotEmpty>
+    <isNotEmpty property="isTendering" prepend="AND">
+        status =1
+    </isNotEmpty>
+    <isNotEmpty property="now" prepend="AND">
+        tender_limit &gt; #now#
+    </isNotEmpty>
+    <isNotEmpty property="over_price" prepend="AND">
+        over_price = #over_price#
+    </isNotEmpty>
+    <isNotEmpty property="status" prepend="AND">
+        status = #status#
+    </isNotEmpty>
+    <iterate prepend="   AND  " property="shipment_ids" open=" shipment_id IN (" close=")" conjunction=",">
+        #shipment_ids[]#
+    </iterate>
+
+</select>
+
+
+    <!--评标列表1-->
+    <select id="tenderQuoteListFirst">
+        SELECT s.status AS shipmentStatus, s.id AS shipment_id, s.shipment_code, t.valid, t.tender_limit, t.history, t.status AS tender_status, tq.*, c.carrier_name,c.relation_phone, ts.driver_name,ts.driver_phone, tr.price, tr.over_rate, s.from_city, s.to_city,s.fromlocation as from_location, s.tolocation as to_location  FROM `shipment` AS s
+        LEFT JOIN  `tender` AS t ON t.shipment_id = s.id
+        LEFT JOIN  `tender_quote` AS tq ON tq.tender_id = t.id
+        LEFT JOIN  `carrier` AS c ON c.id = tq.quote_carrier
+        LEFT JOIN  `truck_source` AS ts ON ts.id = tq.relation_id
+        LEFT JOIN  `tender_route` as tr ON tr.from_location = s.fromlocation AND tr.to_location = s.tolocation
+        WHERE s.id=#id#  AND tq.is_cancel = 0
+
+        <isNotEmpty property="tender_id" prepend="AND">
+            t.id = #tender_id#
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY tq.tallage_price ASC LIMIT 0,1
+        </dynamic>
+    </select>
+
+    <!--评标列表-->
+    <select id="tenderQuoteList">
+        SELECT s.status AS shipmentStatus, s.id AS shipment_id, s.shipment_code,s.weight as tender_weight, t.valid, t.tender_limit, t.history, t.status AS tender_status,  t.price_type, tq.*, c.carrier_name,c.relation_phone,c.carrier_name_s, ts.driver_name,ts.driver_phone, s.from_city, s.to_city,s.fromlocation as from_location, s.tolocation as to_location
+        FROM `shipment` AS s
+        LEFT JOIN  `tender` AS t ON t.shipment_id = s.id
+        LEFT JOIN  `tender_quote` AS tq ON tq.tender_id = t.id
+        LEFT JOIN  `carrier` AS c ON c.id = tq.quote_carrier
+        LEFT JOIN  `truck_source` AS ts ON ts.id = tq.relation_id
+
+        WHERE s.id=#id#
+        <isNotEmpty property="tender_id" prepend="AND">
+            t.id = #tender_id#
+        </isNotEmpty>
+        <dynamic>
+            ORDER BY tq.quote_price ASC
+        </dynamic>
+    </select>
+
+</sqlMap>
