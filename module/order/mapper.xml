@@ -142,7 +142,7 @@
     </select>
 
     <select id="getmanageOrderlist">
-        SELECT o.*,s.carnum,s.driver_name,s.driver_phone,s.carrier_id,s.from_province,s.to_province,wt.first_audit_id,wt.second_audit_id,wu.name AS first_audit_name,wu1.name AS second_audit_name
+        SELECT o.*,s.status as s_status,s.carnum,s.driver_name,s.driver_phone,s.carrier_id,s.from_province,s.to_province,wt.first_audit_id,wt.second_audit_id,wu.name AS first_audit_name,wu1.name AS second_audit_name
         FROM `order` AS o
         LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
         LEFT JOIN `order_checkout` AS oc ON o.order_code = oc.order_code

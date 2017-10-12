@@ -6,6 +6,7 @@ var params = $ips.getUrlParams();
 var btnMoreSearch = $("#btnMoreSearch");
 var userinfo = $ips.getCurrentUser();
 var userRole = '';
+var gdata = [];
 $(function() {
     //初始化出发地省份选择
     BindCity("");
@@ -409,6 +410,7 @@ $("#orderReceipt-button").click(function(){
                 $ips.gridLoadData(sSource, aoData, fnCallback, "order", "manageOrderList", searchParams, function(data) {
                   if(data.result){
                        $.each(data.result, function(i, item) {
+                           gdata[item.order_code] = {'s_status' : item.s_status};
                         is_dispatched = 0;
                         if (item.carnum != undefined && item.carnum != '') {
                             is_dispatched = 1;
@@ -507,8 +509,18 @@ $("#signOk-button").on('click',function(){
     var order_code =getRowIds();
     var order_codes=order_code.split(',');
     var  checkout_name = "";
+    var num = 0;
     if(!order_code || order_code == ''){
         $ips.alert('请选择操作项');
+        return false;
+    }
+    $.each(order_codes,function (i,v) {
+        if(gdata[v].s_status != 8){
+            num++;
+        }
+    });
+    if (num>0){
+        $ips.alert('操作项里有 '+num+' 项未运抵');
         return false;
     }
     $('#shipmentTbl input:checkbox[class="checkbox style-0"]:checked').each(function() {
