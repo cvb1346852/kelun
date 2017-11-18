@@ -9,11 +9,12 @@
 
     <!-- ZHM 2016-7-13 获取运单-->
     <select id="getShipments">
-        SELECT s.id, s.shipment_code, (s.from_province = s.to_province) as business_type, s.shipment_method, s.fromlocation, s.tolocation, s.carnum, s.distance, s.status, s.driver_name, s.driver_phone,ts.car_length,ts.carriage_type,ts.rated_load, s.quality, s.weight, s.volume, s.plan_leave_time,date(s.plan_leave_time) as plan_leave_date, s.plan_arrive_time,s.from_city,s.to_city, cc.carrier_name, t.status AS tender_status, t.tender_limit,t.price_type,s.arrivewh_time,s.leavewh_time,s.arrival_date,s.price,s.create_time,s.serial_num  
+        SELECT s.id, s.shipment_code, (s.from_province = s.to_province) as business_type, s.shipment_method, s.fromlocation, s.tolocation, s.carnum, s.distance, s.status, s.driver_name, s.driver_phone,ts.car_length,ts.carriage_type,ts.rated_load, s.quality, s.weight, s.volume, s.plan_leave_time,date(s.plan_leave_time) as plan_leave_date, s.plan_arrive_time,s.from_city,s.to_city, cc.carrier_name, t.status AS tender_status, t.tender_limit,t.price_type,s.arrivewh_time,s.leavewh_time,s.arrival_date,s.price,s.create_time,s.serial_num,s.is_binding,s.tycode
         FROM `shipment` AS `s`
         LEFT JOIN `carrier` AS `cc` ON s.carrier_id = cc.id
         LEFT JOIN `truck_source` AS `ts` ON s.driver_phone = ts.driver_phone
         LEFT JOIN (select * from `tender` where valid=1) AS `t` ON t.shipment_id = s.id
+        <!--LEFT JOIN `tender` AS `t` ON t.shipment_id = s.id and t.valid=1-->
         $role_condition$
         AND s.deleted = 0
         <include refid="getShipments_where" />
@@ -114,6 +115,9 @@
         </isNotEmpty>
         <isNotEmpty prepend="AND" property="shipId">
             s.id =  #shipId#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="is_binding">
+            s.is_binding =  #is_binding#
         </isNotEmpty>
     </sql>
 
@@ -319,6 +323,12 @@
         <isNotEmpty prepend="," property="dispatch_count">
             dispatch_count = #dispatch_count#
         </isNotEmpty>
+        <isNotEmpty prepend="," property="is_binding">
+            is_binding = #is_binding#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="tycode">
+            tycode = #tycode#
+        </isNotEmpty>
         <dynamic>
             where id = #id# AND deleted = 0
         </dynamic>
@@ -407,7 +417,7 @@
     <!-- 更新运单数据 -->
     <update id="updateShipment" >
         UPDATE `shipment`
-        SET `update_time` = #update_time#
+        SET `update_time` = NOW()
         <isNotEmpty prepend=", " property="serial_num">
             `serial_num` = #serial_num#
         </isNotEmpty>
@@ -530,6 +540,12 @@
         </isNotEmpty>
         <isNotEmpty prepend=", " property="year_month">
             `year_month` = #year_month#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="tycode">
+            `tycode` = #tycode#
+        </isNotEmpty>
+        <isNotEmpty prepend=", " property="is_binding">
+            `is_binding` = #is_binding#
         </isNotEmpty>
         <dynamic>
             WHERE `id` = #id#
@@ -1135,7 +1151,7 @@
 
     <!--查询运单车辆-->
     <select id="checkGpsCar">
-        select t.`type`,t.`id`,s.`carnum`,s.`leavewh_time`,s.`update_time`,s.`arrival_date`,s.`create_time`
+        select t.`type`,t.`id`,s.`carnum`,s.`leavewh_time`,s.`arrival_date`,s.`update_time`,s.`arrival_date`,s.`create_time`,s.is_binding,s.shipment_code
         from `shipment` as s
         left join `truck_source` as t on s.driver_phone = t.driver_phone
         where s.id = #id#
@@ -1191,7 +1207,7 @@
     </select>
     
     <select id="getShipmentsByIds">
-        select `id`,`shipment_code`,`create_time`,`update_time`,`carnum`,`arrival_date`,`status`,`carnum`
+        select `id`,`shipment_code`,`create_time`,`update_time`,`carnum`,`arrival_date`,`status`,`carnum`,`is_binding`,`tycode`
         from `shipment` where deleted =0
         <iterate prepend="   AND  " property="id" open=" id IN (" close=")" conjunction=",">
             #id[]#
@@ -1295,5 +1311,23 @@
         <dynamic>
             GROUP BY o.relateBill 
         </dynamic>
-    </select>   
+    </select>
+    <!-- 获取orgcode -->
+    <select id="getOrgcodeByPlat">
+        SELECT orgcode FROM `warehouse`
+        WHERE platform_code = #platform_code#
+    </select>
+
+    <!-- 运单事件2-->
+    <select id="getShipmentReport_2">
+        SELECT * FROM  `report` WHERE shipment_id = #shipment_id# AND report_type != '0' ORDER BY create_time DESC
+    </select>
+
+    <update id="updateTycode">
+    UPDATE `shipment`
+    SET tycode=''
+    <dynamic>
+        WHERE `id` = #id#
+    </dynamic>
+    </update>
 </sqlMap>

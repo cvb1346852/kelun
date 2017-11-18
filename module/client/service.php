@@ -375,6 +375,30 @@ class clientService extends Client
         return array('code'=>0,'url'=>$webApi_url);
     }
 
+    //天眼轨迹点
+    public function playBackByOrder($shipment_code){
+        return $this->g7sRequest('order.order.playBackByOrder',['orderno'=>$shipment_code]);
+    }
+
+    //天眼解绑/修改
+    public function updateOrders($shipment_code){
+        $data=[];
+        $data['unification'] = 0;
+        $data['orgcode'] = '20015Q';
+        $orders = [];
+        $orders['orderno'] = $shipment_code;
+        $orders['isunbind'] = 'true';
+        $data['orders']['0'] = $orders;
+        return $this->g7sRequest('order.order.updateOrders',$data);
+    }
+
+    //smart轨迹点
+    public function getTruckTrajectory($args){
+        $args['starttime'] = date('2017-10-31 00:00:00');
+        $args['endtime'] = date('2017-11-04 00:00:00');
+        return $this->g7sRequest('truck.truck.getTruckTrajectory',['carnum'=>$args['carnum'],'starttime'=>$args['starttime'],'endtime'=>$args['endtime']]);
+    }
+
 }
 
 

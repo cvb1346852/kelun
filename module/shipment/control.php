@@ -567,6 +567,35 @@ class shipment extends control{
     public function test(){
     	$this->loadService('tender')->carrierAssignCarWechatMessage(array('shipment_id' =>'52447','driver_phone'=>'18081069689'));
     }
+
+    /**
+     * 绑定天眼设备
+     * 2017-10-20
+     */
+    public function binding(){
+        $params = fixer::input('request')->get();
+        $data = $this->loadService('shipment')->binding($params);
+        $this->view->result = $data;
+        $this->display();
+    }
+
+    /**
+     * 获取天眼设备
+     * 2017-10-24
+     */
+    public function getTycode(){
+        $params = fixer::input('request')->get();
+        $data = $this->loadService('shipment')->getTycode($params);
+        $this->view->result = $data;
+        $this->display();
+    }
+
+    public function test2(){
+        $fix = fixer::input('request')->getArray();
+        $data = $this->loadService('shipment')->test2($fix);
+        $this->view->result = $data;
+        $this->display();
+    }
 }
 
 

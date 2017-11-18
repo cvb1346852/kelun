@@ -265,4 +265,51 @@ class order extends control
         $this->view->result = $data;
         $this->display();
     }
+
+    /**
+     * Desc:微信要货计划订单列表
+     * 2017-10-17
+     */
+    public function erpOrderList(){
+        $params = fixer::input('request')->getArray();
+        $data = $this->orderService->erpOrderList($params);
+        $this->view->result = $data;
+        $this->display();
+    }
+
+    /**
+     * 获取要货订单列表
+     * Author ZHM
+     * 2017-10-18
+     */
+    public function getErpGoodsCodes() {
+        $params = fixer::input('request')->get();
+        $data = $this->orderService->getErpGoodsCodes($params);
+        $this->view->result = $data;
+        $this->display();
+    }
+
+    /**
+     * 获取要货基地列表
+     * Author ZHM
+     * 2017-10-18
+     */
+    public function getFromNames() {
+        $params = fixer::input('request')->get();
+        $data = $this->orderService->getFromNames($params);
+        $this->view->result = $data;
+        $this->display();
+    }
+
+    /**
+     * 订单跟踪详情
+     * Author ZHM
+     * 2017-10-19
+     */
+    public function getOrderTrace() {
+        $params = fixer::input('request')->get();
+        $data = $this->orderService->getOrderTrace($params);
+        $this->view->result = $data;
+        $this->display();
+    }
 }

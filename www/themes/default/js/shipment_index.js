@@ -307,14 +307,19 @@ function genSearchParams(){
 $("#show_history").on('click',function(){
     id = getRowId();
     $ips.load('shipment','checkHistory',{shipmentId:id},function(data){
-        if(parseInt(data.code) == 1){
-            $ips.error(data.message);
-        }else if(parseInt(data.code) == 2){
+        if(parseInt(data.code) == 2){
             $ips.locate("history", "show_shipment", "id="+id,true);
+        }else if(parseInt(data.code) == 0){
+            if (data.ty){
+                console.debug(data.ty);
+                //$ips.locate("history", "coord", "ty="+data.ty,true);
+            }else {
+                var historyUrl = 'truck/v2/review/index.html?searchid='+data.truck.searchid+'&searchtype=truckid&searchno='+data.truck.searchno;
+                historyUrl += '&begintime='+data.truck.begintime+'&endtime='+data.truck.endtime;
+                $ips.locatesubsystem(historyUrl,true);
+            }
         }else{
-            var historyUrl = 'truck/v2/review/index.html?searchid='+data.truck.searchid+'&searchtype=truckid&searchno='+data.truck.searchno;
-            historyUrl += '&begintime='+data.truck.begintime+'&endtime='+data.truck.endtime;
-            $ips.locatesubsystem(historyUrl,true);
+            $ips.error(data.message);
         }
     });
 });
@@ -495,6 +500,8 @@ $ips.load('shipment', 'getRole', {orgcode:userinfo.organ.orgcode}, function(data
                 //{sTitle: "业务类型", sName: "business_type", bSortable: false},
                 {sTitle: "运输方式", sName: "shipment_method", bSortable: false},
                 {sTitle: "承运商名称", sName: "carrier_name", bSortable: false},
+                {sTitle: "设备号", sName: "tycode", bSortable: false},
+                {sTitle: "绑定状态", sName: "is_binding", bSortable: false},
                 {sTitle: "含税总价", sName: "price", bSortable: false},
                 {sTitle: "含税单价", sName: "unit_price", bSortable: false},
                 {sTitle: "报价方式", sName: "price_type",bSortable: false},
@@ -531,7 +538,7 @@ $ips.load('shipment', 'getRole', {orgcode:userinfo.organ.orgcode}, function(data
                                     item.tender_status_view = '竞标中';
                                 }
                             }
-
+                        item.is_binding = item.is_binding==1 ? '绑定':'未绑定';
                         if (item.carnum != undefined && item.carnum != '') {
                             is_dispatched = 1;
                         }
@@ -1411,5 +1418,46 @@ loadScript('js/hui/jquery.hui.exportdata.js', function () {
     $('#export').exportdata({dataModule : 'shipment',dataMethod:'getShipmentsForW',searchForm: '#frmSearch',title:'调度单',partDataRows:3000,partSize:100});
 },true,true);
 
-
+//绑定按钮
+$('#binding').on('click',function(){
+    $('#binding_org').modal();
+})
+$("#tycode").select2({
+    placeholder:'请选择设备号',
+    minimumInputLength: 1,
+    multiple: false,
+    allowClear: true,
+    query: function(query) {
+        $ips.load('shipment', 'getTycode', {term: query.term}, function(e) {
+            var _pre_data = [];
+            //e = JSON.parse(e);
+            $.each(e, function(k, v) {
+                _pre_data.push({id: v, text: v});
+            });
+            var data = {results: _pre_data};
+            query.callback(data);
+        });
+    }
+});
+//绑定确定按钮
+$('#binding_button').on('click',function(){
+    var id = getRowIds();
+    var tycode = $('#tycode').val();
+    if (tycode == ''){
+        $ips.error('设备号为空');
+    }else{
+        $ips.load('shipment', 'binding',{id:id,tycode:tycode}, function(data){
+            if(data.code==0){
+                $ips.succeed('操作成功');
+                $('#shipmentTbl').dataTable().fnDraw();
+                $('#binding_org').modal('hide');
+            }else{
+                console.debug(data);
+                $ips.error (data.message);
+                $('#binding_org').modal('hide');
+                return false;
+            }
+        });
+    }
+})
 

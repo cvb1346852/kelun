@@ -667,12 +667,13 @@ class orderService extends service
         $params = $fixer->get();
         if ($params->phone && $params->order_id) {
             $order = $this->dao->selectList('order.getOrderProduct', ['order_id' => $params->order_id]);
-            $to_phone = $this->dao->selectOne('order.getPhone', array('order_code' => $order[0]->order_code));
-            if ($order && $params->phone == $to_phone->to_phone) {
+            //$to_phone = $this->dao->selectOne('order.getPhone', array('order_code' => $order[0]->order_code));
+            /*if ($order && $params->phone == $to_phone->to_phone) {
                 return  $order;
             } else {
                 return false;
-            }
+            }*/
+            return  $order;
         }
     }
 
@@ -1392,8 +1393,28 @@ class orderService extends service
                 }else {
                     return array('code' => 1, 'msg' => '身份验证错误');
                 }
+                if ($params->begin_time && $params->end_time){
+                    $params->time = 1;
+                }
+                if($params->plat_form_name){
+                    $a = [];
+                    $descs = $this->dao->selectList('order.getAuthOrders', $params);
+                    foreach ($descs as $k=>$val){
+                        $b = json_decode($val->desc);
+                        foreach ($b->order_details as $v){
+                            if ($params->plat_form_name == $v->manufacturer){
+                                $a[] = $val->id;
+                                break;
+                            }
+                        }
+                    }
+                    if ($a != ''){
+                        $params->arr_id = $a;
+                    }
+                }
                 //获取订单详情
-                if ($orders = $this->dao->selectPage('order.getAuthOrders', $params)) {
+                $orders = $this->dao->selectPage('order.getAuthOrders', $params);
+                if ($orders) {
                     foreach($orders->result as $key=>$val){
                         $val->desc=json_decode($val->desc);
                         $str='';
@@ -1403,6 +1424,13 @@ class orderService extends service
                         $orders->result[$key]->detail=$str;
                         $orders->result[$key]->userName=$name->name;
                         $orders->result[$key]->create_time=date('Y/m/d',strtotime($val->create_time));
+
+                        $rs = $this->dao->selectOne('order.getOrderIdByRelateBill',['relateBill'=>$val->order_code]);
+                        if ($rs){
+                            $orders->result[$key]->qipiao = 1;
+                        }else{
+                            $orders->result[$key]->qipiao = 0;
+                        }
                     }
                     return array('code' => 0, 'data' => $orders);
                 } else {
@@ -1520,5 +1548,186 @@ class orderService extends service
         $rt->message=$shipment_id;
         return array('code' => 0, 'data' => $rt);
 
+    }
+
+    /**
+     *根据要货单获取订单列表接口——微信
+     * @param $args
+     * @return array
+     */
+    public function erpOrderList($args){
+        $fixer = fixer::input($args);
+        $params = $fixer->get();
+        $params->role_condition = 'WHERE oe.order_code = #goods_code#';
+        if ($params->goods_code != '' ) {
+            $data = $this->dao->selectPage('order.getOrderList_wechat', $params);
+            /*if($data->result){//getOrderDetail
+                foreach ($data->result as $val){
+                    $rs = $this->dao->selectList('order.getOrderDetail', ['order_code'=>$val->order_code]);
+                    $val->detail = $rs;
+                }
+            }*/
+            return $data;
+        }else{
+            throwException('缺少要货单号',1);
+        }/*elseif($params->exact == '' && $params->openid != ''){//非精确查找
+            if ($params->goods_code != '' ){
+                $data = $this->dao->selectPage('order.getOrderList_wechat', $params);
+                return $data;
+            }elseif($params->plat_form_code != '' || $params->begin_time != ''){
+                $rt = $this->dao->selectOne('user.getUserInfoByOpenid', array('openid' => $params->openid));
+                if ($rt->user_type == 1) {
+                    //销售人员
+                    //判断是否绑定
+                    $user_code = array();
+                    if ($rt->base_user_code != '') {
+                        array_push($user_code, $rt->base_user_code);
+                    }
+                    if ($rt->area_user_code != '') {
+                        array_push($user_code, $rt->area_user_code);
+                    }
+                    if (count($user_code) == 0) {
+                        throwException('未绑定ERP账号，订单不可查询',2);
+                    } else {
+                        $params->user_code = $user_code;
+                    }
+                }else {
+                    throwException('身份验证错误',1);
+                }
+                $params->role_condition = 'WHERE 1';
+
+                $rs = $this->dao->selectPage('order.getOrderList_wechat2', $params);
+                return $rs;
+            }else{
+                throwException('请选择查询条件',1);
+            }
+        }*/
+        /*if ($params->goods_code != '' ){
+            $data = $this->dao->selectPage('order.getOrderList_wechat', $params);
+            return $data;
+        } else {
+            throwException('获取订单列表失败',1);
+        }*/
+    }
+
+    /**
+     * 获取要货单模糊查询列表接口--微信
+     */
+    public function getErpGoodsCodes ($args) {
+        $fixer = fixer::input($args);
+        $params = $fixer->get();
+        $rt = $this->dao->selectOne('user.getUserInfoByOpenid', array('openid' => $params->openid));
+        if ($rt->user_type == 1) {
+            //销售人员
+            //判断是否绑定
+            $user_code = array();
+            if ($rt->base_user_code != '') {
+                array_push($user_code, $rt->base_user_code);
+            }
+            if ($rt->area_user_code != '') {
+                array_push($user_code, $rt->area_user_code);
+            }
+            if (count($user_code) == 0) {
+                throwException('未绑定ERP账号，订单不可查询',2);
+            } else {
+                $params->user_code = $user_code;
+            }
+        }else {
+            throwException('身份验证错误',1);
+        }
+        return $rt = $this->dao->selectList('order.getErpGoodsCodes', $params);
+    }
+
+    /**
+     * 获取要货基地下拉列表接口--微信
+     */
+    public function getFromNames ($args) {
+        $fixer = fixer::input($args);
+        $params = $fixer->get();
+        if (property_exists($params, 'openid') || $params->openid != '') {
+            //检查销售权限
+            $rt = $this->dao->selectOne('user.getUserInfoByOpenid', array('openid' => $params->openid));
+            if ($rt) {
+                //判断身份
+                if ($rt->user_type == 1) {
+                    //销售人员
+                    //判断是否绑定
+                    $user_code = array();
+                    if ($rt->base_user_code != '') {
+                        array_push($user_code, $rt->base_user_code);
+                    }
+                    if ($rt->area_user_code != '') {
+                        array_push($user_code, $rt->area_user_code);
+                    }
+                    if (count($user_code) == 0) {
+                        throwException('未绑定ERP账号，订单不可查询',2);
+                    } else {
+                        $params->user_code = $user_code;
+                    }
+                }else {
+                    throwException('身份验证错误',1);
+                }
+                //获取订单详情
+                $manu = [];
+                $manu2 = [];
+                //获取基地名
+                if ($descs = $this->dao->selectList('order.getErpDesc', $params)) {
+                    foreach($descs as $val){
+                        $val = json_decode($val->desc);
+                        foreach ($val->order_details as $v){
+                            $plat_form_name = $v->manufacturer;
+                            if (!in_array($plat_form_name,$manu2)){
+                                $v = $this->dao->selectOne('order.getPlatFromCode', ['plat_form_name'=>$plat_form_name]);
+                                $manu[] = ['name'=>$plat_form_name,'code'=>$v->plat_form_code];
+                                $manu2[]=$plat_form_name;
+                            }
+                        }
+                    }
+                    return $manu;
+                } else {
+                    throwException('获取订单信息失败',1);
+                }
+            } else {
+                throwException('获取用户信息失败',1);
+            }
+        } else {
+            throwException('获取用户信息失败',1);
+        }
+    }
+
+    /**
+     * 订单跟踪详情接口--微信
+     */
+    public function getOrderTrace($args){
+        $fixer = fixer::input($args);
+        $params = $fixer->get();
+        if (property_exists($params, 'order_code') || $params->order_code != '') {
+            $data = $this->dao->selectOne('order.getOrderTrace',['order_code'=>$params->order_code]);
+            if ($data->shipment_method == '整车运输'){
+                $gps = $this->loadService('shipment')->checkHistoryWx(['shipmentId'=>$data->shipment_id]);
+                if($gps['code'] == 2){
+                    $data->lbs=$this->loadService('shipment')->lbs(['shipmentid'=>$data->shipment_id,'user_type'=>'1']);
+                    if ($data->lbs['code'] == 0)
+                    $data->lbs['message'] = 'LBS位置：'.$data->lbs['message'];
+                    //$ips.locate("history", "show_shipment", "id="+id,true);
+                }elseif($gps['code'] == 0){
+                    if ($gps['ty']){
+                        $data->coord=$gps['ty'];
+                    }elseif($gps['smart']){
+                        $data->coord=$gps['smart'];
+                    }
+                }else{
+                    $data->trackMes = $gps['message'];
+                }
+            }elseif($data->shipment_method == '零担运输'){
+                $report = $this->dao->selectOne('shipment.getShipmentReport_2',array("shipment_id"=>$data->shipment_id));
+                $data->lingdan = ['address'=>'零担当前位置：'.$report->address,'lng'=>$report->lng,'lat'=>$report->lat,'create_time'=>$report->create_time];
+
+            }
+            //var_dump($data);exit;
+            return $data;
+        }else {
+            throwException('获取订单失败',1);
+        }
     }
 }

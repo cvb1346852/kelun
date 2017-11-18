@@ -42,7 +42,7 @@
     </select>
     <!-- 微信端查看订单信息-->
     <select id="getOrderList_wechat" >
-        SELECT o.id, c.carrier_name, s.carnum, s.shipment_method,s.status as traffic_status,
+        SELECT o.id, c.carrier_name, s.carnum, s.shipment_method,s.status as traffic_status, o.quality,
                 s.leavewh_time, o.order_code, o.checkout, o.from_name,o.from_address,o.to_address,
                 o.to_name, o.to_phone, o.apply_checkout_time,s.fromlocation,s.tolocation,c.carrier_name_s
         FROM `order` AS o
@@ -55,6 +55,12 @@
         <iterate prepend=" AND" property="checkoutIn" open=" o.checkout IN (" close=")" conjunction=",">
             #checkoutIn[]#
         </iterate>
+        <isNotEmpty prepend="AND" property="begin_time">
+            unix_timestamp(oe.create_time) between unix_timestamp(#begin_time#) and  unix_timestamp(#end_time#)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="plat_form_code">
+            o.plat_form_code = #plat_form_code#
+        </isNotEmpty>
         <dynamic>
             ORDER BY s.create_time DESC, o.checkout ASC
         </dynamic>
@@ -70,6 +76,12 @@
         <iterate prepend=" AND" property="checkoutIn" open=" o.checkout IN (" close=")" conjunction=",">
             #checkoutIn[]#
         </iterate>
+        <isNotEmpty prepend="AND" property="begin_time">
+            unix_timestamp(oe.create_time) between unix_timestamp(#begin_time#) and  unix_timestamp(#end_time#)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="plat_form_code">
+            o.plat_form_code = #plat_form_code#
+        </isNotEmpty>
         <dynamic>
             ORDER BY s.create_time DESC, o.checkout ASC
         </dynamic>
@@ -83,7 +95,7 @@
    
    <select id="getCarriertoship" >
          SELECT shipment_code FROM `shipment`  WHERE carrier_id = (select id from carrier where  g7s_orgcode= #orgcode#)
-    </select>
+   </select>
 
     <!-- ZHM 2016-7-13 获取订单详细列表 -->
     <select id="getOrderinfoprint">
@@ -831,6 +843,15 @@
         <iterate prepend=" AND" property="user_code" open=" user_code IN (" close=")" conjunction=",">
             #user_code[]#
         </iterate>
+        <iterate prepend=" AND" property="arr_id" open=" id IN (" close=")" conjunction=",">
+            #arr_id[]#
+        </iterate>
+        <isNotEmpty prepend="AND" property="time">
+            unix_timestamp(create_time) between unix_timestamp(#begin_time#) and  unix_timestamp(#end_time#)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="goods_code">
+            order_code = #goods_code#
+        </isNotEmpty>
         <dynamic>
             ORDER BY create_time DESC
         </dynamic>
@@ -841,6 +862,15 @@
         <iterate prepend=" AND" property="user_code" open=" user_code IN (" close=")" conjunction=",">
             #user_code[]#
         </iterate>
+        <iterate prepend=" AND" property="arr_id" open=" id IN (" close=")" conjunction=",">
+            #arr_id[]#
+        </iterate>
+        <isNotEmpty prepend="AND" property="time">
+            unix_timestamp(create_time) between unix_timestamp(#begin_time#) and  unix_timestamp(#end_time#)
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="goods_code">
+            order_code = #goods_code#
+        </isNotEmpty>
     </select>
     <select id="getUserName">
         SELECT `name` FROM warehouse_user WHERE phone=#phone#
@@ -890,5 +920,63 @@
         SELECT * FROM `order` o
         WHERE o.shipment_id=$shipment_id$ AND o.deleted=0
         limit 1
+    </select>
+
+    <!-- ZHM 2017-10-18 获取要货计划基地列表 -->
+    <select id="getFromNames">
+        SELECT DISTINCT o.relateBill
+        FROM `order` AS o
+        $role_condition$
+        <iterate prepend=" AND" property="checkoutIn" open=" o.checkout IN (" close=")" conjunction=",">
+            #checkoutIn[]#
+        </iterate>
+        <isNotEmpty prepend="AND" property="order_code">
+            o.relateBill LIKE '%$order_code$%'
+        </isNotEmpty>
+    </select>
+    <!-- 获取要货单描述信息 -->
+    <select id="getErpDesc" >
+        SELECT `desc` FROM `order_erp`
+        WHERE 1=1
+        <iterate prepend=" AND" property="user_code" open=" user_code IN (" close=")" conjunction=",">
+            #user_code[]#
+        </iterate>
+        <dynamic>
+            ORDER BY create_time DESC
+        </dynamic>
+    </select>
+    <!-- 根据基地名获取基地编码 -->
+    <select id="getPlatFromCode">
+        SELECT plat_form_code FROM `order`
+        WHERE plat_form_name = #plat_form_name#
+    </select>
+    <!-- 要货单号模糊查询 -->
+    <select id="getErpGoodsCodes">
+        SELECT `order_code` FROM `order_erp`
+        WHERE 1
+        <isNotEmpty prepend="AND" property="goods_code">
+            order_code LIKE '%$goods_code$%'
+        </isNotEmpty>
+        <iterate prepend=" AND" property="user_code" open=" user_code IN (" close=")" conjunction=",">
+            #user_code[]#
+        </iterate>
+    </select>
+    <!-- 微信订单跟踪详情 -->
+    <select id="getOrderTrace">
+        SELECT o.id, o.`order_code`, o.from_name, o.to_name,o.quality, o.shipment_method, o.create_time as qipiao, o.fromlocation, o.tolocation, s.dispatch_time, s.carnum, s.driver_name, s.driver_phone, s.arrivewh_time, s.leavewh_time, s.arrival_date, s.create_time as diaoche, oe.create_time as shenpi, o.shipment_id,s.status
+
+        FROM `order` as o
+        LEFT JOIN `shipment` AS s ON o.shipment_id = s.id AND s.deleted=0
+        LEFT JOIN `tender` AS t ON t.shipment_id = s.id
+        LEFT JOIN `order_erp` AS oe ON oe.order_code = o.relateBill
+        WHERE o.order_code = #order_code# AND o.deleted=0
+        <dynamic>
+            ORDER BY o.create_time DESC
+        </dynamic>
+    </select>
+
+    <select id="getOrderIdByRelateBill">
+        SELECT id FROM  `order`
+        WHERE   `relateBill`=#relateBill#
     </select>
 </sqlMap>

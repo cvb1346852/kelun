@@ -12,6 +12,7 @@
         LEFT JOIN `carrier` AS `cc` ON s.carrier_id = cc.id
         LEFT JOIN `truck_source` AS `ts` ON s.driver_phone = ts.driver_phone
         LEFT JOIN (select * from `tender` where valid = 1 order by id desc) AS `t` ON t.shipment_id = s.id
+        <!--LEFT JOIN `tender` AS `t` ON t.shipment_id = s.id and t.valid=1-->
         $role_condition$
         AND s.deleted = 0
         <isNotEmpty prepend="AND" property="carrier_name">
@@ -915,7 +916,7 @@
 
     <!-- 获取废标列表 Ivan-->
     <select id="getAbandTender">
-        SELECT t.id,s.shipment_method,(s.from_province = s.to_province) as business_type,s.from_city,s.formlocation,s.to_city,s.tolocation,s.shipment_code,t.aband_time,t.aband_remark FROM `tender` AS t
+        SELECT t.id,s.shipment_method,(s.from_province = s.to_province) as business_type,s.from_city,s.fromlocation,s.to_city,s.tolocation,s.shipment_code,t.aband_time,t.aband_remark FROM `tender` AS t
         LEFT JOIN `shipment` AS s
         ON s.id=t.shipment_id
         LEFT JOIN `warehouse` AS w

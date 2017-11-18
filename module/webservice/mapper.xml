@@ -37,6 +37,12 @@
     <select id="selectList">
         select `id`,`function`,`params`,`times`,`status`
         from    `webservice_request`
-        where `status` = 0  order by `create_time` asc limit 50
+        where `status` = 0
+        <isNotEmpty property="function" prepend="AND">
+            function != #function#
+        </isNotEmpty>
+        <dynamic>
+            order by `create_time` asc limit 50
+        </dynamic>
     </select>
 </sqlMap>

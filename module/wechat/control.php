@@ -30,7 +30,8 @@ class wechat extends control{
                 $this->wechatService->do_event($postArr);
             }
         } else {//否则就认为是在初次验证URL
-            define("TOKEN", "kelun_industry_group");
+            //define("TOKEN", "kelun_industry_group");
+            define("TOKEN", "it");
             //验证接口
             $fixer = fixer::input('request')->getArray();
             tools::datalog('参数'.var_export($fixer,true),'wechatParam_');

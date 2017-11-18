@@ -13,7 +13,7 @@ class webserviceService extends service{
      * @return bool
      */
     public function tryWebservice(){
-        $list = $this->dao->selectList('webservice.selectList',array());
+        $list = $this->dao->selectList('webservice.selectList',array('function'=>'sendSMS'));
         foreach($list as $key=>$value){
             //短信接口 不进行重试
             if($value->function == 'sendSMS'){

@@ -150,6 +150,18 @@
                                         </label>
                                     </section>
 
+                                    <section class="pull-left no-padding pull-width120">
+                                        <label class="">是否绑定</label>
+                                        <label class="select">
+                                            <select class="input-sm" id="is_binding" name="is_binding">
+                                                <option value="" selected>-全部-</option>
+                                                <option value="1" >是</option>
+                                                <option value="0" >否</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+
                                     <!-- <section class="pull-left no-padding pull-width120">
                                         <label class="">招投标状态</label>
                                         <label class="select">
@@ -207,6 +219,9 @@
                                     <a href="javascript:void(0)" id="lbs-button" class="btn btn-default btn-only-one" data-toggle="modal"  data-button-resource="51935F94D181CC0045FA8AF076652C0B">LBS定位</a>
                                 </div>
                                 <div class="btn-group"><a href="javascript:void(0);" class="btn btn-default "  data-toggle="modal" id="export"  data-button-resource="874A7628333A878053E400D65E942E9A">导出</a></div>
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)" id="binding" class="btn btn-default btn-only-one" data-toggle="modal"  data-button-resource="51935F94D181CC0045FA8AF076652C0B">绑定追货设备</a>
+                                </div>
                             </div>
                         </div>
                         <table id="shipmentTbl" class="table table-striped table-bordered table-hover has-tickbox">
@@ -395,6 +410,44 @@
                                            上报
                                         </button>
                                      </div>
+                                </div><!-- /.modal-content -->
+                            </div>
+                        </div>
+
+                        <!-- 绑定设备 -->
+                        <div class="modal fade" id="binding_org"  role="dialog"
+                             aria-labelledby="reportInfoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                                        <h4 class="modal-title" id="bindingDevice">
+                                            绑定设备
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="smart-form" action="">
+                                            <fieldset class="no-padding">
+                                                <section >
+                                                    <div class="row">
+                                                        <label class="col col-4 text-align-center "><h4 class="txt-color-black">设备号</h4></label>
+                                                        <label class="col-xs-5 input">
+                                                            <input type="text" class="select2" style="width:100%;height:auto!important;"  name="tycode"  value=""  id="tycode">
+                                                        </label>
+                                                    </div>
+                                                </section>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="binding_button">
+                                            绑定
+                                        </button>
+                                    </div>
                                 </div><!-- /.modal-content -->
                             </div>
                         </div>

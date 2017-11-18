@@ -444,7 +444,7 @@ class shipmentService extends service{
 		}
 	}
 	/**
-	 * Desc:进出厂扫码验证
+	 * Desc:进出厂出厂扫码验证
 	 * @param $res
 	 * @Author Lvison
 	 * @return array
@@ -2047,8 +2047,20 @@ class shipmentService extends service{
 			$res['images']='';
 			$res['openid']=$openid?$openid->openid:'';
 			$res['shipment_id']=$item->id;
-			$this->dao->insert('shipment.saveEventReport',$res);
-			$this->dao->update('shipment.updateStatus',array('id'=>$item->id,'update_time'=>date('Y-m-d H:i:s'),'arrival_date'=>$res['arriveTime'],'status'=>8));
+			$arr = array('id'=>$item->id,'update_time'=>date('Y-m-d H:i:s'),'arrival_date'=>$res['arriveTime'],'status'=>8);
+			if ($item->is_binding == 1){//解绑设备
+			    $arr['is_binding'] =0;
+			    $arr['tycode'] = '';
+
+                $rs = $this->loadService('client')->updateOrders($item->shipment_code);
+
+                if ($rs->code != 0){
+                    throw new RuntimeException($rs->message, 2);
+                }
+                $this->dao->update('shipment.updateTycode',$arr);
+            }
+            //$this->dao->insert('shipment.saveEventReport',$res);
+			$this->dao->update('shipment.updateStatus',$arr);
 			$data = array('code'=>$item->shipment_code,'time'=>date('Y-m-d H:i:s'),'type'=>"3");
 			$this->loadService('client')->webServiceRequest('sendShipmentStatus',$data);
 			
@@ -2068,19 +2080,29 @@ class shipmentService extends service{
 		$shipmentId = $res['shipmentId'];
 
 		$checkCar = $this->dao->selectOne('shipment.checkGpsCar',array('id'=>$shipmentId));
-		$g7sCar = $this->loadService('truck.truck')->getTrucks(array('carnum'=>$checkCar->carnum,'fromtype'=>3));
-		$g7sCar = object2array($g7sCar);
-		if($g7sCar['totalCount'] > 0 && $g7sCar['result']){
-			$oneTruck = $g7sCar['result'][0];
-			if($oneTruck['carnum'] == $checkCar->carnum){
-				$checkCar->begintime = !empty($checkCar->leavewh_time) ? $checkCar->leavewh_time : $checkCar->create_time;
-				$checkCar->endtime = !empty($checkCar->arrival_date) ? $checkCar->arrival_date : date('Y-m-d H:i:s');
-				$checkCar->searchid = $oneTruck['truckid'];
-				$checkCar->searchno = $oneTruck['gpsno'];
-				return array('code'=>0,'truck'=>$checkCar);
-			}
-			return array('code'=>2,'message'=>'');
-		}
+        //天眼
+		if ($checkCar->is_binding){
+            $result = $this->loadService('client')->playBackByOrder($checkCar->shipment_code);
+            if ($result['code']==0 && $result['data']){
+                foreach ($result['data'] as &$v){
+                    $v['time'] = strtotime($v['time']);
+                }
+            }
+            return array('code'=>0,'ty'=>$result);
+        }
+        $rs = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>$checkCar->carnum,'fromtype'=>3]);
+        $g7sCar = object2array($rs);
+        if($g7sCar['totalCount'] > 0 && $g7sCar['result']){
+            $oneTruck = $g7sCar['result'][0];
+            if($oneTruck['carnum'] == $checkCar->carnum){
+                $checkCar->begintime = !empty($checkCar->leavewh_time) ? $checkCar->leavewh_time : $checkCar->create_time;
+                $checkCar->endtime = !empty($checkCar->arrival_date) ? $checkCar->arrival_date : date('Y-m-d H:i:s');
+                $checkCar->searchid = $oneTruck['truckid'];
+                $checkCar->searchno = $oneTruck['gpsno'];
+                return array('code'=>0,'truck'=>$checkCar);
+            }
+            return array('code'=>2,'message'=>'');
+        }
 		if(empty($checkCar->type) || $checkCar->type == 1){
 			return array('code'=>2,'message'=>'');
 		}
@@ -2371,6 +2393,123 @@ class shipmentService extends service{
 		}
  		return $result;
  	}
- 	
- 
+
+ 	//绑定天眼
+    public function binding($fixer){
+        $params = fixer::input($fixer)->get();
+        $params->field = 'shipment_code,status,plat_form_code,plat_form_name,is_binding,tycode,fromlocation,tolocation';
+        $params->shipment_id = $params->id;
+        $model = $this->dao->selectOne('shipment.getShipment',$params);
+        if ($model !=''){
+            $data=[];
+            $orders = [];
+            $orders['orderno'] = $model->shipment_code;
+            $orders['secode'] = $params->tycode;
+            if($model->status == 7){
+                return array('code'=>'1','message'=>'此运单已出厂');
+            }
+            if ($model->is_binding == 1){
+                $data['unification'] = 0;
+                $data['orgcode'] = '20015Q';
+                $data['orders']['0'] = $orders;
+                $rs1 = $this->loadService('client')->g7sRequest('order.order.updateOrders',$data);
+            }else{
+                $orders['slocation'] = $model->fromlocation;
+                $orders['rlocation'] = $model->tolocation;
+                $data['repeatway'] = 0;
+                $data['unification'] = 0;
+                $data['orders']['0'] = $orders;
+                $rs1 = $this->loadService('client')->g7sRequest('order.order.createOrders',$data);
+            }
+            if ($rs1['code']==0 && empty($rs1['data']['fail'])){
+                $rs2 = $this->dao->update('shipment.updateShipment',array('id'=>$params->id,'tycode'=>$params->tycode,'is_binding'=>1));
+            }
+            return $rs1;
+        }
+    }
+
+    //查询天眼设备号
+    public function getTycode($fixer){
+        $params = fixer::input($fixer)->get();
+        $method = 'order.device.search';
+        $data=[];
+        $data['gpsno'] = $params->tycode;
+        $data['devtype'] = '1';
+        $data['bind'] = 'false';
+        $res =  $this->loadService('client')->g7sRequest($method,$data);
+        $codes = [];
+        foreach ($res['data']['result'] as $v){
+            $codes[] = $v['deviceno'];
+        }
+        //var_dump($data);exit;
+        return $codes;
+    }
+    //
+    public function test2($res){
+        $data=[];
+        $data['unification'] = 0;
+        $data['orgcode'] = '20015Q';
+        //$data['orgcode'] = G7SINTERFACE_ORGCODR;
+        $orders = [];
+        $orders['orderno'] = 'D301170626012';
+        $orders['isunbind'] = 'true';
+        $data['orders']['0'] = $orders;
+        //$result = $this->dao->update('shipment.updateTycode',['id'=>48933]);
+        //$result = $this->loadService('client')->g7sRequest('order.order.updateOrders',$data);
+        //$result = $this->loadService('client')->g7sRequest('order.order.playBackByOrder',['orderno'=>'D881170920100']);
+        $result = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>'川AU7090','fromtype'=>3]);
+        //$result = $this->loadService('client')->g7sRequest('order.order.playBackByOrder',['orderno'=>'D881170920100']);
+        //$result = $this->loadService('client')->g7sRequest('truck.truck.getTruckTrajectory',['carnum'=>'川A62K5K','starttime'=>date('Y-m-d H:i:s',time()-3600*24*3),'endtime'=>date('Y-m-d H:i:s'),'map'=>'baidu']);
+        //$resultUrl = $url . "?method=" . $method . "&app_key=" . $app_key . "&timestamp=" . $timestamp . "&sign=" . $sign . "&data=" . $data;
+        //$result = $this->dao->selectOne('shipment.getShipmentReport_2',array("shipment_id"=>78535));
+        var_dump($result,$result['data'],$result['data']['result']);
+
+        exit;
+    }
+
+    /**
+     * Desc:运单回放
+     * @param $res
+     * @Author Lvison
+     * @return array
+     */
+    function checkHistoryWx($res){
+        $shipmentId = $res['shipmentId'];
+
+        $checkCar = $this->dao->selectOne('shipment.checkGpsCar',array('id'=>$shipmentId));
+        //天眼
+        if ($checkCar->is_binding){
+            $result = $this->loadService('client')->playBackByOrder($checkCar->shipment_code);
+            if ($result['code']==0 && $result['data']){
+                foreach ($result['data'] as &$v){
+                    $v['time'] = strtotime($v['time']);
+                }
+            }
+            return array('code'=>0,'ty'=>$result);
+        }
+        $rs = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>$checkCar->carnum,'fromtype'=>1]);
+        $rs = object2array($rs['data']);
+        //smart
+        if($rs['totalCount'] > 0 && $rs['result']){
+            $oneTruck = $rs['result'][0];
+            if($oneTruck['carnum'] == $checkCar->carnum){
+                $starttime = !empty($checkCar->leavewh_time) ? $checkCar->leavewh_time : $checkCar->create_time; ;
+                $endtime = !empty($checkCar->arrival_date) ? $checkCar->arrival_date : date('Y-m-d H:i:s');
+                $result = $this->loadService('client')->getTruckTrajectory(['carnum'=>$checkCar->carnum,'starttime'=>$starttime,'endtime'=>$endtime]);
+                if($result['code']==0 && $result['data']['result']){
+                    foreach ($result['data']['result'] as &$v){
+                        $v['time'] = strtotime($v['gpstime']);
+                    }
+                    return array('code'=>0,'smart'=>['code'=>$result['code'],'data'=>$result['data']['result']]);
+                }
+                return array('code'=>0,'smart'=>$result);
+                //$data = $result['data'];
+                //$url = $data['url'] . "?method=" . $method . "&app_key=" . $data['app_key'] . "&timestamp=" . $data['timestamp'] . "&sign=" . $data['sign'] . "&data=" . $data['data'];
+            }
+            return array('code'=>2,'message'=>'');
+        }
+        if(empty($checkCar->type) || $checkCar->type == 1){
+            return array('code'=>2,'message'=>'');
+        }
+    }
 }
