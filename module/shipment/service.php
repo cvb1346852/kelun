@@ -2059,7 +2059,7 @@ class shipmentService extends service{
                 }
                 $this->dao->update('shipment.updateTycode',$arr);
             }
-            //$this->dao->insert('shipment.saveEventReport',$res);
+            $this->dao->insert('shipment.saveEventReport',$res);
 			$this->dao->update('shipment.updateStatus',$arr);
 			$data = array('code'=>$item->shipment_code,'time'=>date('Y-m-d H:i:s'),'type'=>"3");
 			$this->loadService('client')->webServiceRequest('sendShipmentStatus',$data);
@@ -2090,7 +2090,7 @@ class shipmentService extends service{
             }
             return array('code'=>0,'ty'=>$result);
         }
-        $rs = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>$checkCar->carnum,'fromtype'=>3]);
+        $rs = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>$checkCar->carnum,'fromtype'=>1,2,3]);
         //$g7sCar = object2array($rs);
         $g7sCar = $rs['data'];
         if($g7sCar['totalCount'] > 0 && $g7sCar['result']){
@@ -2411,7 +2411,7 @@ class shipmentService extends service{
             }
             if ($model->is_binding == 1){
                 $data['unification'] = 0;
-                $data['orgcode'] = '20015Q';
+                $data['orgcode'] = '200V8V';
                 $data['orders']['0'] = $orders;
                 $rs1 = $this->loadService('client')->g7sRequest('order.order.updateOrders',$data);
             }else{
@@ -2469,7 +2469,7 @@ class shipmentService extends service{
     }
 
     /**
-     * Desc:运单回放
+     * Desc:运单回放 微信
      * @param $res
      * @Author Lvison
      * @return array
@@ -2488,7 +2488,7 @@ class shipmentService extends service{
             }
             return array('code'=>0,'ty'=>$result);
         }
-        $rs = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>$checkCar->carnum,'fromtype'=>1]);
+        $rs = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>$checkCar->carnum,'fromtype'=>1,2,3]);
         $rs = object2array($rs['data']);
         //smart
         if($rs['totalCount'] > 0 && $rs['result']){

@@ -72,8 +72,8 @@
                         if (!traceData.data) {
                             this.$vux.toast.show({
                                 type: 'text',
-                                width: '11em',
-                                text: '生产基地未启票'
+                                width: '16em',
+                                text: '单号有误或生产基地未启票'
                             });
                             return false;
                         }

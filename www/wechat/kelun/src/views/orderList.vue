@@ -26,11 +26,11 @@
             </div>
             <div class="changeui-list-inner-item single">
                 <span class="text-right text-right-item item">出发地</span>
-                <span class="single-right-item item">{{ item.from_address }}</span>
+                <span class="single-right-item item">{{ item.fromlocation }}</span>
             </div>
             <div class="changeui-list-inner-item single">
                 <span class="text-right text-right-item item">目的地</span>
-                <span class="single-right-item item">{{ item.to_address }}</span>
+                <span class="single-right-item item">{{ item.tolocation }}</span>
             </div>
             <div class="changeui-list-inner-item single">
                 <span class="text-right text-right-item item">收货方</span>

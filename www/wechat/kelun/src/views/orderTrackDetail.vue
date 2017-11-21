@@ -163,7 +163,7 @@
 </script>
 <style lang="less" scoped>
     .detail_wrap{
-        height: 120px;
+        max-height: 120px;
         overflow-y: auto;
     }
     .login-form {

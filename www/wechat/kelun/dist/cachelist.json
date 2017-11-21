@@ -23,28 +23,20 @@
             "md5": "8738ad0"
         },
         {
-            "path": "/pathname/static/js/app.0167d833bccbc7694c78.js",
-            "md5": "b091392"
+            "path": "/pathname/static/js/app.462577dcbcbe6962866f.js",
+            "md5": "9ad93eb"
         },
         {
-            "path": "/pathname/static/js/manifest.152991cba9f8245d6a7a.js",
-            "md5": "1221645"
+            "path": "/pathname/static/js/manifest.67a4a6ba2554984d8454.js",
+            "md5": "2ce93a9"
         },
         {
-            "path": "/pathname/static/css/app.45663a1d856bd9f5344de4d6a89d2bc7.css",
-            "md5": "b3fe193"
-        },
-        {
-            "path": "/pathname/static/css/changeui.css",
-            "md5": "59a2d3a"
+            "path": "/pathname/static/css/app.5de36acedd95486111fc2db98c0f1d3e.css",
+            "md5": "4e1b871"
         },
         {
             "path": "/pathname/static/css/iSlider.min.css",
             "md5": "726888b"
-        },
-        {
-            "path": "/pathname/static/css/wechat.css",
-            "md5": "8bcc899"
         },
         {
             "path": "/pathname/static/img/map_ctrl_icon.png",
@@ -55,32 +47,44 @@
             "md5": "fd22ad2"
         },
         {
-            "path": "/pathname/static/img/truck_end.png",
-            "md5": "1d65fb8"
-        },
-        {
             "path": "/pathname/static/img/mark_bubble.png",
             "md5": "b4e820a"
-        },
-        {
-            "path": "/pathname/static/img/truck_start.png",
-            "md5": "dfff811"
         },
         {
             "path": "/pathname/static/img/mark_no.png",
             "md5": "972503f"
         },
         {
+            "path": "/pathname/static/img/truck_end.png",
+            "md5": "1d65fb8"
+        },
+        {
+            "path": "/pathname/static/img/truck_start.png",
+            "md5": "dfff811"
+        },
+        {
             "path": "/pathname/static/img/truck_stop_slected.png",
             "md5": "22ecc24"
+        },
+        {
+            "path": "/pathname/static/css/weui.css",
+            "md5": "2067fa3"
+        },
+        {
+            "path": "/pathname/static/css/changeui.css",
+            "md5": "59a2d3a"
+        },
+        {
+            "path": "/pathname/static/css/wechat.css",
+            "md5": "8bcc899"
         },
         {
             "path": "/pathname/static/js/iSlider.plugin.dot.min.js",
             "md5": "a08a750"
         },
         {
-            "path": "/pathname/static/css/weui.css",
-            "md5": "2067fa3"
+            "path": "/pathname/static/js/zepto.cookie.min.js",
+            "md5": "45c384a"
         },
         {
             "path": "/pathname/static/js/iSlider.min.js",
@@ -89,16 +93,12 @@
         {
             "path": "/pathname/static/js/zepto.min.js",
             "md5": "2f51e9b"
-        },
-        {
-            "path": "/pathname/static/js/zepto.cookie.min.js",
-            "md5": "45c384a"
         }
     ],
     "always": [
         {
             "path": "/pathname/index.html",
-            "md5": "3fa3c53"
+            "md5": "958b0dc"
         }
     ]
 }
