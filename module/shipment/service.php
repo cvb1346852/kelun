@@ -2091,7 +2091,8 @@ class shipmentService extends service{
             return array('code'=>0,'ty'=>$result);
         }
         $rs = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>$checkCar->carnum,'fromtype'=>3]);
-        $g7sCar = object2array($rs);
+        //$g7sCar = object2array($rs);
+        $g7sCar = $rs['data'];
         if($g7sCar['totalCount'] > 0 && $g7sCar['result']){
             $oneTruck = $g7sCar['result'][0];
             if($oneTruck['carnum'] == $checkCar->carnum){

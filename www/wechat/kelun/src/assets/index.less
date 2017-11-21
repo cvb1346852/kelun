@@ -1,0 +1,99 @@
+@import "~vux/src/styles/reset.less";
+@import "~vux/src/styles/1px.less";
+@import "~vux/src/styles/close.less";
+@import "./fn.less";
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    background: @C8;
+    color: @C0;
+}
+
+#app {
+    height: 100%;
+}
+
+.router-view {
+    width: 100%;
+    top: 0;
+}
+
+/* iconfont */
+.icon {
+    line-height: 1;
+}
+
+/* text-c0 到 text-c10 */
+.textColor(@n) when (@n >= 0) {
+    @c: 'C@{n}';
+
+    .text-c@{n} {
+        color: @@c;
+    }
+    .textColor((@n - 1));
+}
+
+.textColor(10);
+
+/* weui */
+.weui-cell {
+    box-sizing: border-box;
+    min-height: 55px;
+    font-size: 16px;
+}
+
+.weui-dialog__hd {
+    padding: 11px 25px 14px;
+    min-height: 0;
+    background: #F6F6F6;
+    border-radius: 5px 5px 0 0;
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: normal;
+    color: @C5;
+}
+
+.weui-dialog__bd {
+    padding: 30px 20px;
+    font-size: 16px;
+    line-height: 22px;
+    color: @C0;
+}
+
+.weui-dialog__btn_default,
+.weui-dialog__btn_primary {
+    font-size: 16px;
+    color: @C1;
+}
+
+.weui-dialog__btn_primary {
+    font-weight: bold;
+}
+
+.weui-search-bar {
+    .weui-search-bar__input {
+        margin-left: 11px;
+    }
+    .weui-search-bar__label {
+        display: none !important;
+    }
+    .weui-search-bar__cancel-btn {
+        padding: 10px;
+        margin: -10px -10px -10px 0;
+    }
+}
+
+/* vux */
+[class^="vux-1px-"]:before,
+[class^="vux-1px-"]:after,
+[class*="vux-1px-"]:before,
+[class*="vux-1px-"]:after {
+    border-color: @C7;
+}
+
+.vux-x-input input::-webkit-input-placeholder {
+    color: @C6;
+}
+

@@ -1,0 +1,313 @@
+body,html{
+    height:100%;
+    -webkit-tap-highlight-color:transparent}
+body{
+    overflow-x:hidden;
+    background-color:#fbf9fe
+}
+.bd{
+    padding:0 15px
+}
+.varify{
+	padding: 0;
+}
+.varify-input {
+	margin: 10px 0px 10px 15px;
+}
+.send-msg{
+	color: #3f51b5;
+}
+.login-button{
+	background-color:#999999;
+	color:white;
+	width:60px;
+	line-height: 44px;
+	text-align: center;
+}
+div.notice {
+	margin-top: 180px;
+    text-align: center;
+}
+
+.container{
+    height:100%;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+	margin-bottom: 60px;
+}
+.container>div{
+    /*background-color:#fbf9fe*/
+}
+/*切换按钮及页面样式重写*/
+.hide{
+	display: none;
+}
+div.tabbar{
+	width: 40%;
+	padding: 25px 30%;
+	background-color:#f0f0f2;
+
+}
+div.tab{
+	padding: 8px 0;
+	background-color: #fafafa;
+}
+div.tab.weui_bar_item_on{
+	color: white;
+	background-color: #7d7d7d;
+}
+div.tabbar+.order-list{
+	padding-top: 90px;
+}
+div.order-list{
+	padding-bottom: 55px !important;
+}
+div.order-tab{
+	border-top: 1px solid #bbbbbb;
+}
+/*订单授权-订单显示样式*/
+.order-item {
+	background-color: white;
+	border-bottom: 1px solid #bbbbbb;
+	overflow: auto;
+	position: relative;
+}
+.truck-source{
+	/*width: 25%;*/
+	float: left;
+	padding:15px 10px 0 0;
+}
+.truck-source h5 {
+	font-size: 14px;
+	margin: 5px 0;
+}
+
+.order-detail{
+	/*width: 85%;*/
+	/*float: left;*/
+	/*margin: 5px 2.5%;*/
+}
+.order-detail p{
+	font-size: 14px;
+}
+/*#phone{
+	width: 150px;
+	margin-right: 10px;
+}*/
+div.radius-input{
+	border: 1px solid #bbbbbb;
+    border-radius: 5px;
+    width: 60%;
+    display: inline-block;
+    font-size: 15px;
+}
+a.auth-button{
+	margin-left: 5px;
+	position: absolute;
+    font-size: 12px;
+}
+.order-authorize {
+	text-decoration: underline;
+}
+.show-order{
+	width:16px;
+    float: right;
+    height: 120px;
+    background: url(../img/imgres.png) no-repeat 100%;
+}
+.show-order-detail{
+    width: 20px;
+    float: right;
+    height: 120px;
+    background: url(../img/imgres.png) center no-repeat;
+    background-size: contain;
+}
+div.null-notice {
+	padding-top: 200px;
+	padding-bottom: 200px;
+	text-align: center;
+}
+@media screen and (max-device-width : 360px) {
+	.order-detail h4 {
+		font-size: 14px;
+	}
+	.truck-source h5 {
+		font-size: 12px;
+	}
+}
+/*我-页面*/
+/*身份信息*/
+div.who-i-am {
+	background-color: white;
+	padding:5px 0;
+	border-bottom: 1px solid #bbbbbb;
+}
+.button_sp_area{
+	text-align: center;
+}
+.character, .character-phone{
+	text-align: center;
+}
+.bind-unbind {
+	padding: 10px;
+	text-align: center;
+
+}
+a.weui_btn.bind-unbind-button {
+	font-size: 16px;
+}
+/*常用功能*/
+.features-panel{
+	border-bottom: 1px solid #bbbbbb;
+}
+.features-title{
+	padding: 10px;
+}
+.features{
+	border-top: 1px solid #bbbbbb;
+}
+.feature{
+	position: relative;
+	padding: 10px 0;
+	text-align: center;
+}
+.feature img {
+	width: 30%;
+}
+.feature p{
+	font-size:14px;
+}
+.feature a{
+	position: absolute;
+	width: 80%;
+	height: 100%;
+	top: 0;
+	left: 10%;
+}
+/*固定页脚*/
+div.weui_tabbar{
+	position: fixed;
+}
+/*绑定erp页面*/
+/* 标题 */
+.bind-title {
+	padding: 15px 10px;
+    border-bottom: 1px solid #bbbbbb;
+    /*border-top: 1px solid #bbbbbb;*/
+}
+.bind-warehouse, .bind-area {
+	border-bottom: 1px solid #bbbbbb;
+}
+.erp-account {
+	padding: 30px 10% 0;
+}
+div.erp-account-input {
+	width: 100%;
+	font-size: 20px;
+}
+.erp-password{
+	padding: 30px 0 30px 10%
+}
+div.erp-password-input{
+	width: 100%;
+	font-size: 20px;
+}
+.erp-submit{
+	padding: 30px 10% 30px 0;
+}
+.line{
+	width: 100%;
+    border-bottom: 1px solid #bbbbbb;
+}
+/*解绑*/
+.erp-unbind{
+	padding: 10% 30px;
+	display: none;
+}
+.binded-erp-account{
+	width: 50%;
+    display: inline-block;
+    text-align: center;
+    font-size: 20px;
+}
+a.bind-button, a.unbind-button{
+	font-size: 18px!important;
+}
+a.unbind-button{
+	position: absolute;
+    right: 25%;
+}
+.table{
+    width: 100%;
+    border-collapse:separate;
+
+}
+.table tr th{font-size: 14px;padding: 2px}
+.table tr td{text-align: center;height: 30px;line-height: 30px;font-size: 14px;padding: 2px;word-wrap: break-word;word-break: break-all;}
+.weui_media_info_text{
+    padding-bottom: 5px;
+    font-size: 16px;
+    color: #000;
+    list-style: none;
+    overflow: hidden;
+}
+
+.checkout-text {
+    width: 35px;
+    border: 1px solid #DDDDDD;
+}
+
+.jq-star-svg {
+    width: 80%;
+    height: 80%;
+}
+.pick-out{
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-top: 20px;
+	background-color: #fff;
+	border: 1px solid #bbb
+}
+.text-title{
+	font-size:16px;
+	text-align: center;
+	color: #666;
+	font-weight: bold;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+.text-right{
+	/*font-size: 14px;*/
+	text-align: right
+}
+.text-left{
+	font-size: 14px;
+	text-align: left;
+}
+.row-pa{
+	padding: 10px 15px;
+}
+.push-25{
+	margin-left: 25%
+}
+/*new-add*/
+.myTruck-header{position: absolute;z-index: 1;top: 0;width: 100%;background-color: #fafafa;}
+.myTruck-header + div.order-list{padding-top: 98px;}
+.body{padding-bottom: 55px;box-sizing: border-box;height: 100%;padding-bottom: 55px;overflow: auto;-webkit-overflow-scrolling: touch;}
+#consigneeList{padding-top: 20px;}
+.input-box{width: 70px;display: -webkit-box;display: -webkit-flex;display: flex;align-items: center;justify-content: center;-webkit-flex-shrink: 0;flex-shrink: 0;}
+.inpu-infor{width: 100%;padding-right: 15px;-webkit-flex-shrink:1;flex-shrink:1;}
+.inpu-infor p{padding-bottom: 10px;padding-top: 10px;font-size: 16px;}
+.but-center{padding-top: 30px}
+.but-center .button_sp_area{text-align: center;}
+#submit{text-align: center;}
+#submit .submit-but{line-height: 1.9;padding: 8px 40px;font-size: 14px;display: inline-block;}
+.weui_btn_default{background-color: #fff;}
+#driver .weui-row {font-size: 14px;}
+.order-tab .order-item{padding-left: 10px;padding-right: 10px;padding-top: 15px;padding-bottom: 15px;}
+.order-tab .order-item + p{padding-top: 10px;padding-bottom: 10px;}
+.order-item .order-discrib{padding-top: 5px;}
+.order-item .order-discrib-left{width: 45%;text-align:right;font-weight: 700;padding-top: 5px;padding-bottom: 5px}
+.order-item .order-discrib-right{width: 55%;text-align: left;padding-top: 5px;padding-bottom: 5px}
+.order-item .authorize-edit{width: 100%;}
+

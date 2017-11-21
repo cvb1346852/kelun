@@ -13,25 +13,62 @@
     <script src="../jquery_weui/lib/zepto.js"></script>
     <!-- <script src="js/wechat.js"></script> -->
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <link rel="stylesheet" href="css/calendar.min.css">
+    <script src="js/calendar.min.js"></script>
+    <style>
+        #searchBar {
+            margin-bottom: 50px;
+        }
+    </style>
 </head>
 
 <body ontouchstart>
 <div class="container">
 
     <div class="have-the-goods-container">
-        <div class="weui-search-bar" id="searchBar">
-            <form class="weui-search-bar__form">
-                <div class="weui-search-bar__box">
-                    <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
-                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+        <!--<div class="weui-search-bar" id="searchBar">-->
+            <!--<form class="weui-search-bar__form">-->
+                <!--<div class="weui-search-bar__box">-->
+                    <!--<i class="weui-icon-search"></i>-->
+                    <!--<input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">-->
+                    <!--<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>-->
+                <!--</div>-->
+                <!--<input type="text" class="calendars" />-->
+                <!--<label class="weui-search-bar__label" id="searchText">-->
+                    <!--<i class="weui-icon-search"></i>-->
+                    <!--<span>搜索要货单号</span>-->
+                <!--</label>-->
+            <!--</form>-->
+            <!--<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>-->
+        <!--</div>-->
+        <div class="yaohuo">
+            <div class="form-box clearfix">
+                <!--<img class="fl-l  startEnd-icon" src="img/startEnd.png">-->
+                <div class="select-input-box">
+                    <div class="select-input">
+                    <span class="changeui-input has-select weui-cell_access none-border mid-sel">
+                        <select class="weui-select" name="start-select">
+                            <option value="0">请选择</option>
+                            <option value="1">中国</option>
+                            <option value="2">美国</option>
+                            <option value="3">英国</option>
+                        </select>
+                        <span class="weui-cell__ft"></span>
+                    </span>
+                        <input type="text" class="changeui-input none-border mid-input" value="" name="start-input" placeholder="1输入位置">
+                        <span>-</span>
+                        <input type="text" class="changeui-input none-border mid-input" value="" name="start-input" placeholder="2输入位置">
+                    </div>
+
                 </div>
-                <label class="weui-search-bar__label" id="searchText">
-                    <i class="weui-icon-search"></i>
-                    <span>搜索要货单号</span>
-                </label>
-            </form>
-            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+
+                <div class="form-input-item">
+                    <label>
+                        <input type="text" class="changeui-input" value="9.6">
+                        <a href="javascript:;" class="weui-btn vl-m weui-btn_primary changeui-weui-btn_primary" style="width:24%; margin-left: 6px; display:inline-block;">查询</a>
+                    </label>
+                </div>
+            </div>
         </div>
 
         <div class="changeui-weui-panel bid-car-detail-container">

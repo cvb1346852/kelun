@@ -1707,8 +1707,7 @@ class orderService extends service
                 $gps = $this->loadService('shipment')->checkHistoryWx(['shipmentId'=>$data->shipment_id]);
                 if($gps['code'] == 2){
                     $data->lbs=$this->loadService('shipment')->lbs(['shipmentid'=>$data->shipment_id,'user_type'=>'1']);
-                    if ($data->lbs['code'] == 0)
-                    $data->lbs['message'] = 'LBS位置：'.$data->lbs['message'];
+                    $data->lbs['message'] = 'LBS：'.$data->lbs['message'];
                     //$ips.locate("history", "show_shipment", "id="+id,true);
                 }elseif($gps['code'] == 0){
                     if ($gps['ty']){
@@ -1720,14 +1719,38 @@ class orderService extends service
                     $data->trackMes = $gps['message'];
                 }
             }elseif($data->shipment_method == '零担运输'){
-                $report = $this->dao->selectOne('shipment.getShipmentReport_2',array("shipment_id"=>$data->shipment_id));
-                $data->lingdan = ['address'=>'零担当前位置：'.$report->address,'lng'=>$report->lng,'lat'=>$report->lat,'create_time'=>$report->create_time];
-
+                $report = $this->dao->selectList('shipment.getShipmentReport_2',array("shipment_id"=>$data->shipment_id));
+                $data->lingdan = $report;
             }
-            //var_dump($data);exit;
             return $data;
         }else {
             throwException('获取订单失败',1);
         }
+    }
+
+    public function dingwei(){
+        $fixer = fixer::input($args);
+        $params = $fixer->get();
+        $data = array2object([]);
+        if ($data->shipment_method == '整车运输'){
+            $gps = $this->loadService('shipment')->checkHistoryWx(['shipmentId'=>$params->shipment_id]);
+            if($gps['code'] == 2){
+                $data->lbs=$this->loadService('shipment')->lbs(['shipmentid'=>$params->shipment_id,'user_type'=>'1']);
+                $data->lbs['message'] = 'LBS：'.$data->lbs['message'];
+                //$ips.locate("history", "show_shipment", "id="+id,true);
+            }elseif($gps['code'] == 0){
+                if ($gps['ty']){
+                    $data->coord=$gps['ty'];
+                }elseif($gps['smart']){
+                    $data->coord=$gps['smart'];
+                }
+            }else{
+                $data->trackMes = $gps['message'];
+            }
+        }elseif($data->shipment_method == '零担运输'){
+            $report = $this->dao->selectList('shipment.getShipmentReport_2',array("shipment_id"=>$params->shipment_id));
+            $data->lingdan = $report;
+        }
+        return $data;
     }
 }

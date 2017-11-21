@@ -1,0 +1,44 @@
+{
+    "hostRegular": "/^test\\.truckmanager\\.g7s\\.chinawayltd\\.com$/",
+    "folderName": "folderName",
+    "cacheList": [
+        {
+            "path": "/pathname/static/img/vux_logo.79cbb96.png",
+            "md5": "79cbb96"
+        },
+        {
+            "path": "/pathname/static/js/0.9d7c0bb93748c50137a3.js",
+            "md5": "c3867c7"
+        },
+        {
+            "path": "/pathname/static/js/1.5f51ea7b9bea831a016c.js",
+            "md5": "8c5c4df"
+        },
+        {
+            "path": "/pathname/static/js/2.66924db5a399d6d1904f.js",
+            "md5": "2aec017"
+        },
+        {
+            "path": "/pathname/static/js/vendor.7366c8a1a03216ca811d.js",
+            "md5": "6c087a9"
+        },
+        {
+            "path": "/pathname/static/js/app.7eb026a6d2a729df62cc.js",
+            "md5": "7130c35"
+        },
+        {
+            "path": "/pathname/static/js/manifest.c6f9058f9cc4af2dcc52.js",
+            "md5": "91a5cdd"
+        },
+        {
+            "path": "/pathname/static/css/app.40e8427a5e43d151c31323469b699c24.css",
+            "md5": "41df19d"
+        }
+    ],
+    "always": [
+        {
+            "path": "/pathname/index.html",
+            "md5": "00655df"
+        }
+    ]
+}

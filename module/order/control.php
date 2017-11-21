@@ -312,4 +312,29 @@ class order extends control
         $this->view->result = $data;
         $this->display();
     }
+
+    /**
+     * 获取订单货物明细
+     * Author ZHM
+     * 2017-10-19
+     */
+    public function getDetail(){
+        $params = fixer::input('request')->get();
+        $data = $this->orderService->detail($params);
+        $this->view->result = $data;
+        $this->display();
+    }
+
+
+    /**
+     * 获取订单定位数据
+     * Author ZHM
+     * 2017-10-19
+     */
+    public function dingwei(){
+        $params = fixer::input('request')->get();
+        $data = $this->orderService->dingwei($params);
+        $this->view->result = $data;
+        $this->display();
+    }
 }

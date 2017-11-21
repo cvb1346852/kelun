@@ -29,7 +29,7 @@ $.getUserInfo('shipment',0,function(){
 			menu += '</a>';
 			menu += '</li>';
 			menu += '<li class="item">';
-			menu += '<a href="./authOrderList.html?openid='+openid+'">';
+			menu += '<a href="../wechat/kelun/dist/#/getGoods?openid='+openid+'">';
 			menu += '<img src="./img/my-acc-icos/shortcut_yaohuojihua@2x.png" class="ci-main-ico" />';
 			menu += '<span class="font">要货计划</span>';
 			menu += '</a>';

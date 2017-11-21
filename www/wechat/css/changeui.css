@@ -225,6 +225,13 @@ body {
     margin-bottom: 4px;
 }
 
+.order-track-link {
+    font-size: 14px;
+    color: #125DC7;
+    float: right;
+    margin-right: 10px;
+}
+
 /*没有边界的块块*/
 .no-pad-weui-panel {
     margin: 10px 0 0;
@@ -787,6 +794,19 @@ vertical-align: middle;}
 .bid-car-detail-container .single .text-right-item {
     width: 28%;
     display: inline-block;
+   /* margin-right: 10px;*/
+}
+.orderlist .single .text-right-item {
+    width: 18%;
+    display: inline-block;
+}
+.order-track-detail {
+    margin: 0;
+    border-radius: 0;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.06);
+}
+.times-wrap {
+    margin: 0 8px 8px 10px;
 }
 .bid-car-detail-container .single .text-right-item-3 {
     width: 32%;
@@ -795,6 +815,14 @@ vertical-align: middle;}
 }
 .single-right-item {
     width: 70%;
+}
+.single-right-item-3 {
+    width: 26%;
+    max-width: 26%;
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .single-right-item-4 {
     width: 60%;
@@ -1178,6 +1206,54 @@ border-radius: 50%; border: 4px solid #125dc7; text-align: center; line-height: 
     padding: 0 21px 0 64px;
 }
 
+/* 要货 */
+.yaohuo .form-box {
+    background: #fff;
+    padding: 13px 20px 15px 20px;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.06);
+}
+.yaohuo .form-box:before {
+    display: none;
+}
+.yaohuo .select-input-box {
+    width: 100%;
+    /*height: 103px;*/
+    position: relative;
+    /*border: 1px solid #96A1A7;*/
+    /*border-radius: 5px;*/
+}
+.yaohuo .select-input-box .select-input {
+    width: 100%;
+    height: 44px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    border: 1px solid #96A1A7;
+    border-radius: 5px;
+}
+.yaohuo .select-input .mid-sel {
+    width: 34%;
+    padding-left: 17px;
+    border-right: 1px solid #DEDEDE !important;
+    border-radius: 0 !important;
+    height: 36px;
+    margin-top: 2px;
+}
+.yaohuo .select-input .mid-input {
+    width: 25%;
+}
+.yaohuo .select-input .none-border {
+    border:0;
+    background:transparent;
+}
+.yaohuo .changeui-input {
+    width: 74%;
+}
+.yaohuo .form-input-item {
+    margin-bottom: 0;
+}
+
 /* 另外一个运单页面 */
 .my-bid-new-list{padding-top: 42px; padding-bottom: 20px; overflow: auto; height: 100%;
 box-sizing: border-box;}
@@ -1289,6 +1365,7 @@ border-radius: 5px; color: #E95471;}
 }
 .times .title.act {
     padding-left: 5px;
+    color: #125DC7;
 }
 .times ul li p {
     padding-left:26px;
