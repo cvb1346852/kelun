@@ -83,7 +83,9 @@
                         <b :class="{act:detail.status === '7'}"></b>
                         <div class="zaitu" >
                             <span class="title" :class="{act:detail.status === '7'}">在途</span>
-                            <a @click="gotoMap(detail.id)" v-if="detail.status === '7'||detail.status === '8'">车辆追踪</a>
+                            <x-button mini :disabled="showLoading"
+                                     @click.native="gotoMap(detail)"
+                                     v-if="detail.status === '7'||detail.status === '8'">车辆追踪</x-button>
                         </div>
                         <!--<p><span class="time">{{ detail.quality }}</span></p>-->
                         <i ></i>
@@ -125,6 +127,7 @@
                 username: '',
                 keyword: '',
                 contents: [],
+                showLoading: false,
                 show: false,
             };
         },
@@ -142,21 +145,27 @@
             async getTrackData(code) {
                 const d = await consign.getOrderTrace({ order_code: code });
                 this.detail = d.data;
-                store.commit('UPDATE_TRACK_DATA', d.data || {});
-                localStorage.setItem('mapData', JSON.stringify(d.data))
             },
             async doLogin() {
                 await login();
                 this.$router.replace({ path: this.$route.query.redirect });
             },
-            gotoMap(id) {
-
+            async gotoMap(detail) {
+                this.showLoading = true;
+                const d = await consign.getDingWei({shipment_id:detail.shipment_id,shipment_method:detail.shipment_method});
+                store.commit('UPDATE_TRACK_DATA', d.data || {});
+                localStorage.setItem('mapData', JSON.stringify(d.data));
+                this.showLoading = false;
                 this.$router.push({
                     name: 'map',
                     params: {
-                        orderid: id,
+                        orderid: detail.id,
                     },
-                });
+                    query: {
+                        time1: detail.time1,
+                        time2: detail.time2,
+                    },
+                }, 600);
             },
         },
     };
@@ -182,15 +191,15 @@
     .zaitu{
         display: flex;
         justify-content: space-between;
-        a{
+        .weui-btn_mini{
             text-align: center;
             height: 25px;
             line-height: 25px;
-            width: 72px;
             border-radius: 4px;
             margin-right: 10px;
             background: #005ec2;
             color: #fff;
+            font-size: 12px;
         }
     }
 </style>

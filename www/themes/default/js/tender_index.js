@@ -285,6 +285,7 @@ $ips.load('shipment', 'getRole', {orgcode:userinfo.organ.orgcode}, function(data
                 {sTitle: "招投标状态", sName: "tender_status_view" , bSortable: false},
 
                 {sTitle: "一口价", sName: "price" , bSortable: false},
+                {sTitle: "价格备注", sName: "mp_remark" , bSortable: false,sClass:'dealrs'},
                 {sTitle: "中标承运商", sName: "carrier_name" , bSortable: false},
                 {sTitle: "车牌号", sName: "carnum" , bSortable: false},
                 {sTitle: "司机姓名", sName: "driver_name" , bSortable: false},
@@ -332,6 +333,19 @@ $ips.load('shipment', 'getRole', {orgcode:userinfo.organ.orgcode}, function(data
                                 item.tender_limit = '<label style="white-space: normal;color:red;">'+item.tender_limit+'</label>';
                             }
 
+                            if (item.mp_remark){
+                                if(item.mp_remark.length>5 && GetStrWidth(item.mp_remark)>100){
+                                    var str='';
+                                    for(i=0;i<item.mp_remark.length;i++) {
+                                        str += item.mp_remark.charAt(i);
+                                        if (i>5 && GetStrWidth(str)>100){
+                                            str +='...'
+                                            break;
+                                        }
+                                    }
+                                    item.mp_remark = "<span class='mp_remark' title='"+item.mp_remark+"' id='"+item.id+"'>"+str+"</span>";
+                                }
+                            }
                         });
                     }
                 });
@@ -345,6 +359,15 @@ $ips.load('shipment', 'getRole', {orgcode:userinfo.organ.orgcode}, function(data
                         checkboxes.prop("checked", false);
                         $this.prop("checked", true);
                     }*/
+                });
+                loadScript('/js/poshytip/jquery.poshytip.min.js',function() {
+                    $('.mp_remark').poshytip({
+                        className: 'tip-white',
+                        //alignTo: 'cursor',
+                        //alignX: 'center',
+                        //alignY: 'top',
+                        fade: true
+                    })
                 });
             },
         });
@@ -1461,4 +1484,13 @@ loadScript('js/hui/jquery.hui.exportdata.js', function () {
     });
     $('#export').exportdata({dataModule : 'tender',dataMethod:'getShipmentsForM',searchParams: exportSearchParams,title:'派车管理',partDataRows:3000,partSize:100});
 },true,true);
+
+//获取字符串宽度
+function GetStrWidth(text){
+    var currentObj = $('<span>').hide().appendTo(document.body);
+    $(currentObj).html(text);
+    var width = currentObj.width();
+    currentObj.remove();
+    return width;
+}
 

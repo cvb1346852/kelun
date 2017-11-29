@@ -207,9 +207,10 @@ class order extends control
     }
 
     public function test(){
-        $param = array('code'=>'123','desc'=>'this is a test','type'=>'NC_5','user_code'=>'user_code12','status'=>'已审批');
-        $return = $this->loadService('client')->init_post('http://dev.industry.project.g7s.chinawayltd.com/rest/service.php?method=industry.order.syncOrderErp',$param);
-        $this->view->result = $return;
+        /*$param = array('code'=>'123','desc'=>'this is a test','type'=>'NC_5','user_code'=>'user_code12','status'=>'已审批');*/
+        /*$return = $this->loadService('client')->init_post('http://dev.industry.project.g7s.chinawayltd.com/rest/service.php?method=industry.order.syncOrderErp',$param);*/
+        $data = $this->orderService->test($_POST);
+        $this->view->result = $data;
         $this->display();
     }
 
@@ -331,9 +332,9 @@ class order extends control
      * Author ZHM
      * 2017-10-19
      */
-    public function dingwei(){
+    public function getDingWei(){
         $params = fixer::input('request')->get();
-        $data = $this->orderService->dingwei($params);
+        $data = $this->orderService->getDingWei($params);
         $this->view->result = $data;
         $this->display();
     }

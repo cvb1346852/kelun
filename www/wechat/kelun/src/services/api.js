@@ -102,7 +102,7 @@ export const consign = {
     getDetail(data, interactionConfig = {showLoading: false}) {
         return Vue.http.post('wechat.php', data, {params: {method: 'consign.order.getDetail'}});
     },
-    dingwei(data, interactionConfig = {showLoading: false}) {
-        return Vue.http.post('wechat.php', data, {params: {method: 'consign.order.dingwei'}});
+    getDingWei(data, interactionConfig = {showLoading: false}) {
+        return Vue.http.post('wechat.php', data, {params: {method: 'consign.order.getDingWei'}});
     },
 };

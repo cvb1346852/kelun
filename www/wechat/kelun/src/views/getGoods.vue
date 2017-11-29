@@ -253,7 +253,7 @@
                 } else {
                     this.$vux.toast.show({
                         type: 'text',
-                        width: '16em',
+                        width: '18em',
                         text: '计划未审批或输入要货单号有误',
                     });
                 }
@@ -291,7 +291,7 @@
                     this.$vux.toast.show({
                         type: 'text',
                         width: '16em',
-                        text: '计划未审批',
+                        text: '单号有误或计划未审批',
                     });
                 }
                 // 表明分页取数据完毕

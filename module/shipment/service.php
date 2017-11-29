@@ -2059,7 +2059,7 @@ class shipmentService extends service{
                 }
                 $this->dao->update('shipment.updateTycode',$arr);
             }
-            $this->dao->insert('shipment.saveEventReport',$res);
+            //$this->dao->insert('shipment.saveEventReport',$res);
 			$this->dao->update('shipment.updateStatus',$arr);
 			$data = array('code'=>$item->shipment_code,'time'=>date('Y-m-d H:i:s'),'type'=>"3");
 			$this->loadService('client')->webServiceRequest('sendShipmentStatus',$data);
@@ -2406,12 +2406,12 @@ class shipmentService extends service{
             $orders = [];
             $orders['orderno'] = $model->shipment_code;
             $orders['secode'] = $params->tycode;
-            if($model->status == 7){
-                return array('code'=>'1','message'=>'此运单已出厂');
+            if($model->status > 6){
+                return array('code'=>'1','message'=>'此运单已不可绑定');
             }
             if ($model->is_binding == 1){
                 $data['unification'] = 0;
-                $data['orgcode'] = '200V8V';
+                $data['orgcode'] = '20015Q';
                 $data['orders']['0'] = $orders;
                 $rs1 = $this->loadService('client')->g7sRequest('order.order.updateOrders',$data);
             }else{
@@ -2458,24 +2458,26 @@ class shipmentService extends service{
         //$result = $this->dao->update('shipment.updateTycode',['id'=>48933]);
         //$result = $this->loadService('client')->g7sRequest('order.order.updateOrders',$data);
         //$result = $this->loadService('client')->g7sRequest('order.order.playBackByOrder',['orderno'=>'D881170920100']);
-        $result = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>'川AU7090','fromtype'=>3]);
+        //$result = $this->loadService('client')->g7sRequest('truck.truck.getTrucks',['carnum'=>'川AE0113','fromtype'=>1,2,3]);
         //$result = $this->loadService('client')->g7sRequest('order.order.playBackByOrder',['orderno'=>'D881170920100']);
-        //$result = $this->loadService('client')->g7sRequest('truck.truck.getTruckTrajectory',['carnum'=>'川A62K5K','starttime'=>date('Y-m-d H:i:s',time()-3600*24*3),'endtime'=>date('Y-m-d H:i:s'),'map'=>'baidu']);
+        //$result = $this->loadService('client')->g7sRequest('truck.truck.getTruckTrajectory',['carnum'=>'川AT5279','starttime'=>date('Y-m-d H:i:s',time()-3600*24*3),'endtime'=>date('Y-m-d H:i:s'),'map'=>'baidu']);
+        $result = $this->loadService('client')->g7sRequest('truck.truck.getTruckTrajectory',['carnum'=>'川AE0113','starttime'=>'2017-11-20 20:45:00','endtime'=>date('Y-m-d H:i:s'),'map'=>'baidu']);
         //$resultUrl = $url . "?method=" . $method . "&app_key=" . $app_key . "&timestamp=" . $timestamp . "&sign=" . $sign . "&data=" . $data;
         //$result = $this->dao->selectOne('shipment.getShipmentReport_2',array("shipment_id"=>78535));
-        var_dump($result,$result['data'],$result['data']['result']);
+        var_dump($result,$result['data'],$result['data']['result']);EXIT;
 
         exit;
     }
 
     /**
-     * Desc:运单回放 微信
+     * Desc:运单回放
      * @param $res
      * @Author Lvison
      * @return array
      */
-    function checkHistoryWx($res){
-        $shipmentId = $res['shipmentId'];
+    function checkHistoryWx($fixer){
+        $params = fixer::input($fixer)->get();
+        $shipmentId = $params->shipmentId;
 
         $checkCar = $this->dao->selectOne('shipment.checkGpsCar',array('id'=>$shipmentId));
         //天眼
@@ -2496,12 +2498,19 @@ class shipmentService extends service{
             if($oneTruck['carnum'] == $checkCar->carnum){
                 $starttime = !empty($checkCar->leavewh_time) ? $checkCar->leavewh_time : $checkCar->create_time; ;
                 $endtime = !empty($checkCar->arrival_date) ? $checkCar->arrival_date : date('Y-m-d H:i:s');
-                $result = $this->loadService('client')->getTruckTrajectory(['carnum'=>$checkCar->carnum,'starttime'=>$starttime,'endtime'=>$endtime]);
+                $pageNo = 0;
+                $rs = [];
+                do{
+                    $pageNo++;
+                    $result = $this->loadService('client')->getTruckTrajectory(['carnum'=>$checkCar->carnum,'starttime'=>$starttime,'endtime'=>$endtime,'pageNo'=>$pageNo]);
+                    $rs = array_merge($rs,$result['data']['result']);
+                }while($result['data']['pageNo'] * $result['data']['pageSize'] < $result['data']['totalCount']);
+                $result['data']['result'] = $rs;
                 if($result['code']==0 && $result['data']['result']){
                     foreach ($result['data']['result'] as &$v){
                         $v['time'] = strtotime($v['gpstime']);
                     }
-                    return array('code'=>0,'smart'=>['code'=>$result['code'],'data'=>$result['data']['result']]);
+                    return array('code'=>0,'smart'=>['code'=>$result['code'],'data'=>$result['data']['result'],'totalCount'=>$result['data']['totalCount']]);
                 }
                 return array('code'=>0,'smart'=>$result);
                 //$data = $result['data'];

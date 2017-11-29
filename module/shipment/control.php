@@ -592,7 +592,7 @@ class shipment extends control{
 
     public function test2(){
         $fix = fixer::input('request')->getArray();
-        $data = $this->loadService('shipment')->test2($fix);
+        $data = $this->loadService('shipment')->checkHistoryWx($fix); var_dump($data['smart']['data'][999]);exit;
         $this->view->result = $data;
         $this->display();
     }

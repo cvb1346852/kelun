@@ -427,7 +427,9 @@ class orderService extends service
                     $lngLatAddress = $this->loadService('api')->getAddressByLngLat($getAddress);
                     $params["checkout_address"] = $lngLatAddress['address'];
                 }
-
+                if ($params['openid']){
+                    $phone = $this->dao->selectOne('order.getPhoneByOpenid',['openid'=>$params['openid']]);
+                }
                 $orderCheckout = new stdClass();
                 $orderCheckout->order_id = $order->id;
                 $orderCheckout->order_code = $order->order_code;
@@ -438,7 +440,7 @@ class orderService extends service
                 $orderCheckout->lng = $params['checkout_lng'];
                 $orderCheckout->lat = $params['checkout_lat'];
                 $orderCheckout->address = $params['checkout_address'];
-                $orderCheckout->user_phone = $order->to_phone;
+                $orderCheckout->user_phone = $phone ? $phone->phone : $order->to_phone;
                 $orderCheckout->create_time =  date('Y-m-d H:i:s', time());
                 $orderCheckout->remark =  $params['remark'];
 
@@ -542,7 +544,7 @@ class orderService extends service
                 }
 
                 // 签收地和送达地相差一公里发送异常通知
-                $toLngLat = array();
+                /*$toLngLat = array();
                 if(!empty($order->to_lnglat) || !empty($order->to_address)){
                      //有to_address
                     $toLngLatArr = explode(',',$order->to_lnglat);
@@ -589,7 +591,7 @@ class orderService extends service
                             }
                         }
                     }
-                }
+                }*/
             }
         } else {
             $return = ['code' => 2, 'msg' => '没有找到待签收订单!'];
@@ -1044,7 +1046,7 @@ class orderService extends service
             $order_detail = $params->order_detail;
             //保存订单表
             unset($params->order_detail);
-            $params->create_time = $time;
+            $params->create_time = $params->order_date == '无' ? $time : $params->order_date;
             $params->update_time = $time;
             $params->guid = $this->guid8();
             $params->shipment_type = $params->shipment_type ? $params->shipment_type :'';
@@ -1398,7 +1400,10 @@ class orderService extends service
                 }
                 if($params->plat_form_name){
                     $a = [];
-                    $descs = $this->dao->selectList('order.getAuthOrders', $params);
+                    if ($params->time == 1){
+                        $params_2 = ['time'=>1,'begin_time'=>$params->begin_time,'end_time'=>$params->end_time,'user_code'=>$params->user_code];
+                    }
+                    $descs = $this->dao->selectList('order.getAuthOrders', $params_2);
                     foreach ($descs as $k=>$val){
                         $b = json_decode($val->desc);
                         foreach ($b->order_details as $v){
@@ -1703,7 +1708,7 @@ class orderService extends service
         $params = $fixer->get();
         if (property_exists($params, 'order_code') || $params->order_code != '') {
             $data = $this->dao->selectOne('order.getOrderTrace',['order_code'=>$params->order_code]);
-            if ($data->shipment_method == '整车运输'){
+            /*if ($data->shipment_method == '整车运输'){
                 $gps = $this->loadService('shipment')->checkHistoryWx(['shipmentId'=>$data->shipment_id]);
                 if($gps['code'] == 2){
                     $data->lbs=$this->loadService('shipment')->lbs(['shipmentid'=>$data->shipment_id,'user_type'=>'1']);
@@ -1721,18 +1726,18 @@ class orderService extends service
             }elseif($data->shipment_method == '零担运输'){
                 $report = $this->dao->selectList('shipment.getShipmentReport_2',array("shipment_id"=>$data->shipment_id));
                 $data->lingdan = $report;
-            }
+            }*/
             return $data;
         }else {
             throwException('获取订单失败',1);
         }
     }
 
-    public function dingwei(){
+    public function getDingWei($args){
         $fixer = fixer::input($args);
         $params = $fixer->get();
         $data = array2object([]);
-        if ($data->shipment_method == '整车运输'){
+        if ($params->shipment_method == '整车运输'){
             $gps = $this->loadService('shipment')->checkHistoryWx(['shipmentId'=>$params->shipment_id]);
             if($gps['code'] == 2){
                 $data->lbs=$this->loadService('shipment')->lbs(['shipmentid'=>$params->shipment_id,'user_type'=>'1']);
@@ -1752,5 +1757,10 @@ class orderService extends service
             $data->lingdan = $report;
         }
         return $data;
+    }
+
+    public function test(){
+        $a=$this->dao->selectOne('order.getPhoneByOpenid',['openid'=>'oEB5ixC11-uot9Gzh1N4OPTzevaE']);
+        var_dump($a);exit;
     }
 }

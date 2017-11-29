@@ -43,7 +43,7 @@
     <!-- 微信端查看订单信息-->
     <select id="getOrderList_wechat" >
         SELECT o.id, c.carrier_name, s.carnum, s.shipment_method,s.status as traffic_status, o.quality,
-                s.leavewh_time, o.order_code, o.checkout, o.from_name,o.from_address,o.to_address,
+                s.leavewh_time, o.order_code, o.checkout, o.from_name,o.fromlocation,o.tolocation,o.from_address,o.to_address,
                 o.to_name, o.to_phone, o.apply_checkout_time,s.fromlocation,s.tolocation,c.carrier_name_s
         FROM `order` AS o
         LEFT JOIN `shipment` AS s ON o.shipment_id = s.id
@@ -978,5 +978,9 @@
     <select id="getOrderIdByRelateBill">
         SELECT id FROM  `order`
         WHERE   `relateBill`=#relateBill#
+    </select>
+
+    <select id="getPhoneByOpenid" >
+        SELECT `phone` FROM `wechat_connect`  WHERE `openid` = #openid#
     </select>
 </sqlMap>

@@ -394,9 +394,9 @@ class clientService extends Client
 
     //smart轨迹点
     public function getTruckTrajectory($args){
-        $args['starttime'] = date('2017-10-31 00:00:00');
-        $args['endtime'] = date('2017-11-04 00:00:00');
-        return $this->g7sRequest('truck.truck.getTruckTrajectory',['carnum'=>$args['carnum'],'starttime'=>$args['starttime'],'endtime'=>$args['endtime']]);
+        //$args['starttime'] = date('2017-10-31 00:00:00');
+        //$args['endtime'] = date('2017-11-04 00:00:00');
+        return $this->g7sRequest('truck.truck.getTruckTrajectory',['carnum'=>$args['carnum'],'starttime'=>$args['starttime'],'endtime'=>$args['endtime'],'pageNo'=>$args['pageNo']]);
     }
 
 }

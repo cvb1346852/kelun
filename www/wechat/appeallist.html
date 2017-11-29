@@ -19,7 +19,7 @@
         .changeui-sign_apply{height: 45px;}
         .have-the-goods-container{height: 100%; overflow: auto; box-sizing: border-box; padding-top: 0.3rem;}
         .changeui-weui-panel{
-            height:108px;
+            height:140px;
         }
     </style>
 </head>
@@ -67,6 +67,10 @@
             <div class="changeui-list-inner-item single">
                 <span class="text-right text-right-item item">投诉内容：</span>
                 <span class="single-right-item item"><%= item.content %></span>
+            </div>
+            <div class="changeui-list-inner-item single">
+                <span class="text-right text-right-item item">回复：</span>
+                <span class="single-right-item item"><%= item.remark %></span>
             </div>
         </div>
         <% }); %>

@@ -332,8 +332,7 @@
     import Vue from 'vue'
     import { Alert } from 'vux'
     const moment = require('moment');
-
-    var toTimestamp = Date.parse(new Date())
+    var toTimestamp = Date.parse(new Date());
     toTimestamp /= 1000 // 当前时间时间戳,秒为单位
     var from1dayTimestamp = (toTimestamp - ( 60 * 60 * 24 )) * 1000 // 一天前时间戳,秒为单位
     var from3dayTimestamp = (toTimestamp - ( 60 * 60 * 24 * 3 )) * 1000 // 一天前时间戳,秒为单位
@@ -357,9 +356,8 @@
                 from1dayTime: moment(from1dayTimestamp).format('MM-DD hh:mm'),
                 from3dayTime: moment(from3dayTimestamp).format('MM-DD hh:mm'),
                 from7dayTime: moment(from7dayTimestamp).format('MM-DD hh:mm'),
-                toTime: moment(toTimestamp).format('MM-DD hh:mm'),
-                fromTime: moment(from1dayTimestamp).format('MM-DD hh:mm'),
-
+                toTime: '',
+                fromTime: '',
                 from1dayTimeDetail: moment(from1dayTimestamp).format('yyyy-MM-DD hh:mm'),
                 from3dayTimeDetail: moment(from3dayTimestamp).format('yyyy-MM-DD hh:mm'),
                 from7dayTimeDetail: moment(from7dayTimestamp).format('yyyy-MM-DD hh:mm'),
@@ -389,6 +387,9 @@
             }
         },
         activated() {
+            this.fromTime = this.$route.query.time1;
+            this.toTime = this.$route.query.time2 || moment(toTimestamp*1000).format('MM-DD hh:mm');
+            console.log(this.$route);
             this.initMap()
         },
 //        attached() {
@@ -716,7 +717,6 @@
 
                     var count = 0;
                     omap.setViewport(self.points)
-//                    debugger
                     omap.panBy(0, -128)
                     //按照分阶数组画线
                     let stepLen = stepPointsArray.length
@@ -800,7 +800,6 @@
                     center: [108.946781, 34.270311],//中国中心点坐标附近
                     mapTypeControl: false
                 }).then(function(map) {
-//                    debugger;
                     window.omap = map
                     window.gecoder = new G7SMap.Geocoder()
 

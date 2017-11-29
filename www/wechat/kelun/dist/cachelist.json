@@ -23,16 +23,16 @@
             "md5": "8738ad0"
         },
         {
-            "path": "/pathname/static/js/app.462577dcbcbe6962866f.js",
-            "md5": "9ad93eb"
+            "path": "/pathname/static/js/app.ee2c66cc2f2803d4e282.js",
+            "md5": "e6124bc"
         },
         {
-            "path": "/pathname/static/js/manifest.67a4a6ba2554984d8454.js",
-            "md5": "2ce93a9"
+            "path": "/pathname/static/js/manifest.bab2f62c5188bc8fc091.js",
+            "md5": "667c0f0"
         },
         {
-            "path": "/pathname/static/css/app.5de36acedd95486111fc2db98c0f1d3e.css",
-            "md5": "4e1b871"
+            "path": "/pathname/static/css/app.1d89ab345154ea7f9c8fc532c4eca062.css",
+            "md5": "d3370e8"
         },
         {
             "path": "/pathname/static/css/iSlider.min.css",
@@ -47,12 +47,20 @@
             "md5": "fd22ad2"
         },
         {
-            "path": "/pathname/static/img/mark_bubble.png",
-            "md5": "b4e820a"
+            "path": "/pathname/static/css/changeui.css",
+            "md5": "59a2d3a"
+        },
+        {
+            "path": "/pathname/static/css/wechat.css",
+            "md5": "8bcc899"
         },
         {
             "path": "/pathname/static/img/mark_no.png",
             "md5": "972503f"
+        },
+        {
+            "path": "/pathname/static/img/mark_bubble.png",
+            "md5": "b4e820a"
         },
         {
             "path": "/pathname/static/img/truck_end.png",
@@ -69,14 +77,6 @@
         {
             "path": "/pathname/static/css/weui.css",
             "md5": "2067fa3"
-        },
-        {
-            "path": "/pathname/static/css/changeui.css",
-            "md5": "59a2d3a"
-        },
-        {
-            "path": "/pathname/static/css/wechat.css",
-            "md5": "8bcc899"
         },
         {
             "path": "/pathname/static/js/iSlider.plugin.dot.min.js",
@@ -98,7 +98,7 @@
     "always": [
         {
             "path": "/pathname/index.html",
-            "md5": "958b0dc"
+            "md5": "d80d812"
         }
     ]
 }

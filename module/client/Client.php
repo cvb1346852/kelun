@@ -5,7 +5,11 @@ require_once 'lib/Util.php';
 class Client {
 
     protected $resultData;
-    
+    public  $pack_class=false;
+    const SERVICE_TYPE_ALI='ali';//服务类型，默认阿里云
+    const SERVICE_TYPE_TX='tx';//服务类型，腾讯云
+    private $serviceType=null;
+
     /**
      * API参数数组
      *
@@ -110,5 +114,18 @@ class Client {
         $this->paramArr['timestamp'] = date('Y-m-d H:i:s');
 	}
 
+    public function setPackClass($class){
+        if($class){
+            $o= new self();
+            $o->pack_class=$class;
+            return $o;
+        }
+        return $this;
+    }
+
+    public function setService($stype=self::SERVICE_TYPE_ALI){
+        $this->serviceType=$stype;
+        return $this;
+    }
 }
 ?>
